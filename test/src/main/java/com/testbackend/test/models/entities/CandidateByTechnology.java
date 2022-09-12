@@ -35,5 +35,6 @@ public class CandidateByTechnology {
     @ManyToOne(fetch = FetchType.EAGER)
     private Technology technology;
     @PositiveOrZero(message = "Experience must not be less than 0")
+    @NotNull(message = "experience must not be null")
     private Long experience;
 }
