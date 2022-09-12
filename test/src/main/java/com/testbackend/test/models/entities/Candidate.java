@@ -28,4 +28,6 @@ public class Candidate {
     private DocumentType documentType;
     private String documentNumber;
     private Date birthdate;
+
+
 }
