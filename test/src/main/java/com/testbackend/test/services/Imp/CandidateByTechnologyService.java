@@ -36,8 +36,8 @@ public class CandidateByTechnologyService implements ICandidateByTechnologyServi
 
     public List<ExperienceDto> getExperiencesByCandidate(Candidate candidate) {
         List<ExperienceDto> experiences = new ArrayList<>();
-        for(CandidateByTechnology cxt : candidateByTechnologyRepository.findByCandidate(candidate)) {
-            experiences.add(convert(cxt));
+        for(CandidateByTechnology cbt : candidateByTechnologyRepository.findByCandidate(candidate)) {
+            experiences.add(convert(cbt));
         }
         return experiences;
     }
