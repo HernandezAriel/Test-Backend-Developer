@@ -1,5 +1,7 @@
 package com.testbackend.test.controllers;
 
+import com.testbackend.test.exceptions.CandidateAlreadyExistsException;
+import com.testbackend.test.exceptions.CandidateNotExistsException;
 import com.testbackend.test.models.dtos.CandidateDto;
 import com.testbackend.test.models.entities.Candidate;
 import com.testbackend.test.services.Imp.CandidateService;
@@ -30,23 +32,23 @@ public class CandidateController {
     }
 
     @GetMapping("/{idCandidate}")
-    public ResponseEntity<CandidateDto> getCandidateById(@PathVariable Long idCandidate){
+    public ResponseEntity<CandidateDto> getCandidateById(@PathVariable Long idCandidate) throws CandidateNotExistsException{
         return ResponseEntity.ok(candidateService.getCandidateDtoById(idCandidate));
     }
 
     @PostMapping
-    public ResponseEntity addCandidate(@RequestBody Candidate candidate){
+    public ResponseEntity addCandidate(@RequestBody Candidate candidate) throws CandidateAlreadyExistsException {
         candidateService.addCandidate(candidate);
         return ResponseEntity.ok().body("Success. ");
     }
 
     @PutMapping("/{idCandidate}")
-    public ResponseEntity<Candidate> updateCandidate(@RequestBody Candidate candidate) {
+    public ResponseEntity<Candidate> updateCandidate(@RequestBody Candidate candidate) throws CandidateAlreadyExistsException {
         return ResponseEntity.ok().body(candidateService.addCandidate(candidate));
     }
 
     @DeleteMapping("/{idCandidate}")
-    public ResponseEntity<String> deleteCandidate(@PathVariable Long idCandidate){
+    public ResponseEntity<String> deleteCandidate(@PathVariable Long idCandidate) throws CandidateNotExistsException {
         candidateService.deleteCandidate(idCandidate);
         return ResponseEntity.ok().body("Usuario Deleted");
 
