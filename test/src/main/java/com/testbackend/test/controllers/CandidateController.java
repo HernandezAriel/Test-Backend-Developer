@@ -49,6 +49,7 @@ public class CandidateController {
     public ResponseEntity<String> deleteCandidate(@PathVariable Long idCandidate){
         candidateService.deleteCandidate(idCandidate);
         return ResponseEntity.ok().body("Usuario eliminado");
+
     }
 
 }
