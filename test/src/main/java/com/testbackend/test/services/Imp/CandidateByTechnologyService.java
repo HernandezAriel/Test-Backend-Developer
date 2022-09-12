@@ -1,5 +1,6 @@
 package com.testbackend.test.services.Imp;
 
+import com.testbackend.test.exceptions.CandidateByTechnologyAlreadyExistsException;
 import org.modelmapper.ModelMapper;
 import com.testbackend.test.models.dtos.ExperienceDto;
 import com.testbackend.test.models.entities.Candidate;
@@ -21,7 +22,6 @@ public class CandidateByTechnologyService implements ICandidateByTechnologyServi
 
     @Autowired
     CandidateByTechnologyRepository candidateByTechnologyRepository;
-   // private final ModelMapper modelMapper;
 
     @Bean
     public ModelMapper modelMapper() {
@@ -29,7 +29,7 @@ public class CandidateByTechnologyService implements ICandidateByTechnologyServi
         return modelMapper;
     }
 
-    public void addCandidateByTechnology(Candidate candidate, Technology technology, Long experience){
+    public void addCandidateByTechnology(Candidate candidate, Technology technology, Long experience) throws CandidateByTechnologyAlreadyExistsException {
         if((candidateByTechnologyRepository.findByCandidateAndTechnology(candidate, technology)) == null)
             candidateByTechnologyRepository.save(CandidateByTechnology.builder()
                     .candidate(candidate)
