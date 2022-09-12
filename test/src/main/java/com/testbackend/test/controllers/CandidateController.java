@@ -50,7 +50,7 @@ public class CandidateController {
     @DeleteMapping("/{idCandidate}")
     public ResponseEntity<String> deleteCandidate(@PathVariable Long idCandidate) throws CandidateNotExistsException {
         candidateService.deleteCandidate(idCandidate);
-        return ResponseEntity.ok().body("Usuario Deleted");
+        return ResponseEntity.ok().body("Candidate Deleted");
 
     }
 
