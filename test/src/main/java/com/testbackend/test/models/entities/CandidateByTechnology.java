@@ -1,6 +1,7 @@
 package com.testbackend.test.models.entities;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import javax.persistence.Table;
 
 @Data
 @Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "candidatesByTechnologies")
@@ -22,5 +24,5 @@ public class CandidateByTechnology {
     private Long idCandidateByTechnology;
     private Candidate candidate;
     private Technology technology;
-    private Long experience;
+    private int experience;
 }
