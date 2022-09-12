@@ -21,8 +21,8 @@ public class CandidateByTechnologyService implements ICandidateByTechnologyServi
     @Autowired
     ModelMapper modelMapper;
 
-    public void AddCandidateByTechnology(Candidate candidate, Technology technology, int experience){
-        if(isNull(candidateByTechnologyRepository.findByCandidateAndTechnology(candidate, technology)))
+    public void addCandidateByTechnology(Candidate candidate, Technology technology, int experience){
+        if((candidateByTechnologyRepository.findByCandidateAndTechnology(candidate, technology)) == null)
             candidateByTechnologyRepository.save(CandidateByTechnology.builder()
                     .candidate(candidate)
                     .technology(technology)
@@ -41,8 +41,11 @@ public class CandidateByTechnologyService implements ICandidateByTechnologyServi
         }
         return experiences;
     }
-
     public List<CandidateByTechnology> getCandidatesForTechnologyByTechnology(Technology technology) {
         return candidateByTechnologyRepository.findByTechnology(technology);
+    }
+
+    public List<CandidateByTechnology> getCandidatesForTechnologyByNameTechnology(String nameTechnology) {
+        return CandidateByTechnologyRepository.findByNameTechnology(nameTechnology);
     }
 }

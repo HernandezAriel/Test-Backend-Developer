@@ -22,6 +22,6 @@ public class CandidateDto {
     private String document;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date birtdate;
+    private Date birthdate;
     private List<ExperienceDto> technologies;
 }

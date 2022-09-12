@@ -5,17 +5,7 @@ Ftest/src/main/java/com/testbackend/test/models/enums/DocumentType.java,5\2\521
 test/.gitignore,2\5\25be5b6b7434026c51f0a2e3593e2a27175da0d8
 w
 Gtest/src/main/java/com/testbackend/test/models/entities/Technology.java,d\7\d726f02c9c6292c5524e1e639db28ccefca2be70
-‚
-Rtest/src/main/java/com/testbackend/test/models/entities/CandidateByTechnology.java,7\8\78c67a912081ae69b684006467b503e2b2644e83
-u
-Etest/src/main/java/com/testbackend/test/models/dtos/CandidateDto.java,0\e\0eaa6899cd1d738387f84d75e02c38c2117320cc
-v
-Ftest/src/main/java/com/testbackend/test/models/dtos/ExperienceDto.java,d\0\d03dd5fb26b05062af60a8b4e9381c4ec7647a18
 v
 Ftest/src/main/java/com/testbackend/test/models/dtos/TechnologyDto.java,7\2\72162edf19be76dd67e026981ae9c9a2dd4da0e3
-v
-Ftest/src/main/java/com/testbackend/test/models/entities/Candidate.java,3\b\3ba4450936c25ad1773dc9765714e0151070ba98
-}
-Mtest/src/main/java/com/testbackend/test/repositories/CandidateRepository.java,b\6\b6a40c78f0c01ee93283784372de07740c777a6e
 ~
 Ntest/src/main/java/com/testbackend/test/repositories/TechnologyRepository.java,2\4\2423ec6f7dd574cf4609c5b0f39d3c36fbf409a6

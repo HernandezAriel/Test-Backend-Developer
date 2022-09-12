@@ -22,5 +22,5 @@ public class CandidateByTechnology {
     private Long idCandidateByTechnology;
     private Candidate candidate;
     private Technology technology;
-    private Integer experience;
+    private Long experience;
 }
