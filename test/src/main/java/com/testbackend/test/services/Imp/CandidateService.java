@@ -43,10 +43,10 @@ public class CandidateService implements ICandidateService {
         return converter(candidate, candidateByTechnologyService.getExperiencesByCandidate(candidate));
     }
 
-    public Candidate addTechnologyToCandidate(Long idCandidate, Long idTechnology, int yearsExperience) {
+    public Candidate addTechnologyToCandidate(Long idCandidate, Long idTechnology, Long experience) {
         Candidate candidate = getCandidateById(idCandidate);
         Technology technology = technologyService.getTechnologyById(idTechnology);
-        candidateByTechnologyService.addCandidateByTechnology(candidate, technology, yearsExperience);
+        candidateByTechnologyService.addCandidateByTechnology(candidate, technology, experience);
         return candidate;
     }
 
