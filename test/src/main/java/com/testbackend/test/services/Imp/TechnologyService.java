@@ -18,11 +18,8 @@ public class TechnologyService implements ITechnologyService {
     private TechnologyRepository technologyRepository;
     @Autowired
     private CandidateByTechnologyService candidateByTechnologyService;
-    private final ModelMapper modelMapper;
-
-    public TechnologyService(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }
+    @Autowired
+    ModelMapper modelMapper;
 
     public Technology addTechnology(Technology technology){
         return technologyRepository.save(technology);
