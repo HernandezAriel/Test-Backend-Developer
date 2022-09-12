@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Past;
 import java.util.Date;
 
 @Data
@@ -25,10 +27,21 @@ public class Candidate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCandidate;
+
+    @NotBlank(message = "First Name is required\n")
     private String firstName;
+
+    @NotBlank(message = "Last Name is required\n")
     private String lastName;
+
+    @NotBlank(message = "First Name is required\n")
     private DocumentType documentType;
+
+    @NotBlank(message = "Document Number is required\n")
     private String documentNumber;
+
+    @Past(message = "The date of birth must be in the past")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date birthdate;
 
 

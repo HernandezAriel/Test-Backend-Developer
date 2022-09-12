@@ -10,7 +10,7 @@ public interface ICandidateService {
     List<CandidateDto> getAllCandidates();
     Candidate getCandidateById(Long idCandidate);
     CandidateDto getCandidateDtoById(Long idCandidate);
-    Candidate addTechnologyToCandidate(Long idCandidate, Long idTechnology, int experience);
+    Candidate addTechnologyToCandidate(Long idCandidate, Long idTechnology, Long experience);
     Candidate updateCandidate(Candidate candidate);
     void deleteCandidate(Long idCandidate);
 

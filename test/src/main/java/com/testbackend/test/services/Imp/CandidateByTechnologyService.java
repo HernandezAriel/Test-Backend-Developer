@@ -8,6 +8,7 @@ import com.testbackend.test.models.entities.Technology;
 import com.testbackend.test.repositories.CandidateByTechnologyRepository;
 import com.testbackend.test.services.ICandidateByTechnologyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,10 +21,15 @@ public class CandidateByTechnologyService implements ICandidateByTechnologyServi
 
     @Autowired
     CandidateByTechnologyRepository candidateByTechnologyRepository;
-    @Autowired
-    ModelMapper modelMapper;
+   // private final ModelMapper modelMapper;
 
-    public void addCandidateByTechnology(Candidate candidate, Technology technology, int experience){
+    @Bean
+    public ModelMapper modelMapper() {
+        ModelMapper modelMapper = new ModelMapper();
+        return modelMapper;
+    }
+
+    public void addCandidateByTechnology(Candidate candidate, Technology technology, Long experience){
         if((candidateByTechnologyRepository.findByCandidateAndTechnology(candidate, technology)) == null)
             candidateByTechnologyRepository.save(CandidateByTechnology.builder()
                     .candidate(candidate)
