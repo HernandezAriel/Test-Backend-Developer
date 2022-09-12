@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.testbackend.test.dtoconverter.CandidateByTechnologyToExperienceDto.converter;
+
 @Service
 public class CandidateByTechnologyService implements ICandidateByTechnologyService {
 
@@ -37,15 +39,12 @@ public class CandidateByTechnologyService implements ICandidateByTechnologyServi
     public List<ExperienceDto> getExperiencesByCandidate(Candidate candidate) {
         List<ExperienceDto> experiences = new ArrayList<>();
         for(CandidateByTechnology cbt : candidateByTechnologyRepository.findByCandidate(candidate)) {
-            experiences.add(convert(cbt));
+            experiences.add(converter(cbt));
         }
         return experiences;
     }
-    public List<CandidateByTechnology> getCandidatesForTechnologyByTechnology(Technology technology) {
+    public List<CandidateByTechnology> getCandidatesByTechnologyByTechnology(Technology technology) {
         return candidateByTechnologyRepository.findByTechnology(technology);
     }
 
-    public List<CandidateByTechnology> getCandidatesForTechnologyByNameTechnology(String nameTechnology) {
-        return CandidateByTechnologyRepository.findByNameTechnology(nameTechnology);
-    }
 }
