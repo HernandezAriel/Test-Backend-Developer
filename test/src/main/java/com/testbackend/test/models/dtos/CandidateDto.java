@@ -16,6 +16,7 @@ import java.util.List;
 @Builder
 public class CandidateDto {
 
+    private Long idCandidate;
     private String firstName;
     private String lastName;
     private DocumentType documentType;
