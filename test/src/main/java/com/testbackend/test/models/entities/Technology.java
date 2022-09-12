@@ -23,8 +23,7 @@ public class Technology {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @NotBlank(message = "Technology name is required")
-    private String technology;
+    private String name;
     private String version;
 }

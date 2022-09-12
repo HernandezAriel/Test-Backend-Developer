@@ -5,12 +5,8 @@
 Ntest/src/main/java/com/testbackend/test/repositories/TechnologyRepository.java,2\4\2423ec6f7dd574cf4609c5b0f39d3c36fbf409a6
 ‰
 Ytest/src/main/java/com/testbackend/test/repositories/CandidateByTechnologyRepository.java,f\e\fe95e28a7719da479205591a3c52cd9d626bb51f
-x
-Htest/src/main/java/com/testbackend/test/services/ITechnologyService.java,b\c\bc14bbe6ff2d92e4ba9810eaa2e9d4f106e618d4
 }
 Mtest/src/main/java/com/testbackend/test/repositories/CandidateRepository.java,b\6\b6a40c78f0c01ee93283784372de07740c777a6e
-{
-Ktest/src/main/java/com/testbackend/test/services/Imp/TechnologyService.java,4\5\457b37f601759273e959321bac04d4e301376ac0
 ƒ
 Stest/src/main/java/com/testbackend/test/services/ICandidateByTechnologyService.java,5\f\5f6ab3303186f4b70a6b5f641e5ae48925504b6d
 l

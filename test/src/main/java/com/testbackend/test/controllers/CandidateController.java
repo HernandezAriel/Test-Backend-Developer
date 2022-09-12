@@ -48,7 +48,7 @@ public class CandidateController {
     @DeleteMapping("/{idCandidate}")
     public ResponseEntity<String> deleteCandidate(@PathVariable Long idCandidate){
         candidateService.deleteCandidate(idCandidate);
-        return ResponseEntity.ok().body("Usuario eliminado");
+        return ResponseEntity.ok().body("Usuario Deleted");
 
     }
 

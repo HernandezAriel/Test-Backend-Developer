@@ -7,7 +7,7 @@ public class CandidateByTechnologyToExperienceDto {
 
     public static ExperienceDto converter(CandidateByTechnology cbt){
         return ExperienceDto.builder()
-                .name(cbt.getTechnology().getTechnology())
+                .name(cbt.getTechnology().getName())
                 .version(cbt.getTechnology().getVersion())
                 .experience(cbt.getExperience())
                 .build();

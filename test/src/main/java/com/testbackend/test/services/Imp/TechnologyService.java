@@ -48,7 +48,7 @@ public class TechnologyService implements ITechnologyService {
 
     public void deleteTechnology(Long idTechnology){
         Technology technology = getTechnologyById(idTechnology);
-        if((candidateByTechnologyService.getCandidatesByTechnologyByTechnology(technology))==null)
+        if((candidateByTechnologyService.getCandidatesByTechnologyByTechnology(technology))!=null)
             technologyRepository.deleteById(idTechnology);
     }
 }

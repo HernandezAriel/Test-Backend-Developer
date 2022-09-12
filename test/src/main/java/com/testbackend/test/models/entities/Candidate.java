@@ -34,7 +34,6 @@ public class Candidate {
     @NotBlank(message = "Last Name is required\n")
     private String lastName;
 
-    @NotBlank(message = "First Name is required\n")
     private DocumentType documentType;
 
     @NotBlank(message = "Document Number is required\n")
