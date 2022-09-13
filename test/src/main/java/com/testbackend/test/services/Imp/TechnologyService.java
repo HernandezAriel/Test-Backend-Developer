@@ -26,8 +26,9 @@ public class TechnologyService implements ITechnologyService {
     public Technology addTechnology(Technology technology) throws TechnologyAlreadyExistsException {
         if((technologyRepository.findByNameAndVersion(technology.getName(), technology.getVersion())) != null)
             throw new TechnologyAlreadyExistsException("Technology " + technology.getName() + " version " + technology.getVersion() + " already exists");
-        else
+        else {
             return technologyRepository.save(technology);
+        }
     }
 
     public List<TechnologyDto> getAllTechnologies(){
@@ -50,13 +51,18 @@ public class TechnologyService implements ITechnologyService {
     public Technology updateTechnology(Technology technology) throws TechnologyNotExistsException{
         if(technologyRepository.findByName(technology.getName()) == null)
             throw new TechnologyNotExistsException("Technology " + technology.getName() + " not exists");
-        else
+        else{
             return technologyRepository.save(technology);
+        }
+
     }
 
     public void deleteTechnology(Long idTechnology) throws TechnologyNotExistsException{
         Technology technology = getTechnologyById(idTechnology);
         if((candidateByTechnologyService.getCandidatesByTechnologyByTechnology(technology))!=null)
             technologyRepository.deleteById(idTechnology);
+        else{
+            technologyRepository.delete(technology);
+        }
     }
 }

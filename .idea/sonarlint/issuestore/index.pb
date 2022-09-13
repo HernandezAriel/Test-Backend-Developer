@@ -37,7 +37,3 @@ Ftest/src/main/java/com/testbackend/test/models/dtos/TechnologyDto.java,7\2\721
 Qtest/src/main/java/com/testbackend/test/dtoconverter/CandidateToCandidateDto.java,5\4\54766b16946a25d243975385cb7fcaa815ff618a
 }
 Mtest/src/main/java/com/testbackend/test/controllers/TechnologyController.java,6\9\6972887eae231f0e0b8096520b885381780dd930
-†
-Vtest/src/main/java/com/testbackend/test/services/Imp/CandidateByTechnologyService.java,e\a\ea3071249527492bbc0a56649fce3622c293d516
-{
-Ktest/src/main/java/com/testbackend/test/services/Imp/TechnologyService.java,4\5\457b37f601759273e959321bac04d4e301376ac0

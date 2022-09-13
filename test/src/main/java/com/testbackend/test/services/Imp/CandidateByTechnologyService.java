@@ -1,6 +1,7 @@
 package com.testbackend.test.services.Imp;
 
 import com.testbackend.test.exceptions.CandidateByTechnologyAlreadyExistsException;
+import lombok.extern.java.Log;
 import org.modelmapper.ModelMapper;
 import com.testbackend.test.models.dtos.ExperienceDto;
 import com.testbackend.test.models.entities.Candidate;
@@ -17,6 +18,7 @@ import java.util.List;
 
 import static com.testbackend.test.dtoconverter.CandidateByTechnologyToExperienceDto.converter;
 
+@Log
 @Service
 public class CandidateByTechnologyService implements ICandidateByTechnologyService {
 

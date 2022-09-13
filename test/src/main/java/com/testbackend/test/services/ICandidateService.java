@@ -15,7 +15,7 @@ public interface ICandidateService {
     Candidate getCandidateById(Long idCandidate) throws CandidateNotExistsException;
     CandidateDto getCandidateDtoById(Long idCandidate) throws CandidateNotExistsException;
     Candidate addTechnologyToCandidate(Long idCandidate, Long idTechnology, Long experience) throws CandidateNotExistsException, TechnologyNotExistsException, CandidateByTechnologyAlreadyExistsException;
-    Candidate updateCandidate(Candidate candidate) throws CandidateNotExistsException;
+    Candidate updateCandidate(Long candidateId, Candidate candidate) throws CandidateNotExistsException;
     void deleteCandidate(Long idCandidate) throws CandidateNotExistsException;
 
 }

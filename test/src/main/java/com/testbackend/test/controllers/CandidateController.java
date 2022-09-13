@@ -54,10 +54,10 @@ public class CandidateController {
     }
 
     @PutMapping("/{idCandidate}")
-    public ResponseEntity<ResponseMessage> updateCandidate(@Valid @RequestBody Candidate candidate) throws CandidateNotExistsException {
+    public ResponseEntity<ResponseMessage> updateCandidate(@Valid @PathVariable Long idCandidate, @RequestBody Candidate candidate) throws CandidateNotExistsException {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .location(buildURL("candidates", candidateService.updateCandidate(candidate).getDocumentNumber()))
+                .location(buildURL("candidates", candidateService.updateCandidate(idCandidate,candidate).getDocumentNumber()))
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(messageResponse("Technology has been updated"));
     }

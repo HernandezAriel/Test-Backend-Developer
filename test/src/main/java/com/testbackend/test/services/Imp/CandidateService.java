@@ -29,7 +29,9 @@ public class CandidateService implements ICandidateService {
 
     public Candidate addCandidate(Candidate candidate) throws CandidateAlreadyExistsException {
         if((candidateRepository.findByDocumentNumber(candidate.getDocumentNumber()))!= null) throw new CandidateAlreadyExistsException("Candidate already exists");
-        else return candidateRepository.save(candidate);
+        else{
+            return candidateRepository.save(candidate);
+        }
     }
 
     public List<CandidateDto> getAllCandidates(){
@@ -56,18 +58,22 @@ public class CandidateService implements ICandidateService {
         return candidate;
     }
 
-    public Candidate updateCandidate(Candidate candidate) throws CandidateNotExistsException {
-        if((getCandidateById(candidate.getIdCandidate())) == null)
+    public Candidate updateCandidate(Long candidateId ,Candidate candidate) throws CandidateNotExistsException {
+        if(candidateRepository.findById(candidateId) == null)
             throw new CandidateNotExistsException("Candidate not exists");
-        else
+        else{
             return candidateRepository.save(candidate);
+        }
+
     }
 
     public void deleteCandidate(Long idCandidate) throws CandidateNotExistsException  {
         Candidate candidate = getCandidateById(idCandidate);
         if(!candidateByTechnologyService.getCandidatesByTechnologyByCandidate(candidate).isEmpty())
             throw new CandidateNotExistsException("Candidate not exists");
-        else
+        else{
             candidateRepository.deleteById(idCandidate);
+        }
+
     }
 }
