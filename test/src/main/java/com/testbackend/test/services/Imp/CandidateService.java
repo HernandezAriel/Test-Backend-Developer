@@ -66,8 +66,8 @@ public class CandidateService implements ICandidateService {
         return candidate;
     }
 
-    public Candidate updateCandidate(Long candidateId ,Candidate candidate) throws CandidateNotExistsException {
-        if(candidateRepository.findById(candidateId) == null){
+    public Candidate updateCandidate(Candidate candidate) throws CandidateNotExistsException {
+        if(candidate.getIdCandidate() == null || getCandidateById(candidate.getIdCandidate()) == null){
             log.error("Candidate not exists");
             throw new CandidateNotExistsException("Candidate not exists");
         }

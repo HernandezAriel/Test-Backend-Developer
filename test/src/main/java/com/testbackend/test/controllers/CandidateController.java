@@ -7,6 +7,7 @@ import com.testbackend.test.exceptions.TechnologyNotExistsException;
 import com.testbackend.test.models.dtos.CandidateDto;
 import com.testbackend.test.models.entities.Candidate;
 import com.testbackend.test.models.utils.ResponseMessage;
+import com.testbackend.test.repositories.CandidateRepository;
 import com.testbackend.test.services.Imp.CandidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 import static com.testbackend.test.utils.UrlBuilder.buildURL;
 import static com.testbackend.test.utils.ResponseUtil.messageResponse;
@@ -33,6 +35,9 @@ public class CandidateController {
 
     @Autowired
     CandidateService candidateService;
+
+    @Autowired
+    CandidateRepository candidateRepository;
 
     @GetMapping
     public ResponseEntity<List<CandidateDto>> getAllCandidates(){
@@ -54,28 +59,33 @@ public class CandidateController {
     }
 
     @PutMapping("/{idCandidate}")
-    public ResponseEntity<ResponseMessage> updateCandidate(@Valid @PathVariable Long idCandidate, @RequestBody Candidate candidate) throws CandidateNotExistsException {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .location(buildURL("candidates", candidateService.updateCandidate(idCandidate,candidate).getDocumentNumber()))
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(messageResponse("Technology has been updated"));
+    public ResponseEntity<ResponseMessage> updateCandidate(@Valid @RequestBody Candidate candidate, @PathVariable Long idCandidate) throws CandidateNotExistsException {
+        Optional<Candidate> candidateOptional = candidateRepository.findById(idCandidate);
+        if (candidateOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            candidate.setIdCandidate(idCandidate);
+            candidateRepository.save(candidate);
+            return ResponseEntity.noContent().build();
+        }
     }
 
-    @PutMapping("/{idCandidate}/technologies/{idTechnology}")
-    public ResponseEntity<ResponseMessage> addTechnologyToCandidate(@Valid @PathVariable Long idCandidate, @PathVariable Long idTechnology, @RequestParam Long experience) throws CandidateNotExistsException, TechnologyNotExistsException, CandidateByTechnologyAlreadyExistsException {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .location(buildURL("candidates", candidateService.addTechnologyToCandidate(idCandidate, idTechnology, experience).getDocumentNumber()))
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(messageResponse("Technology added to candidate"));
-    }
+        @PutMapping("/{idCandidate}/technologies/{idTechnology}")
+        public ResponseEntity<ResponseMessage> addTechnologyToCandidate (@Valid @PathVariable Long idCandidate, @PathVariable Long idTechnology, @RequestParam Long experience) throws
+        CandidateNotExistsException, TechnologyNotExistsException, CandidateByTechnologyAlreadyExistsException {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .location(buildURL("candidates", candidateService.addTechnologyToCandidate(idCandidate, idTechnology, experience).getDocumentNumber()))
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(messageResponse("Technology added to candidate"));
+        }
 
-    @DeleteMapping("/{idCandidate}")
-    public ResponseEntity<ResponseMessage> deleteCandidate(@PathVariable Long idCandidate) throws CandidateNotExistsException {
-        candidateService.deleteCandidate(idCandidate);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(messageResponse("Candidate removed"));
+        @DeleteMapping("/{idCandidate}")
+        public ResponseEntity<ResponseMessage> deleteCandidate (@PathVariable Long idCandidate) throws
+        CandidateNotExistsException {
+            candidateService.deleteCandidate(idCandidate);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(messageResponse("Candidate removed"));
+        }
     }
-}

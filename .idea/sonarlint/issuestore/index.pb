@@ -13,7 +13,5 @@ o
 ?test/src/main/java/com/testbackend/test/utils/ResponseUtil.java,4\3\436b9ce39d39f6948e6c75e44cff4b7383bd6691
 <
 test/pom.xml,5\a\5a7a6b2644ce7830ef2e46190b48905496aefeb0
-w
-Gtest/src/main/java/com/testbackend/test/services/ICandidateService.java,0\2\02779d523aaa9e6f1b3e847fdd65115684236b94
 ƒ
 Stest/src/main/java/com/testbackend/test/services/ICandidateByTechnologyService.java,5\f\5f6ab3303186f4b70a6b5f641e5ae48925504b6d

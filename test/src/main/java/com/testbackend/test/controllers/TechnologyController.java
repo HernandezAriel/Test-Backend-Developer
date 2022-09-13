@@ -5,6 +5,7 @@ import com.testbackend.test.exceptions.TechnologyNotExistsException;
 import com.testbackend.test.models.dtos.TechnologyDto;
 import com.testbackend.test.models.entities.Technology;
 import com.testbackend.test.models.utils.ResponseMessage;
+import com.testbackend.test.repositories.TechnologyRepository;
 import com.testbackend.test.services.ITechnologyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 import static com.testbackend.test.utils.UrlBuilder.buildURL;
 import static com.testbackend.test.utils.ResponseUtil.messageResponse;
@@ -31,6 +33,9 @@ public class TechnologyController {
 
     @Autowired
     ITechnologyService technologyService;
+
+    @Autowired
+    TechnologyRepository technologyRepository;
 
     @GetMapping
     public ResponseEntity<List<TechnologyDto>> getAllTechnologies(){
@@ -52,12 +57,15 @@ public class TechnologyController {
     }
 
     @PutMapping("/{idTechnology}")
-    public ResponseEntity<ResponseMessage> updateTechnology(@Valid @RequestBody Technology technology) throws TechnologyNotExistsException {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .location(buildURL("technologies", technologyService.updateTechnology(technology).getIdTechnology()))
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(messageResponse("Technology has been updated"));
+    public ResponseEntity<Object> updateTechnology(@Valid @RequestBody Technology technology, @PathVariable Long idTechnology) throws TechnologyNotExistsException {
+        Optional<Technology> techonologyOptional = technologyRepository.findById(idTechnology);
+        if(techonologyOptional.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }else{
+            technology.setIdTechnology(idTechnology);
+            technologyRepository.save(technology);
+            return ResponseEntity.noContent().build();
+        }
     }
 
     @DeleteMapping("/{idTechnology}")
