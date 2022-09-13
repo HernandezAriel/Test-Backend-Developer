@@ -40,13 +40,14 @@ public class CandidateService implements ICandidateService {
         return candidatesDto;
     }
     public Candidate getCandidateById(Long idCandidate) throws CandidateNotExistsException {
-        return candidateRepository.findById(idCandidate).orElseThrow(() -> new CandidateNotExistsException("Candidate not exists"));
+        return candidateRepository.findById(idCandidate).orElseThrow (() -> new CandidateNotExistsException("Candidate Not Exists"));
     }
 
     public CandidateDto getCandidateDtoById(Long idCandidate) throws CandidateNotExistsException{
         Candidate candidate = getCandidateById(idCandidate);
         return converter(candidate, candidateByTechnologyService.getExperiencesByCandidate(candidate));
     }
+
 
     public Candidate addTechnologyToCandidate(Long idCandidate, Long idTechnology, Long experience) throws CandidateNotExistsException, TechnologyNotExistsException, CandidateByTechnologyAlreadyExistsException {
         Candidate candidate = getCandidateById(idCandidate);
@@ -56,13 +57,17 @@ public class CandidateService implements ICandidateService {
     }
 
     public Candidate updateCandidate(Candidate candidate) throws CandidateNotExistsException {
-        if((getCandidateById(candidate.getIdCandidate())) == null) throw new CandidateNotExistsException("Candidate Not Exists");
-        else return candidateRepository.save(candidate);
+        if((getCandidateById(candidate.getIdCandidate())) == null)
+            throw new CandidateNotExistsException("Candidate not exists");
+        else
+            return candidateRepository.save(candidate);
     }
 
     public void deleteCandidate(Long idCandidate) throws CandidateNotExistsException  {
         Candidate candidate = getCandidateById(idCandidate);
-        if(candidateByTechnologyService.getCandidatesByTechnologyByCandidate(candidate).isEmpty())
+        if(!candidateByTechnologyService.getCandidatesByTechnologyByCandidate(candidate).isEmpty())
+            throw new CandidateNotExistsException("Candidate not exists");
+        else
             candidateRepository.deleteById(idCandidate);
     }
 }

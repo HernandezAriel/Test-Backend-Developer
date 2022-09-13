@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static com.testbackend.test.utils.UrlBuilder.buildURL;
@@ -42,7 +43,7 @@ public class TechnologyController {
     }
 
     @PostMapping
-    public ResponseEntity addTechnology(@RequestBody Technology technology) throws TechnologyAlreadyExistsException {
+    public ResponseEntity addTechnology(@Valid  @RequestBody Technology technology) throws TechnologyAlreadyExistsException {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .location(buildURL("technologies", technologyService.addTechnology(technology).getIdTechnology()))
@@ -51,7 +52,7 @@ public class TechnologyController {
     }
 
     @PutMapping("/{idTechnology}")
-    public ResponseEntity<ResponseMessage> updateTechnology(@RequestBody Technology technology) throws TechnologyNotExistsException {
+    public ResponseEntity<ResponseMessage> updateTechnology(@Valid @RequestBody Technology technology) throws TechnologyNotExistsException {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .location(buildURL("technologies", technologyService.updateTechnology(technology).getIdTechnology()))
