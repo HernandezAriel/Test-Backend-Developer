@@ -1,7 +1,7 @@
 package com.testbackend.test.services.Imp;
 
 import com.testbackend.test.exceptions.CandidateByTechnologyAlreadyExistsException;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import com.testbackend.test.models.dtos.ExperienceDto;
 import com.testbackend.test.models.entities.Candidate;
@@ -18,7 +18,7 @@ import java.util.List;
 
 import static com.testbackend.test.dtoconverter.CandidateByTechnologyToExperienceDto.converter;
 
-@Log
+@Slf4j
 @Service
 public class CandidateByTechnologyService implements ICandidateByTechnologyService {
 
@@ -32,12 +32,18 @@ public class CandidateByTechnologyService implements ICandidateByTechnologyServi
     }
 
     public void addCandidateByTechnology(Candidate candidate, Technology technology, Long experience) throws CandidateByTechnologyAlreadyExistsException {
-        if((candidateByTechnologyRepository.findByCandidateAndTechnology(candidate, technology)) == null)
+        CandidateByTechnology cbt = candidateByTechnologyRepository.findByCandidateAndTechnology(candidate, technology);
+        if(cbt != null)
+
+            throw new CandidateByTechnologyAlreadyExistsException("Thechnology " + technology.getName() + " already exists for this candidate");
+        else {
+            log.info("Technology added to candidate");
             candidateByTechnologyRepository.save(CandidateByTechnology.builder()
                     .candidate(candidate)
                     .technology(technology)
                     .experience(experience)
                     .build());
+        }
     }
 
     public List<CandidateByTechnology> getCandidatesByTechnologyByCandidate(Candidate candidate){

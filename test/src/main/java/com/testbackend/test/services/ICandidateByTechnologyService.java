@@ -1,6 +1,7 @@
 package com.testbackend.test.services;
 
 import com.testbackend.test.exceptions.CandidateByTechnologyAlreadyExistsException;
+import com.testbackend.test.exceptions.TechnologyNotExistsException;
 import com.testbackend.test.models.dtos.ExperienceDto;
 import com.testbackend.test.models.entities.Candidate;
 import com.testbackend.test.models.entities.CandidateByTechnology;

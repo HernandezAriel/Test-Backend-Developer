@@ -43,7 +43,7 @@ public class TechnologyController {
     }
 
     @PostMapping
-    public ResponseEntity addTechnology(@Valid  @RequestBody Technology technology) throws TechnologyAlreadyExistsException {
+    public ResponseEntity<ResponseMessage> addTechnology(@Valid @RequestBody Technology technology) throws TechnologyAlreadyExistsException {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .location(buildURL("technologies", technologyService.addTechnology(technology).getIdTechnology()))

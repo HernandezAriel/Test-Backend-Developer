@@ -13,6 +13,8 @@ import org.modelmapper.ModelMapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Objects.isNull;
+
 @Service
 public class TechnologyService implements ITechnologyService {
 
@@ -24,7 +26,7 @@ public class TechnologyService implements ITechnologyService {
     ModelMapper modelMapper;
 
     public Technology addTechnology(Technology technology) throws TechnologyAlreadyExistsException {
-        if((technologyRepository.findByNameAndVersion(technology.getName(), technology.getVersion())) != null)
+        if(!isNull(technologyRepository.findByNameAndVersion(technology.getName(), technology.getVersion())))
             throw new TechnologyAlreadyExistsException("Technology " + technology.getName() + " version " + technology.getVersion() + " already exists");
         else {
             return technologyRepository.save(technology);

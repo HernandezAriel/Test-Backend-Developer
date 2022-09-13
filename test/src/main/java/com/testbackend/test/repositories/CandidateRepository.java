@@ -10,5 +10,4 @@ import java.util.List;
 public interface CandidateRepository extends JpaRepository<Candidate, Long> {
 
     Candidate findByDocumentNumber(String documentNumber);
-    List<Candidate> deleteByDocumentNumber(String documentNumber);
 }

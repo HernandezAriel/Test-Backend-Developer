@@ -17,12 +17,6 @@ o
 ?test/src/main/java/com/testbackend/test/utils/ResponseUtil.java,4\3\436b9ce39d39f6948e6c75e44cff4b7383bd6691
 <
 test/pom.xml,5\a\5a7a6b2644ce7830ef2e46190b48905496aefeb0
-ƒ
-Stest/src/main/java/com/testbackend/test/services/ICandidateByTechnologyService.java,5\f\5f6ab3303186f4b70a6b5f641e5ae48925504b6d
-‰
-Ytest/src/main/java/com/testbackend/test/repositories/CandidateByTechnologyRepository.java,f\e\fe95e28a7719da479205591a3c52cd9d626bb51f
-~
-Ntest/src/main/java/com/testbackend/test/repositories/TechnologyRepository.java,2\4\2423ec6f7dd574cf4609c5b0f39d3c36fbf409a6
 v
 Ftest/src/main/java/com/testbackend/test/models/entities/Candidate.java,3\b\3ba4450936c25ad1773dc9765714e0151070ba98
 u
@@ -35,5 +29,7 @@ Ftest/src/main/java/com/testbackend/test/models/dtos/TechnologyDto.java,7\2\721
 ^test/src/main/java/com/testbackend/test/dtoconverter/CandidateByTechnologyToExperienceDto.java,8\9\895f8a09488a66a446ea1a006691da48ca3698e5
 
 Qtest/src/main/java/com/testbackend/test/dtoconverter/CandidateToCandidateDto.java,5\4\54766b16946a25d243975385cb7fcaa815ff618a
-}
-Mtest/src/main/java/com/testbackend/test/controllers/TechnologyController.java,6\9\6972887eae231f0e0b8096520b885381780dd930
+w
+Gtest/src/main/java/com/testbackend/test/services/ICandidateService.java,0\2\02779d523aaa9e6f1b3e847fdd65115684236b94
+ƒ
+Stest/src/main/java/com/testbackend/test/services/ICandidateByTechnologyService.java,5\f\5f6ab3303186f4b70a6b5f641e5ae48925504b6d
