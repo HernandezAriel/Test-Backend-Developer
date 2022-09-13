@@ -3,12 +3,8 @@
 test/.gitignore,2\5\25be5b6b7434026c51f0a2e3593e2a27175da0d8
 l
 <test/src/main/java/com/testbackend/test/TestApplication.java,9\6\9677493dada14b0b2d7d4c20b2d9c477711f041a
-v
-Ftest/src/main/java/com/testbackend/test/models/enums/DocumentType.java,5\2\521f7375fd0d502f218a5e40d3134fcf57ee833b
 x
 Htest/src/main/java/com/testbackend/test/services/ITechnologyService.java,b\c\bc14bbe6ff2d92e4ba9810eaa2e9d4f106e618d4
-‚
-Rtest/src/main/java/com/testbackend/test/models/entities/CandidateByTechnology.java,7\8\78c67a912081ae69b684006467b503e2b2644e83
 w
 Gtest/src/main/java/com/testbackend/test/models/entities/Technology.java,d\7\d726f02c9c6292c5524e1e639db28ccefca2be70
 m
@@ -17,18 +13,6 @@ o
 ?test/src/main/java/com/testbackend/test/utils/ResponseUtil.java,4\3\436b9ce39d39f6948e6c75e44cff4b7383bd6691
 <
 test/pom.xml,5\a\5a7a6b2644ce7830ef2e46190b48905496aefeb0
-v
-Ftest/src/main/java/com/testbackend/test/models/entities/Candidate.java,3\b\3ba4450936c25ad1773dc9765714e0151070ba98
-u
-Etest/src/main/java/com/testbackend/test/models/dtos/CandidateDto.java,0\e\0eaa6899cd1d738387f84d75e02c38c2117320cc
-v
-Ftest/src/main/java/com/testbackend/test/models/dtos/ExperienceDto.java,d\0\d03dd5fb26b05062af60a8b4e9381c4ec7647a18
-v
-Ftest/src/main/java/com/testbackend/test/models/dtos/TechnologyDto.java,7\2\72162edf19be76dd67e026981ae9c9a2dd4da0e3
-Ž
-^test/src/main/java/com/testbackend/test/dtoconverter/CandidateByTechnologyToExperienceDto.java,8\9\895f8a09488a66a446ea1a006691da48ca3698e5
-
-Qtest/src/main/java/com/testbackend/test/dtoconverter/CandidateToCandidateDto.java,5\4\54766b16946a25d243975385cb7fcaa815ff618a
 w
 Gtest/src/main/java/com/testbackend/test/services/ICandidateService.java,0\2\02779d523aaa9e6f1b3e847fdd65115684236b94
 ƒ
