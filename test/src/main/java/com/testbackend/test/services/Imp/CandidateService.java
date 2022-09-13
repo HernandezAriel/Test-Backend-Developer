@@ -9,6 +9,7 @@ import com.testbackend.test.models.entities.Candidate;
 import com.testbackend.test.models.entities.Technology;
 import com.testbackend.test.repositories.CandidateRepository;
 import com.testbackend.test.services.ICandidateService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import static com.testbackend.test.dtoconverter.CandidateToCandidateDto.converte
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 public class CandidateService implements ICandidateService {
 
@@ -28,8 +30,13 @@ public class CandidateService implements ICandidateService {
     private CandidateByTechnologyService candidateByTechnologyService;
 
     public Candidate addCandidate(Candidate candidate) throws CandidateAlreadyExistsException {
-        if((candidateRepository.findByDocumentNumber(candidate.getDocumentNumber()))!= null) throw new CandidateAlreadyExistsException("Candidate already exists");
+        if((candidateRepository.findByDocumentNumber(candidate.getDocumentNumber()))!= null){
+            log.error("Candidate already exists");
+            throw new CandidateAlreadyExistsException("Candidate already exists");
+        }
         else{
+            log.debug("Candidate to save: " + candidate);
+            log.info("Candidate save");
             return candidateRepository.save(candidate);
         }
     }
@@ -47,6 +54,7 @@ public class CandidateService implements ICandidateService {
 
     public CandidateDto getCandidateDtoById(Long idCandidate) throws CandidateNotExistsException{
         Candidate candidate = getCandidateById(idCandidate);
+        log.debug("Candidate to Add Technology: " + candidate);
         return converter(candidate, candidateByTechnologyService.getExperiencesByCandidate(candidate));
     }
 
@@ -59,9 +67,12 @@ public class CandidateService implements ICandidateService {
     }
 
     public Candidate updateCandidate(Long candidateId ,Candidate candidate) throws CandidateNotExistsException {
-        if(candidateRepository.findById(candidateId) == null)
+        if(candidateRepository.findById(candidateId) == null){
+            log.error("Candidate not exists");
             throw new CandidateNotExistsException("Candidate not exists");
+        }
         else{
+            log.info("Candidate updated");
             return candidateRepository.save(candidate);
         }
 
@@ -69,9 +80,13 @@ public class CandidateService implements ICandidateService {
 
     public void deleteCandidate(Long idCandidate) throws CandidateNotExistsException  {
         Candidate candidate = getCandidateById(idCandidate);
-        if(!candidateByTechnologyService.getCandidatesByTechnologyByCandidate(candidate).isEmpty())
+        if(!candidateByTechnologyService.getCandidatesByTechnologyByCandidate(candidate).isEmpty()){
+            log.error("Candidate not exists");
             throw new CandidateNotExistsException("Candidate not exists");
+        }
+
         else{
+            log.info("Candidate deleted");
             candidateRepository.deleteById(idCandidate);
         }
 

@@ -6,6 +6,7 @@ import com.testbackend.test.models.dtos.TechnologyDto;
 import com.testbackend.test.models.entities.Technology;
 import com.testbackend.test.repositories.TechnologyRepository;
 import com.testbackend.test.services.ITechnologyService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
@@ -15,6 +16,7 @@ import java.util.List;
 
 import static java.util.Objects.isNull;
 
+@Slf4j
 @Service
 public class TechnologyService implements ITechnologyService {
 
@@ -26,9 +28,13 @@ public class TechnologyService implements ITechnologyService {
     ModelMapper modelMapper;
 
     public Technology addTechnology(Technology technology) throws TechnologyAlreadyExistsException {
-        if(!isNull(technologyRepository.findByNameAndVersion(technology.getName(), technology.getVersion())))
+        log.debug("Technology to add: " + technology);
+        if(!isNull(technologyRepository.findByNameAndVersion(technology.getName(), technology.getVersion()))){
+            log.error("Technology already exists");
             throw new TechnologyAlreadyExistsException("Technology " + technology.getName() + " version " + technology.getVersion() + " already exists");
+        }
         else {
+            log.info("Candidate has been created");
             return technologyRepository.save(technology);
         }
     }
@@ -51,19 +57,27 @@ public class TechnologyService implements ITechnologyService {
     }
 
     public Technology updateTechnology(Technology technology) throws TechnologyNotExistsException{
-        if(technologyRepository.findByName(technology.getName()) == null)
+        if(technologyRepository.findByName(technology.getName()) == null){
+            log.error("Technology not exists");
             throw new TechnologyNotExistsException("Technology " + technology.getName() + " not exists");
+        }
         else{
+            log.info("Candidate updated");
             return technologyRepository.save(technology);
         }
 
     }
 
     public void deleteTechnology(Long idTechnology) throws TechnologyNotExistsException{
+        log.info("idTechnology" + idTechnology);
         Technology technology = getTechnologyById(idTechnology);
-        if((candidateByTechnologyService.getCandidatesByTechnologyByTechnology(technology))!=null)
-            technologyRepository.deleteById(idTechnology);
+        log.debug("Technology to delete: " + technology);
+        if((candidateByTechnologyService.getCandidatesByTechnologyByTechnology(technology))==null){
+            log.error("Technology not exists");
+            throw new TechnologyNotExistsException("Technology " + technology.getName() + " not exists");
+        }
         else{
+            log.info("Candidate deleted");
             technologyRepository.delete(technology);
         }
     }
