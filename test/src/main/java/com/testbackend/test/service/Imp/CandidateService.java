@@ -8,7 +8,6 @@ import com.testbackend.test.model.dto.CandidateDto;
 import com.testbackend.test.model.entity.Candidate;
 import com.testbackend.test.model.entity.Technology;
 import com.testbackend.test.repository.CandidateRepository;
-import com.testbackend.test.service.ICandidateService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,7 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class CandidateService implements ICandidateService {
+public class CandidateService implements com.testbackend.test.service.CandidateService {
 
     @Autowired
     private CandidateRepository candidateRepository;

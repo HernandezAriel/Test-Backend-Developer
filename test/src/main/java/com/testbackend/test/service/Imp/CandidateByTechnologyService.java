@@ -8,7 +8,6 @@ import com.testbackend.test.model.entity.Candidate;
 import com.testbackend.test.model.entity.CandidateByTechnology;
 import com.testbackend.test.model.entity.Technology;
 import com.testbackend.test.repository.CandidateByTechnologyRepository;
-import com.testbackend.test.service.ICandidateByTechnologyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,7 @@ import static com.testbackend.test.dtoconverter.CandidateByTechnologyToExperienc
 
 @Slf4j
 @Service
-public class CandidateByTechnologyService implements ICandidateByTechnologyService {
+public class CandidateByTechnologyService implements com.testbackend.test.service.CandidateByTechnologyService {
 
     @Autowired
     CandidateByTechnologyRepository candidateByTechnologyRepository;

@@ -7,7 +7,7 @@ import com.testbackend.test.model.entity.Technology;
 
 import java.util.List;
 
-public interface ITechnologyService {
+public interface TechnologyService {
 
     Technology addTechnology(Technology technology) throws TechnologyAlreadyExistsException;
     List<TechnologyDto> getAllTechnologies();
