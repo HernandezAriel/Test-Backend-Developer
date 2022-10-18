@@ -36,4 +36,12 @@ public class CandidateByTechnologyServiceImpTest {
         verify(candidateByTechnologyRepository, times(1)).findByCandidateAndTechnology(getCandidate(), getTechnology());
         verify(candidateByTechnologyRepository, times(1)).save(getCandidateByTechnology());
     }
+
+    @Test
+    public void addCandidateForTechnologyAlreadyExistsTest() {
+        when(candidateByTechnologyRepository.findByCandidateAndTechnology(getCandidate(), getTechnology())).thenReturn(getCandidateByTechnology());
+        Assert.assertThrows(CandidateByTechnologyAlreadyExistsException.class, () -> candidateByTechnologyServiceImp.addCandidateByTechnology(getCandidate(), getTechnology(), 1L));
+        verify(candidateByTechnologyRepository, times(1)).findByCandidateAndTechnology(getCandidate(), getTechnology());
+        verify(candidateByTechnologyRepository, times(0)).save(getCandidateByTechnology());
+    }
 }
