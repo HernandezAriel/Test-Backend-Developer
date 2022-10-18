@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static com.testbackend.test.util.UrlBuilder.buildURL;
 import static com.testbackend.test.util.ResponseUtil.messageResponse;
@@ -49,6 +50,11 @@ public class CandidateController {
     @GetMapping("/{idCandidate}")
     public ResponseEntity<CandidateDto> getCandidateById(@PathVariable Long idCandidate) throws CandidateNotExistsException {
         return ResponseEntity.ok(candidateServiceImp.getCandidateDtoById(idCandidate));
+    }
+
+    @GetMapping("/technologies/{nameTechnology}")
+    public ResponseEntity<Set<CandidateDto>> getCandidatesByTechnology(@PathVariable String nameTechnology){
+        return ResponseEntity.ok(candidateServiceImp.getCandidatesByTechnology(nameTechnology));
     }
 
     @PostMapping

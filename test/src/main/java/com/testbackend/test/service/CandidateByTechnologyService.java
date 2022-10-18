@@ -14,4 +14,5 @@ public interface CandidateByTechnologyService {
     List<CandidateByTechnology> getCandidatesByTechnologyByCandidate(Candidate candidate);
     List<ExperienceDto> getExperiencesByCandidate(Candidate candidate);
     List<CandidateByTechnology> getCandidatesByTechnologyByTechnology(Technology technology);
+    List<CandidateByTechnology> getCandidatesByTechnologyByNameTechnology(String nameTechnology);
 }
