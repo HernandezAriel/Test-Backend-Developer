@@ -1,14 +1,19 @@
 package com.testbackend.test.service;
 
 import com.testbackend.test.exception.TechnologyAlreadyExistsException;
+import com.testbackend.test.exception.TechnologyNotExistsException;
 import com.testbackend.test.model.entity.Technology;
 import com.testbackend.test.repository.TechnologyRepository;
 import com.testbackend.test.service.imp.CandidateByTechnologyServiceImp;
 import com.testbackend.test.service.imp.TechnologyServiceImp;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.modelmapper.ModelMapper;
+
+import java.util.Optional;
+
 import static org.mockito.Mockito.mock;
 
 import static com.testbackend.test.testUtil.TechnologyTestUtil.getTechnology;
@@ -40,4 +45,22 @@ public class TechnologyServiceImpTest {
         verify(technologyRepository, times(1)).findByNameAndVersion("Java", "11");
         verify(technologyRepository, times(1)).save(getTechnology());
     }
+
+    @Test
+    public void addTechnologyAlreadyExists() {
+        when(technologyRepository.findByNameAndVersion("Java", "11")).thenReturn(getTechnology());
+        Assert.assertThrows(TechnologyAlreadyExistsException.class, () -> technologyServiceImp.addTechnology(getTechnology()));
+        verify(technologyRepository, times(1)).findByNameAndVersion("Java", "11");
+        verify(technologyRepository, times(0)).save(getTechnology());
+    }
+
+    @Test
+    public void getTechnologyByIdOkTest() throws TechnologyNotExistsException {
+        when(technologyRepository.findById(1L)).thenReturn(Optional.of(getTechnology()));
+        Technology technology = technologyServiceImp.getTechnologyById(1L);
+        Assertions.assertEquals(getTechnology(), technology);
+        verify(technologyRepository, times(1)).findById(1L);
+    }
+
+
 }
