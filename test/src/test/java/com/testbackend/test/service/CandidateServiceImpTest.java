@@ -17,6 +17,7 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -65,6 +66,13 @@ public class CandidateServiceImpTest {
         when(candidateRepository.findById(1L)).thenReturn(Optional.of(getCandidate()));
         Candidate candidate = candidateServiceImp.getCandidateById(1L);
         assertEquals(getCandidate(), candidate);
+        verify(candidateRepository, times(1)).findById(1L);
+    }
+
+    @Test
+    public void getCandidateByIdNotExistsTest() {
+        when(candidateRepository.findById(1L)).thenReturn(Optional.empty());
+        assertThrows(CandidateNotExistsException.class, () -> candidateServiceImp.getCandidateById(1L));
         verify(candidateRepository, times(1)).findById(1L);
     }
 
