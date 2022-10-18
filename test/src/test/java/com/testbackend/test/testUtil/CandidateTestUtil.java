@@ -16,7 +16,7 @@ public class CandidateTestUtil {
                 .lastName("Hoshi")
                 .documentType(DocumentType.DNI)
                 .documentNumber("987654321")
-                .birthdate(null)
+                .birthDate(null)
                 .build();
     }
 
@@ -27,7 +27,7 @@ public class CandidateTestUtil {
                 .lastName("Hoshi")
                 .documentType(DocumentType.DNI)
                 .documentNumber("987654321")
-                .birthdate(null)
+                .birthDate(null)
                 .build();
     }
 
