@@ -80,4 +80,13 @@ public class CandidateByTechnologyServiceImpTest {
         verify(candidateByTechnologyRepository, times(1)).findByTechnology(getTechnology());
     }
 
+    @Test
+    public void getCandidatesByTechnologyByNameTechnologyOkTest() {
+        when(candidateByTechnologyRepository.findByNameTechnology("Java")).thenReturn(getListCandidateByTechnology());
+        List<CandidateByTechnology> cbt = candidateByTechnologyServiceImp.getCandidatesByTechnologyByNameTechnology("Java");
+        Assertions.assertEquals(getListCandidateByTechnology().size(), cbt.size());
+        Assertions.assertEquals(getListCandidateByTechnology().get(0), cbt.get(0));
+        verify(candidateByTechnologyRepository, times(1)).findByNameTechnology("Java");
+    }
+
 }
