@@ -71,4 +71,13 @@ public class CandidateByTechnologyServiceImpTest {
         verify(candidateByTechnologyRepository, times(1)).findByCandidate(getCandidate());
     }
 
+    @Test
+    public void getCandidatesByTechnologyByTechnologyOkTest() {
+        when(candidateByTechnologyRepository.findByTechnology(getTechnology())).thenReturn(getListCandidateByTechnology());
+        List<CandidateByTechnology> cbt = candidateByTechnologyServiceImp.getCandidatesByTechnologyByTechnology(getTechnology());
+        Assertions.assertEquals(getListCandidateByTechnology().size(), cbt.size());
+        Assertions.assertEquals(getListCandidateByTechnology().get(0), cbt.get(0));
+        verify(candidateByTechnologyRepository, times(1)).findByTechnology(getTechnology());
+    }
+
 }
