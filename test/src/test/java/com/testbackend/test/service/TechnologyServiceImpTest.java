@@ -8,12 +8,15 @@ import com.testbackend.test.service.imp.CandidateByTechnologyServiceImp;
 import com.testbackend.test.service.imp.TechnologyServiceImp;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.modelmapper.ModelMapper;
 
+import java.util.List;
 import java.util.Optional;
 
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 
 import static com.testbackend.test.testUtil.TechnologyTestUtil.getTechnology;
@@ -68,4 +71,17 @@ public class TechnologyServiceImpTest {
         Assert.assertThrows(TechnologyNotExistsException.class, () -> technologyServiceImp.getTechnologyById(1L));
         verify(technologyRepository, times(1)).findById(1L);
     }
+
+    @Ignore
+    @Test
+    public void deleteTechnologyOkTest() throws TechnologyNotExistsException {
+        when(technologyRepository.findById(1L)).thenReturn(Optional.of(getTechnology()));
+        when(candidateByTechnologyServiceImp.getCandidatesByTechnologyByTechnology(getTechnology())).thenReturn(List.of());
+        doNothing().when(technologyRepository).deleteById(1L);
+        technologyServiceImp.deleteTechnology(1L);
+        verify(technologyRepository, times(1)).findById(1L);
+        verify(candidateByTechnologyServiceImp, times(1)).getCandidatesByTechnologyByTechnology(getTechnology());
+        verify(technologyRepository, times(1)).deleteById(1L);
+    }
+
 }
