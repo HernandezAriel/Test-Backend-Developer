@@ -1,7 +1,9 @@
 package com.testbackend.test.controller;
 
 import com.testbackend.test.exception.CandidateAlreadyExistsException;
+import com.testbackend.test.exception.CandidateByTechnologyAlreadyExistsException;
 import com.testbackend.test.exception.CandidateNotExistsException;
+import com.testbackend.test.exception.TechnologyNotExistsException;
 import com.testbackend.test.model.dto.CandidateDto;
 import com.testbackend.test.model.util.ResponseMessage;
 import com.testbackend.test.service.imp.CandidateServiceImp;
@@ -28,6 +30,7 @@ import static com.testbackend.test.testUtil.TechnologyTestUtil.getTechnology;
 import static com.testbackend.test.testUtil.CandidateByTechnologyTestUtil.getListExperienceDto;
 import static com.testbackend.test.testUtil.CandidateByTechnologyTestUtil.getCandidateByTechnology;
 import static com.testbackend.test.testUtil.CandidateByTechnologyTestUtil.getListCandidateByTechnology;
+
 
 public class CandidateControllerTest {
 
@@ -60,6 +63,21 @@ public class CandidateControllerTest {
         Assertions.assertEquals(getCandidateDto(), response.getBody());
         verify(candidateServiceImp, times(1)).getCandidateDtoById(1L);
     }
+
+    @Test
+    public void addTechnologyToCandidateOkTest() throws TechnologyNotExistsException, CandidateByTechnologyAlreadyExistsException, CandidateNotExistsException {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
+        when(candidateServiceImp.addTechnologyToCandidate(1L, 1L, 1L)).thenReturn(getCandidate());
+
+        ResponseEntity<ResponseMessage> response = candidateController.addTechnologyToCandidate(1L, 1L, 1L);
+
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertEquals(UrlBuilder.buildURL("candidates", getCandidate().getIdCandidate()).toString()
+                , Objects.requireNonNull(response.getHeaders().get("Location")).get(0));
+        verify(candidateServiceImp, times(1)).addTechnologyToCandidate(1L, 1L, 1L);
+    }
+
 }
 
 
