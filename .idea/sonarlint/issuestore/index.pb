@@ -13,3 +13,9 @@ o
 test/pom.xml,5\a\5a7a6b2644ce7830ef2e46190b48905496aefeb0
 ƒ
 Stest/src/main/java/com/testbackend/test/services/ICandidateByTechnologyService.java,5\f\5f6ab3303186f4b70a6b5f641e5ae48925504b6d
+w
+G.idea/sonarlint/issuestore/5/2/521f7375fd0d502f218a5e40d3134fcf57ee833b,8\a\8a33177a4b8253a79a3f55f12ad16970ca31cc02
+w
+G.idea/sonarlint/issuestore/0/2/02779d523aaa9e6f1b3e847fdd65115684236b94,4\1\4102feac1aa25e0322bc060559d1ff22e613f7f4
+S
+#.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0

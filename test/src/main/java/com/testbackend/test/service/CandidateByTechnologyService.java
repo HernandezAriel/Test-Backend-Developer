@@ -8,7 +8,7 @@ import com.testbackend.test.model.entity.Technology;
 
 import java.util.List;
 
-public interface ICandidateByTechnologyService {
+public interface CandidateByTechnologyService {
 
     void addCandidateByTechnology(Candidate candidate, Technology technology, Long experience) throws CandidateByTechnologyAlreadyExistsException;
     List<CandidateByTechnology> getCandidatesByTechnologyByCandidate(Candidate candidate);

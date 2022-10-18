@@ -6,7 +6,7 @@ import com.testbackend.test.model.dto.TechnologyDto;
 import com.testbackend.test.model.entity.Technology;
 import com.testbackend.test.model.util.ResponseMessage;
 import com.testbackend.test.repository.TechnologyRepository;
-import com.testbackend.test.service.ITechnologyService;
+import com.testbackend.test.service.TechnologyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -32,7 +32,7 @@ import static com.testbackend.test.util.ResponseUtil.messageResponse;
 public class TechnologyController {
 
     @Autowired
-    ITechnologyService technologyService;
+    TechnologyService technologyService;
 
     @Autowired
     TechnologyRepository technologyRepository;
