@@ -31,11 +31,12 @@ public class TechnologyServiceImp implements TechnologyService {
         this.modelMapper = modelMapper;
     }
 
-    public Technology addTechnology(Technology technology) throws TechnologyAlreadyExistsException {
-        log.debug("Technology to add: " + technology);
-        if(!isNull(technologyRepository.findByNameAndVersion(technology.getName(), technology.getVersion()))){
+    public Technology addTechnology(TechnologyDto technologyDto) throws TechnologyAlreadyExistsException {
+        log.debug("Technology to add: " + technologyDto);
+        Technology technology = technologyRepository.findByNameAndVersion(technologyDto.getName(), technologyDto.getVersion());
+        if(!isNull(technology)){
             log.error("Technology already exists");
-            throw new TechnologyAlreadyExistsException("Technology " + technology.getName() + " version " + technology.getVersion() + " already exists");
+            throw new TechnologyAlreadyExistsException("Technology " + technologyDto.getName() + " version " + technologyDto.getVersion() + " already exists");
         }
         else {
             log.info("Candidate has been created");

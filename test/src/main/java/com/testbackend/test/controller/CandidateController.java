@@ -58,10 +58,10 @@ public class CandidateController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseMessage> addCandidate(@Valid @RequestBody Candidate candidate) throws CandidateAlreadyExistsException {
+    public ResponseEntity<ResponseMessage> addCandidate(@Valid @RequestBody CandidateDto candidateDto) throws CandidateAlreadyExistsException {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .location(buildURL("candidates", candidateServiceImp.addCandidate(candidate).getIdCandidate()))
+                .location(buildURL("candidates", candidateServiceImp.addCandidate(candidateDto).getIdCandidate()))
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(messageResponse("Candidate has been created"));
     }
