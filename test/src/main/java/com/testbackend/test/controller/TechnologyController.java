@@ -5,7 +5,6 @@ import com.testbackend.test.exception.TechnologyNotExistsException;
 import com.testbackend.test.model.dto.TechnologyDto;
 import com.testbackend.test.model.entity.Technology;
 import com.testbackend.test.model.util.ResponseMessage;
-import com.testbackend.test.repository.TechnologyRepository;
 import com.testbackend.test.service.TechnologyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,14 +14,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 import static com.testbackend.test.util.UrlBuilder.buildURL;
 import static com.testbackend.test.util.ResponseUtil.messageResponse;
@@ -31,14 +28,15 @@ import static com.testbackend.test.util.ResponseUtil.messageResponse;
 @RequestMapping("/technologies")
 public class TechnologyController {
 
-    @Autowired
-    TechnologyService technologyService;
+    private final TechnologyService technologyService;
 
     @Autowired
-    TechnologyRepository technologyRepository;
+    public TechnologyController(TechnologyService technologyService) {
+        this.technologyService = technologyService;
+    }
 
     @GetMapping
-    public ResponseEntity<List<TechnologyDto>> getAllTechnologies(){
+    public ResponseEntity<List<TechnologyDto>> getAllTechnologies() {
         return new ResponseEntity<>(technologyService.getAllTechnologies(), HttpStatus.OK);
     }
 
@@ -56,20 +54,8 @@ public class TechnologyController {
                 .body(messageResponse("Technology has been created"));
     }
 
-    @PutMapping("/{idTechnology}")
-    public ResponseEntity<Object> updateTechnology(@Valid @RequestBody Technology technology, @PathVariable Long idTechnology) throws TechnologyNotExistsException {
-        Optional<Technology> techonologyOptional = technologyRepository.findById(idTechnology);
-        if(techonologyOptional.isEmpty()){
-            return ResponseEntity.notFound().build();
-        }else{
-            technology.setIdTechnology(idTechnology);
-            technologyRepository.save(technology);
-            return ResponseEntity.noContent().build();
-        }
-    }
-
     @DeleteMapping("/{idTechnology}")
-    public ResponseEntity<String> deleteTechnology(@PathVariable Long idTechnology) throws TechnologyNotExistsException{
+    public ResponseEntity<String> deleteTechnology(@PathVariable Long idTechnology) throws TechnologyNotExistsException {
         technologyService.deleteTechnology(idTechnology);
         return ResponseEntity.ok().body("Technology Deleted");
     }
