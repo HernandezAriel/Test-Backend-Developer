@@ -46,12 +46,12 @@ public class TechnologyControllerTest {
     public void addTechnologyOkTest() throws TechnologyAlreadyExistsException {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-        when(technologyServiceImp.addTechnology(getTechnology())).thenReturn(getTechnology());
-        ResponseEntity<ResponseMessage> response = technologyController.addTechnology(getTechnology());
+        when(technologyServiceImp.addTechnology(getTechnologyDto())).thenReturn(getTechnology());
+        ResponseEntity<ResponseMessage> response = technologyController.addTechnology(getTechnologyDto());
         Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
         Assertions.assertEquals(UrlBuilder.buildURL("technologies", getTechnology().getIdTechnology()).toString()
                 , Objects.requireNonNull(((ResponseEntity<?>) response).getHeaders().get("Location")).get(0));
-        verify(technologyServiceImp, times(1)).addTechnology(getTechnology());
+        verify(technologyServiceImp, times(1)).addTechnology(getTechnologyDto());
     }
 
     @Test

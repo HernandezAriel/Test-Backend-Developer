@@ -16,6 +16,7 @@ import org.modelmapper.ModelMapper;
 import java.util.List;
 import java.util.Optional;
 
+import static com.testbackend.test.testUtil.TechnologyTestUtil.getTechnologyDto;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 
@@ -43,7 +44,7 @@ public class TechnologyServiceImpTest {
     public void addTechnologyOkTest() throws TechnologyAlreadyExistsException {
         when(technologyRepository.findByNameAndVersion("Java", "11")).thenReturn(null);
         when(technologyRepository.save(getTechnology())).thenReturn(getTechnology());
-        Technology technology = technologyServiceImp.addTechnology(getTechnology());
+        Technology technology = technologyServiceImp.addTechnology(getTechnologyDto());
         Assertions.assertEquals(getTechnology(), technology);
         verify(technologyRepository, times(1)).findByNameAndVersion("Java", "11");
         verify(technologyRepository, times(1)).save(getTechnology());
@@ -52,7 +53,7 @@ public class TechnologyServiceImpTest {
     @Test
     public void addTechnologyAlreadyExists() {
         when(technologyRepository.findByNameAndVersion("Java", "11")).thenReturn(getTechnology());
-        Assert.assertThrows(TechnologyAlreadyExistsException.class, () -> technologyServiceImp.addTechnology(getTechnology()));
+        Assert.assertThrows(TechnologyAlreadyExistsException.class, () -> technologyServiceImp.addTechnology(getTechnologyDto()));
         verify(technologyRepository, times(1)).findByNameAndVersion("Java", "11");
         verify(technologyRepository, times(0)).save(getTechnology());
     }
@@ -72,7 +73,6 @@ public class TechnologyServiceImpTest {
         verify(technologyRepository, times(1)).findById(1L);
     }
 
-    @Ignore
     @Test
     public void deleteTechnologyOkTest() throws TechnologyNotExistsException {
         when(technologyRepository.findById(1L)).thenReturn(Optional.of(getTechnology()));

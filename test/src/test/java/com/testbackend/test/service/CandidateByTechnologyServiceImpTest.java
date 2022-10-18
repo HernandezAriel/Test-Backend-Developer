@@ -35,12 +35,13 @@ public class CandidateByTechnologyServiceImpTest {
         candidateByTechnologyServiceImp = new CandidateByTechnologyServiceImp(candidateByTechnologyRepository);
     }
 
-    @Ignore
     @Test
     public void addCandidateByTechnologyOkTest() throws CandidateByTechnologyAlreadyExistsException {
         when(candidateByTechnologyRepository.findByCandidateAndTechnology(getCandidate(), getTechnology())).thenReturn(null);
         when(candidateByTechnologyRepository.save(getCandidateByTechnology())).thenReturn(getCandidateByTechnology());
+
         candidateByTechnologyServiceImp.addCandidateByTechnology(getCandidate(), getTechnology(), 1L);
+
         verify(candidateByTechnologyRepository, times(1)).findByCandidateAndTechnology(getCandidate(), getTechnology());
         verify(candidateByTechnologyRepository, times(1)).save(getCandidateByTechnology());
     }
