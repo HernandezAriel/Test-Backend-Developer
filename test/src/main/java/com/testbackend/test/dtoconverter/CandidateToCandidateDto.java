@@ -1,8 +1,8 @@
 package com.testbackend.test.dtoconverter;
 
-import com.testbackend.test.models.dtos.CandidateDto;
-import com.testbackend.test.models.dtos.ExperienceDto;
-import com.testbackend.test.models.entities.Candidate;
+import com.testbackend.test.model.dto.CandidateDto;
+import com.testbackend.test.model.dto.ExperienceDto;
+import com.testbackend.test.model.entity.Candidate;
 
 import java.util.List;
 

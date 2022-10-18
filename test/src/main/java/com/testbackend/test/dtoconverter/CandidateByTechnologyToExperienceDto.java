@@ -1,7 +1,7 @@
 package com.testbackend.test.dtoconverter;
 
-import com.testbackend.test.models.dtos.ExperienceDto;
-import com.testbackend.test.models.entities.CandidateByTechnology;
+import com.testbackend.test.model.dto.ExperienceDto;
+import com.testbackend.test.model.entity.CandidateByTechnology;
 
 public class CandidateByTechnologyToExperienceDto {
 
