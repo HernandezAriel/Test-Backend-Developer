@@ -90,5 +90,15 @@ public class CandidateServiceImpTest {
         verify(candidateByTechnologyServiceImp, times(1)).addCandidateByTechnology(getCandidate(), getTechnology(), 1L);
     }
 
+    @Test
+    public void addTechnologyToCandidateCandidateNotExistsTest() throws TechnologyNotExistsException, CandidateByTechnologyAlreadyExistsException {
+        when(candidateRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(CandidateNotExistsException.class, () -> candidateServiceImp.addTechnologyToCandidate(1L, 1L, 1L));
+        verify(candidateRepository, times(1)).findById(1L);
+        verify(technologyServiceImp, times(0)).getTechnologyById(1L);
+        verify(candidateByTechnologyServiceImp, times(0)).addCandidateByTechnology(getCandidate(), getTechnology(), 1L);
+    }
+
 
 }
