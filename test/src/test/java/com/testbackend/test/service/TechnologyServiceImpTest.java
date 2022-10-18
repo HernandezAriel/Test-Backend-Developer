@@ -84,4 +84,13 @@ public class TechnologyServiceImpTest {
         verify(technologyRepository, times(1)).deleteById(1L);
     }
 
+    @Test
+    public void deleteTechnologyNotExistsTest() {
+        when(technologyRepository.findById(1L)).thenReturn(Optional.empty());
+        Assert.assertThrows(TechnologyNotExistsException.class, () -> technologyServiceImp.deleteTechnology(1L));
+        verify(technologyRepository, times(1)).findById(1L);
+        verify(candidateByTechnologyServiceImp, times(0)).getCandidatesByTechnologyByTechnology(getTechnology());
+        verify(technologyRepository, times(0)).deleteById(1L);
+    }
+
 }
