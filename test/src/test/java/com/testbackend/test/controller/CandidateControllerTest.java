@@ -1,6 +1,8 @@
 package com.testbackend.test.controller;
 
 import com.testbackend.test.exception.CandidateAlreadyExistsException;
+import com.testbackend.test.exception.CandidateNotExistsException;
+import com.testbackend.test.model.dto.CandidateDto;
 import com.testbackend.test.model.util.ResponseMessage;
 import com.testbackend.test.service.imp.CandidateServiceImp;
 import com.testbackend.test.util.UrlBuilder;
@@ -21,6 +23,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import static com.testbackend.test.testUtil.CandidateTestUtil.getCandidate;
+import static com.testbackend.test.testUtil.CandidateTestUtil.getCandidateDto;
 import static com.testbackend.test.testUtil.TechnologyTestUtil.getTechnology;
 import static com.testbackend.test.testUtil.CandidateByTechnologyTestUtil.getListExperienceDto;
 import static com.testbackend.test.testUtil.CandidateByTechnologyTestUtil.getCandidateByTechnology;
@@ -47,6 +50,15 @@ public class CandidateControllerTest {
         Assertions.assertEquals(UrlBuilder.buildURL("candidates", getCandidate().getIdCandidate()).toString()
                 , Objects.requireNonNull(response.getHeaders().get("Location")).get(0));
         verify(candidateServiceImp, times(1)).addCandidate(getCandidate());
+    }
+
+    @Test
+    public void getCandidateByIdOkTest() throws CandidateNotExistsException {
+        when(candidateServiceImp.getCandidateDtoById(1L)).thenReturn(getCandidateDto());
+        ResponseEntity<CandidateDto> response = candidateController.getCandidateById(1L);
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertEquals(getCandidateDto(), response.getBody());
+        verify(candidateServiceImp, times(1)).getCandidateDtoById(1L);
     }
 }
 
