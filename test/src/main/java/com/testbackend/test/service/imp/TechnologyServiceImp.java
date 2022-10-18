@@ -1,4 +1,4 @@
-package com.testbackend.test.service.Imp;
+package com.testbackend.test.service.imp;
 
 import com.testbackend.test.exception.TechnologyAlreadyExistsException;
 import com.testbackend.test.exception.TechnologyNotExistsException;
@@ -20,12 +20,16 @@ import static java.util.Objects.isNull;
 @Service
 public class TechnologyServiceImp implements TechnologyService {
 
+    private final TechnologyRepository technologyRepository;
+    private final CandidateByTechnologyServiceImp candidateByTechnologyServiceImp;
+    private final ModelMapper modelMapper;
+
     @Autowired
-    private TechnologyRepository technologyRepository;
-    @Autowired
-    private CandidateByTechnologyServiceImp candidateByTechnologyServiceImp;
-    @Autowired
-    ModelMapper modelMapper;
+    public TechnologyServiceImp(TechnologyRepository technologyRepository, CandidateByTechnologyServiceImp candidateByTechnologyServiceImp, ModelMapper modelMapper){
+        this.technologyRepository = technologyRepository;
+        this.candidateByTechnologyServiceImp = candidateByTechnologyServiceImp;
+        this.modelMapper = modelMapper;
+    }
 
     public Technology addTechnology(Technology technology) throws TechnologyAlreadyExistsException {
         log.debug("Technology to add: " + technology);

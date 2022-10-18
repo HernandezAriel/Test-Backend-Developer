@@ -1,4 +1,4 @@
-package com.testbackend.test.service.Imp;
+package com.testbackend.test.service.imp;
 
 import com.testbackend.test.exception.CandidateAlreadyExistsException;
 import com.testbackend.test.exception.CandidateByTechnologyAlreadyExistsException;
@@ -10,7 +10,6 @@ import com.testbackend.test.model.entity.Technology;
 import com.testbackend.test.repository.CandidateRepository;
 import com.testbackend.test.service.CandidateService;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -5,7 +5,6 @@ import com.testbackend.test.model.dto.ExperienceDto;
 import com.testbackend.test.model.entity.Candidate;
 import com.testbackend.test.model.entity.CandidateByTechnology;
 import com.testbackend.test.model.entity.Technology;
-import com.testbackend.test.service.Imp.CandidateByTechnologyServiceImp;
 
 import java.util.List;
 
