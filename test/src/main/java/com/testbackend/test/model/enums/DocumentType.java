@@ -2,12 +2,12 @@ package com.testbackend.test.model.enums;
 
 public enum DocumentType {
     DNI("DNI"), LE("LE"), LC("LC");
-    private final String a;
+    private final String value;
     DocumentType(String value){
-        this.a = value;
+        this.value = value;
     }
 
     public String getValue(){
-        return a;
+        return value;
     }
 }

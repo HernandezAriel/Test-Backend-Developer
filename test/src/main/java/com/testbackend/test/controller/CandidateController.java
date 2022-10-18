@@ -8,7 +8,7 @@ import com.testbackend.test.model.dto.CandidateDto;
 import com.testbackend.test.model.entity.Candidate;
 import com.testbackend.test.model.util.ResponseMessage;
 import com.testbackend.test.repository.CandidateRepository;
-import com.testbackend.test.service.Imp.CandidateServiceImp;
+import com.testbackend.test.service.imp.CandidateServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

@@ -1,4 +1,4 @@
-package com.testbackend.test.service.Imp;
+package com.testbackend.test.service.imp;
 
 import com.testbackend.test.exception.CandidateByTechnologyAlreadyExistsException;
 import com.testbackend.test.service.CandidateByTechnologyService;
