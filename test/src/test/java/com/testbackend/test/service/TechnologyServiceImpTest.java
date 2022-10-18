@@ -62,5 +62,4 @@ public class TechnologyServiceImpTest {
         verify(technologyRepository, times(1)).findById(1L);
     }
 
-
 }
