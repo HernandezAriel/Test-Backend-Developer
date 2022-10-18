@@ -62,4 +62,10 @@ public class TechnologyServiceImpTest {
         verify(technologyRepository, times(1)).findById(1L);
     }
 
+    @Test
+    public void getTechnologyByIdNotExistsTest() {
+        when(technologyRepository.findById(1L)).thenReturn(Optional.empty());
+        Assert.assertThrows(TechnologyNotExistsException.class, () -> technologyServiceImp.getTechnologyById(1L));
+        verify(technologyRepository, times(1)).findById(1L);
+    }
 }
