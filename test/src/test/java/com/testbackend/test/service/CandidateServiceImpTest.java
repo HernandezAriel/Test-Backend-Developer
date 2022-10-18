@@ -40,14 +40,14 @@ public class CandidateServiceImpTest {
 
     @Test
     public void addCandidateOkTest() throws CandidateAlreadyExistsException {
-        when(candidateRepository.findByIdCandidateOrDocumentNumber(1L,"987654321")).thenReturn(null);
+        when(candidateRepository.findByIdCandidateOrDocumentNumber(1L, "987654321")).thenReturn(null);
         when(candidateRepository.save(getCandidate())).thenReturn(getCandidate());
 
         Candidate candidate = candidateServiceImp.addCandidate(getCandidate());
 
         assertNotNull(candidate);
         assertEquals(getCandidate(), candidate);
-        verify(candidateRepository, times(1)).findByIdCandidateOrDocumentNumber(1L,"987654321");
+        verify(candidateRepository, times(1)).findByIdCandidateOrDocumentNumber(1L, "987654321");
         verify(candidateRepository, times(1)).save(getCandidate());
     }
 
