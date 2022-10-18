@@ -33,8 +33,9 @@ public class CandidateServiceImp implements CandidateService {
         this.candidateByTechnologyServiceImp = candidateByTechnologyServiceImp;
     }
 
-    public Candidate addCandidate(Candidate candidate) throws CandidateAlreadyExistsException {
-        if ((candidateRepository.findByIdCandidateOrDocumentNumber(candidate.getIdCandidate(), candidate.getDocumentNumber())) != null) {
+    public Candidate addCandidate(CandidateDto candidateDto) throws CandidateAlreadyExistsException {
+        Candidate candidate = candidateRepository.findByIdCandidateOrDocumentNumber(candidateDto.getIdCandidate(), candidateDto.getDocumentNumber());
+        if (candidate != null) {
             throw new CandidateAlreadyExistsException("Candidate already exists");
         } else {
             log.info("Candidate has been created");

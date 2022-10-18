@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface CandidateService {
 
-    Candidate addCandidate(Candidate candidate) throws CandidateAlreadyExistsException;
+    Candidate addCandidate(CandidateDto candidateDto) throws CandidateAlreadyExistsException;
     List<CandidateDto> getAllCandidates();
     Candidate getCandidateById(Long idCandidate) throws CandidateNotExistsException;
     CandidateDto getCandidateDtoById(Long idCandidate) throws CandidateNotExistsException;

@@ -48,10 +48,10 @@ public class TechnologyController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseMessage> addTechnology(@Valid @RequestBody Technology technology) throws TechnologyAlreadyExistsException {
+    public ResponseEntity<ResponseMessage> addTechnology(@Valid @RequestBody TechnologyDto technologyDto) throws TechnologyAlreadyExistsException {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .location(buildURL("technologies", technologyService.addTechnology(technology).getIdTechnology()))
+                .location(buildURL("technologies", technologyService.addTechnology(technologyDto).getIdTechnology()))
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(messageResponse("Technology has been created"));
     }
