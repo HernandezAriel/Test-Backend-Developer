@@ -22,9 +22,12 @@ import static com.testbackend.test.dtoconverter.CandidateByTechnologyToExperienc
 @Service
 public class CandidateByTechnologyServiceImp implements CandidateByTechnologyService {
 
-    @Autowired
-    CandidateByTechnologyRepository candidateByTechnologyRepository;
+    private final CandidateByTechnologyRepository candidateByTechnologyRepository;
 
+    @Autowired
+    public CandidateByTechnologyServiceImp(CandidateByTechnologyRepository candidateByTechnologyRepository){
+        this.candidateByTechnologyRepository = candidateByTechnologyRepository;
+    }
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
