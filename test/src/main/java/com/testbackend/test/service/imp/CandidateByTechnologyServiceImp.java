@@ -1,4 +1,4 @@
-package com.testbackend.test.service.Imp;
+package com.testbackend.test.service.imp;
 
 import com.testbackend.test.exception.CandidateByTechnologyAlreadyExistsException;
 import com.testbackend.test.service.CandidateByTechnologyService;
@@ -22,9 +22,12 @@ import static com.testbackend.test.dtoconverter.CandidateByTechnologyToExperienc
 @Service
 public class CandidateByTechnologyServiceImp implements CandidateByTechnologyService {
 
-    @Autowired
-    CandidateByTechnologyRepository candidateByTechnologyRepository;
+    private final CandidateByTechnologyRepository candidateByTechnologyRepository;
 
+    @Autowired
+    public CandidateByTechnologyServiceImp(CandidateByTechnologyRepository candidateByTechnologyRepository){
+        this.candidateByTechnologyRepository = candidateByTechnologyRepository;
+    }
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
@@ -59,6 +62,9 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
     }
     public List<CandidateByTechnology> getCandidatesByTechnologyByTechnology(Technology technology) {
         return candidateByTechnologyRepository.findByTechnology(technology);
+    }
+    public List<CandidateByTechnology> getCandidatesByTechnologyByNameTechnology(String nameTechnology){
+        return candidateByTechnologyRepository.findByNameTechnology(nameTechnology);
     }
 
 }
