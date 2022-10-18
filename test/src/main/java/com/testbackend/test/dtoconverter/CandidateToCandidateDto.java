@@ -12,8 +12,8 @@ public class CandidateToCandidateDto {
                 .firstName(candidate.getFirstName())
                 .lastName(candidate.getLastName())
                 .documentType(candidate.getDocumentType())
-                .document(candidate.getDocumentNumber())
-                .birthdate(candidate.getBirthdate())
+                .documentNumber(candidate.getDocumentNumber())
+                .birthDate(candidate.getBirthDate())
                 .technologies(technologies)
                 .build();
     }

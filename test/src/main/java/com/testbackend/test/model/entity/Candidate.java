@@ -42,7 +42,7 @@ public class Candidate {
 
     @Past(message = "The date of birth must be in the past")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date birthdate;
+    private Date birthDate;
 
 
 }
