@@ -5,10 +5,11 @@ import com.testbackend.test.model.dto.ExperienceDto;
 import com.testbackend.test.model.entity.Candidate;
 import com.testbackend.test.model.entity.CandidateByTechnology;
 import com.testbackend.test.model.entity.Technology;
+import com.testbackend.test.service.Imp.CandidateByTechnologyServiceImp;
 
 import java.util.List;
 
-public interface ICandidateByTechnologyService {
+public interface CandidateByTechnologyService {
 
     void addCandidateByTechnology(Candidate candidate, Technology technology, Long experience) throws CandidateByTechnologyAlreadyExistsException;
     List<CandidateByTechnology> getCandidatesByTechnologyByCandidate(Candidate candidate);

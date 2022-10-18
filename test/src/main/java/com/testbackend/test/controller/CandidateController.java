@@ -8,7 +8,7 @@ import com.testbackend.test.model.dto.CandidateDto;
 import com.testbackend.test.model.entity.Candidate;
 import com.testbackend.test.model.util.ResponseMessage;
 import com.testbackend.test.repository.CandidateRepository;
-import com.testbackend.test.service.Imp.CandidateService;
+import com.testbackend.test.service.Imp.CandidateServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,26 +34,26 @@ import static com.testbackend.test.util.ResponseUtil.messageResponse;
 public class CandidateController {
 
     @Autowired
-    CandidateService candidateService;
+    CandidateServiceImp candidateServiceImp;
 
     @Autowired
     CandidateRepository candidateRepository;
 
     @GetMapping
     public ResponseEntity<List<CandidateDto>> getAllCandidates(){
-        return new ResponseEntity<>(candidateService.getAllCandidates(), HttpStatus.OK);
+        return new ResponseEntity<>(candidateServiceImp.getAllCandidates(), HttpStatus.OK);
     }
 
     @GetMapping("/{idCandidate}")
     public ResponseEntity<CandidateDto> getCandidateById(@PathVariable Long idCandidate) throws CandidateNotExistsException{
-        return ResponseEntity.ok(candidateService.getCandidateDtoById(idCandidate));
+        return ResponseEntity.ok(candidateServiceImp.getCandidateDtoById(idCandidate));
     }
 
     @PostMapping
     public ResponseEntity<ResponseMessage> addCandidate(@Valid @RequestBody Candidate candidate) throws CandidateAlreadyExistsException {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .location(buildURL("candidates", candidateService.addCandidate(candidate).getIdCandidate()))
+                .location(buildURL("candidates", candidateServiceImp.addCandidate(candidate).getIdCandidate()))
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(messageResponse("Candidate has been created"));
     }
@@ -75,7 +75,7 @@ public class CandidateController {
         CandidateNotExistsException, TechnologyNotExistsException, CandidateByTechnologyAlreadyExistsException {
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .location(buildURL("candidates", candidateService.addTechnologyToCandidate(idCandidate, idTechnology, experience).getDocumentNumber()))
+                    .location(buildURL("candidates", candidateServiceImp.addTechnologyToCandidate(idCandidate, idTechnology, experience).getDocumentNumber()))
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(messageResponse("Technology added to candidate"));
         }
@@ -83,7 +83,7 @@ public class CandidateController {
         @DeleteMapping("/{idCandidate}")
         public ResponseEntity<ResponseMessage> deleteCandidate (@PathVariable Long idCandidate) throws
         CandidateNotExistsException {
-            candidateService.deleteCandidate(idCandidate);
+            candidateServiceImp.deleteCandidate(idCandidate);
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .body(messageResponse("Candidate removed"));

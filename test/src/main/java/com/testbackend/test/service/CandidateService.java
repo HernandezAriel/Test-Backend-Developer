@@ -8,7 +8,7 @@ import com.testbackend.test.model.dto.CandidateDto;
 import com.testbackend.test.model.entity.Candidate;
 import java.util.List;
 
-public interface ICandidateService {
+public interface CandidateService {
 
     Candidate addCandidate(Candidate candidate) throws CandidateAlreadyExistsException;
     List<CandidateDto> getAllCandidates();

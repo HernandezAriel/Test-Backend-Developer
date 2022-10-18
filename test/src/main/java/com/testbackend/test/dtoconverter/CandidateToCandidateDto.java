@@ -12,7 +12,7 @@ public class CandidateToCandidateDto {
                 .firstName(candidate.getFirstName())
                 .lastName(candidate.getLastName())
                 .documentType(candidate.getDocumentType())
-                .document(candidate.getDocumentNumber())
+                .documentNumber(candidate.getDocumentNumber())
                 .birthdate(candidate.getBirthdate())
                 .technologies(technologies)
                 .build();
