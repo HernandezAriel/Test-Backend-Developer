@@ -21,6 +21,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -98,6 +99,18 @@ public class CandidateServiceImpTest {
         verify(candidateRepository, times(1)).findById(1L);
         verify(technologyServiceImp, times(0)).getTechnologyById(1L);
         verify(candidateByTechnologyServiceImp, times(0)).addCandidateByTechnology(getCandidate(), getTechnology(), 1L);
+    }
+
+    @Test
+    public void addTechnologyToCandidateCandidateForTechnologyAlreadyExistsTest() throws TechnologyNotExistsException, CandidateByTechnologyAlreadyExistsException {
+        when(candidateRepository.findById(1L)).thenReturn(Optional.of(getCandidate()));
+        when(technologyServiceImp.getTechnologyById(1L)).thenReturn(getTechnology());
+        doThrow(CandidateByTechnologyAlreadyExistsException.class).when(candidateByTechnologyServiceImp).addCandidateByTechnology(getCandidate(), getTechnology(), 1L);
+
+        assertThrows(CandidateByTechnologyAlreadyExistsException.class, () -> candidateServiceImp.addTechnologyToCandidate(1L, 1L, 1L));
+        verify(candidateRepository, times(1)).findById(1L);
+        verify(technologyServiceImp, times(1)).getTechnologyById(1L);
+        verify(candidateByTechnologyServiceImp, times(1)).addCandidateByTechnology(getCandidate(), getTechnology(), 1L);
     }
 
 
