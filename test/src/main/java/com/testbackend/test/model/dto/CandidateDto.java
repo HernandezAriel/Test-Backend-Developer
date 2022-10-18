@@ -16,11 +16,11 @@ import java.util.List;
 @Builder
 public class CandidateDto {
 
-    //private Long idCandidate;
+    private Long idCandidate;
     private String firstName;
     private String lastName;
     private DocumentType documentType;
-    private String document;
+    private String documentNumber;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date birthdate;
