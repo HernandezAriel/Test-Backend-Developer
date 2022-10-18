@@ -9,11 +9,12 @@ import java.util.List;
 public class CandidateToCandidateDto {
     public static CandidateDto converter(Candidate candidate, List<ExperienceDto> technologies){
         return CandidateDto.builder()
+                .idCandidate(candidate.getIdCandidate())
                 .firstName(candidate.getFirstName())
                 .lastName(candidate.getLastName())
                 .documentType(candidate.getDocumentType())
                 .documentNumber(candidate.getDocumentNumber())
-                .birthdate(candidate.getBirthdate())
+                .birthDate(candidate.getBirthDate())
                 .technologies(technologies)
                 .build();
     }
