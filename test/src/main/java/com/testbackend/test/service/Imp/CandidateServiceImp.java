@@ -10,6 +10,7 @@ import com.testbackend.test.model.entity.Technology;
 import com.testbackend.test.repository.CandidateRepository;
 import com.testbackend.test.service.CandidateService;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,14 +30,13 @@ public class CandidateServiceImp implements CandidateService {
     @Autowired
     private CandidateByTechnologyServiceImp candidateByTechnologyServiceImp;
 
+    private ModelMapper modelMapper=new ModelMapper();
+
     public Candidate addCandidate(Candidate candidate) throws CandidateAlreadyExistsException {
-        if((candidateRepository.findByDocumentNumber(candidate.getDocumentNumber()))!= null){
-            log.error("Candidate already exists");
+        if ((candidateRepository.findByIdCandidateOrDocument(candidate.getIdCandidate(), candidate.getDocumentNumber())) != null) {
             throw new CandidateAlreadyExistsException("Candidate already exists");
-        }
-        else{
-            log.debug("Candidate to save: " + candidate);
-            log.info("Candidate save");
+        } else {
+            log.info("Candidate has been created");
             return candidateRepository.save(candidate);
         }
     }
