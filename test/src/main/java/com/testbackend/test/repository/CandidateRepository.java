@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CandidateRepository extends JpaRepository<Candidate, Long> {
-    Candidate findByIdCandidateOrDocument(Long idCandidate, String document);
+   Candidate findByIdCandidateOrDocumentNumber(Long idCandidate, String document);
 }
