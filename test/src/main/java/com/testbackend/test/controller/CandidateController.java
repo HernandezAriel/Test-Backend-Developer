@@ -71,7 +71,7 @@ public class CandidateController {
             CandidateNotExistsException, TechnologyNotExistsException, CandidateByTechnologyAlreadyExistsException {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .location(buildURL("candidates", candidateServiceImp.addTechnologyToCandidate(idCandidate, idTechnology, experience).getDocumentNumber()))
+                .location(buildURL("candidates", candidateServiceImp.addTechnologyToCandidate(idCandidate, idTechnology, experience).getIdCandidate()))
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(messageResponse("Technology added to candidate"));
     }

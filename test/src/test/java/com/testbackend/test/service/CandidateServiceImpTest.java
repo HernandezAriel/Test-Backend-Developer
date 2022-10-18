@@ -27,6 +27,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import static com.testbackend.test.testUtil.CandidateTestUtil.getCandidate;
+import static com.testbackend.test.testUtil.CandidateTestUtil.getCandidateDto;
 import static com.testbackend.test.testUtil.TechnologyTestUtil.getTechnology;
 
 public class CandidateServiceImpTest {
@@ -48,9 +49,9 @@ public class CandidateServiceImpTest {
     public void addCandidateOkTest() throws CandidateAlreadyExistsException {
         when(candidateRepository.findByIdCandidateOrDocumentNumber(1L, "987654321")).thenReturn(null);
         when(candidateRepository.save(getCandidate())).thenReturn(getCandidate());
-        Candidate candidate = candidateServiceImp.addCandidate(getCandidate());
+        Candidate candidate = candidateServiceImp.addCandidate(getCandidateDto());
         assertNotNull(candidate);
-        assertEquals(getCandidate(), candidate);
+        assertEquals(getCandidateDto(), candidate);
         verify(candidateRepository, times(1)).findByIdCandidateOrDocumentNumber(1L, "987654321");
         verify(candidateRepository, times(1)).save(getCandidate());
     }
@@ -58,7 +59,7 @@ public class CandidateServiceImpTest {
     @Test
     public void addCandidateAlreadyExistsTest() {
         when(candidateRepository.findByIdCandidateOrDocumentNumber(1L, "987654321")).thenReturn(getCandidate());
-        Assertions.assertThrows(CandidateAlreadyExistsException.class, () -> candidateServiceImp.addCandidate(getCandidate()));
+        Assertions.assertThrows(CandidateAlreadyExistsException.class, () -> candidateServiceImp.addCandidate(getCandidateDto()));
         verify(candidateRepository, times(1)).findByIdCandidateOrDocumentNumber(1L, "987654321");
         verify(candidateRepository, times(0)).save(getCandidate());
     }

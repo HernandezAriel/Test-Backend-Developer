@@ -5,6 +5,7 @@ import com.testbackend.test.model.entity.Candidate;
 import com.testbackend.test.model.enums.DocumentType;
 
 import java.util.List;
+import java.util.Set;
 
 
 public class CandidateTestUtil {
@@ -30,9 +31,12 @@ public class CandidateTestUtil {
                 .birthDate(null)
                 .build();
     }
-
     public static List<CandidateDto> getListCandidateDto(){
         return List.of(getCandidateDto());
+    }
+
+    public static Set<CandidateDto> getSetCandidateDto(){
+        return Set.of(getCandidateDto());
     }
 
 }
