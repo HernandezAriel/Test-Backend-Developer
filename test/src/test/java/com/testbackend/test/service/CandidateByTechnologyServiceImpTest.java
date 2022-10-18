@@ -1,6 +1,7 @@
 package com.testbackend.test.service;
 
 import com.testbackend.test.exception.CandidateByTechnologyAlreadyExistsException;
+import com.testbackend.test.model.dto.ExperienceDto;
 import com.testbackend.test.model.entity.CandidateByTechnology;
 import com.testbackend.test.repository.CandidateByTechnologyRepository;
 import com.testbackend.test.service.imp.CandidateByTechnologyServiceImp;
@@ -15,8 +16,10 @@ import java.util.List;
 import static org.mockito.Mockito.mock;
 import static com.testbackend.test.testUtil.CandidateTestUtil.getCandidate;
 import static com.testbackend.test.testUtil.TechnologyTestUtil.getTechnology;
+import static com.testbackend.test.testUtil.CandidateByTechnologyTestUtil.getListExperienceDto;
 import static com.testbackend.test.testUtil.CandidateByTechnologyTestUtil.getCandidateByTechnology;
 import static com.testbackend.test.testUtil.CandidateByTechnologyTestUtil.getListCandidateByTechnology;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -56,6 +59,15 @@ public class CandidateByTechnologyServiceImpTest {
         List<CandidateByTechnology> cxt = candidateByTechnologyServiceImp.getCandidatesByTechnologyByCandidate(getCandidate());
         Assertions.assertEquals(getListCandidateByTechnology().size(), cxt.size());
         Assertions.assertEquals(getListCandidateByTechnology().get(0), cxt.get(0));
+        verify(candidateByTechnologyRepository, times(1)).findByCandidate(getCandidate());
+    }
+
+    @Test
+    public void getExperiencesByCandidateOkTest() {
+        when(candidateByTechnologyRepository.findByCandidate(getCandidate())).thenReturn(getListCandidateByTechnology());
+        List<ExperienceDto> experiencesDto = candidateByTechnologyServiceImp.getExperiencesByCandidate(getCandidate());
+        Assertions.assertEquals(getListExperienceDto().size(), experiencesDto.size());
+        Assertions.assertEquals(getListExperienceDto().get(0), experiencesDto.get(0));
         verify(candidateByTechnologyRepository, times(1)).findByCandidate(getCandidate());
     }
 
