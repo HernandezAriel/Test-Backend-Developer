@@ -18,6 +18,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.Objects;
+import java.util.Set;
 
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
@@ -27,6 +28,7 @@ import static org.mockito.Mockito.when;
 
 import static com.testbackend.test.testUtil.CandidateTestUtil.getCandidate;
 import static com.testbackend.test.testUtil.CandidateTestUtil.getCandidateDto;
+import static com.testbackend.test.testUtil.CandidateTestUtil.getSetCandidateDto;
 import static com.testbackend.test.testUtil.TechnologyTestUtil.getTechnology;
 import static com.testbackend.test.testUtil.CandidateByTechnologyTestUtil.getListExperienceDto;
 import static com.testbackend.test.testUtil.CandidateByTechnologyTestUtil.getCandidateByTechnology;
@@ -75,6 +77,14 @@ public class CandidateControllerTest {
         Assertions.assertEquals(UrlBuilder.buildURL("candidates", getCandidate().getIdCandidate()).toString()
                 , Objects.requireNonNull(response.getHeaders().get("Location")).get(0));
         verify(candidateServiceImp, times(1)).addTechnologyToCandidate(1L, 1L, 1L);
+    }
+
+    @Test
+    public void getCandidatesByTechnologyOkTest(){
+        when(candidateServiceImp.getCandidatesByTechnology("Java")).thenReturn(getSetCandidateDto());
+        ResponseEntity<Set<CandidateDto>> response = candidateController.getCandidatesByTechnology("Java");
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertEquals(getSetCandidateDto().size(), Objects.requireNonNull(response.getBody()).size());
     }
 
     @Test
