@@ -1,7 +1,9 @@
 package com.testbackend.test.service;
 
 import com.testbackend.test.exception.CandidateAlreadyExistsException;
+import com.testbackend.test.exception.CandidateByTechnologyAlreadyExistsException;
 import com.testbackend.test.exception.CandidateNotExistsException;
+import com.testbackend.test.exception.TechnologyNotExistsException;
 import com.testbackend.test.model.dto.CandidateDto;
 import com.testbackend.test.model.entity.Candidate;
 import com.testbackend.test.repository.CandidateRepository;
@@ -25,7 +27,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import static com.testbackend.test.testUtil.CandidateTestUtil.getCandidate;
-import static com.testbackend.test.testUtil.CandidateByTechnologyTestUtil.getListExperienceDto;
+import static com.testbackend.test.testUtil.TechnologyTestUtil.getTechnology;
 
 public class CandidateServiceImpTest {
 
@@ -74,6 +76,18 @@ public class CandidateServiceImpTest {
         when(candidateRepository.findById(1L)).thenReturn(Optional.empty());
         assertThrows(CandidateNotExistsException.class, () -> candidateServiceImp.getCandidateById(1L));
         verify(candidateRepository, times(1)).findById(1L);
+    }
+
+    @Test
+    public void addTechnologyToCandidateOkTest() throws TechnologyNotExistsException, CandidateByTechnologyAlreadyExistsException, CandidateNotExistsException {
+        when(candidateRepository.findById(1L)).thenReturn(Optional.of(getCandidate()));
+        when(technologyServiceImp.getTechnologyById(1L)).thenReturn(getTechnology());
+        doNothing().when(candidateByTechnologyServiceImp).addCandidateByTechnology(getCandidate(), getTechnology(), 1L);
+        Candidate candidate = candidateServiceImp.addTechnologyToCandidate(1L, 1L, 1L);
+        assertEquals(getCandidate(), candidate);
+        verify(candidateRepository, times(1)).findById(1L);
+        verify(technologyServiceImp, times(1)).getTechnologyById(1L);
+        verify(candidateByTechnologyServiceImp, times(1)).addCandidateByTechnology(getCandidate(), getTechnology(), 1L);
     }
 
 
