@@ -19,6 +19,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.Objects;
 
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -69,13 +70,19 @@ public class CandidateControllerTest {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
         when(candidateServiceImp.addTechnologyToCandidate(1L, 1L, 1L)).thenReturn(getCandidate());
-
         ResponseEntity<ResponseMessage> response = candidateController.addTechnologyToCandidate(1L, 1L, 1L);
-
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         Assertions.assertEquals(UrlBuilder.buildURL("candidates", getCandidate().getIdCandidate()).toString()
                 , Objects.requireNonNull(response.getHeaders().get("Location")).get(0));
         verify(candidateServiceImp, times(1)).addTechnologyToCandidate(1L, 1L, 1L);
+    }
+
+    @Test
+    public void deleteCandidateOkTest() throws CandidateNotExistsException {
+        doNothing().when(candidateServiceImp).deleteCandidate(1L);
+        ResponseEntity<ResponseMessage> response = candidateController.deleteCandidate(1L);
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        verify(candidateServiceImp, times(1)).deleteCandidate(1L);
     }
 
 }
