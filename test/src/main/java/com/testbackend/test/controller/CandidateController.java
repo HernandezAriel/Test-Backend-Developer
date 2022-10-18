@@ -29,23 +29,25 @@ import java.util.Optional;
 
 import static com.testbackend.test.util.UrlBuilder.buildURL;
 import static com.testbackend.test.util.ResponseUtil.messageResponse;
+
 @RestController
 @RequestMapping("/candidates")
 public class CandidateController {
 
-    @Autowired
-    CandidateServiceImp candidateServiceImp;
+    private final CandidateServiceImp candidateServiceImp;
 
     @Autowired
-    CandidateRepository candidateRepository;
+    public CandidateController(CandidateServiceImp candidateServiceImp) {
+        this.candidateServiceImp = candidateServiceImp;
+    }
 
     @GetMapping
-    public ResponseEntity<List<CandidateDto>> getAllCandidates(){
+    public ResponseEntity<List<CandidateDto>> getAllCandidates() {
         return new ResponseEntity<>(candidateServiceImp.getAllCandidates(), HttpStatus.OK);
     }
 
     @GetMapping("/{idCandidate}")
-    public ResponseEntity<CandidateDto> getCandidateById(@PathVariable Long idCandidate) throws CandidateNotExistsException{
+    public ResponseEntity<CandidateDto> getCandidateById(@PathVariable Long idCandidate) throws CandidateNotExistsException {
         return ResponseEntity.ok(candidateServiceImp.getCandidateDtoById(idCandidate));
     }
 
@@ -58,34 +60,22 @@ public class CandidateController {
                 .body(messageResponse("Candidate has been created"));
     }
 
-    @PutMapping("/{idCandidate}")
-    public ResponseEntity<ResponseMessage> updateCandidate(@Valid @RequestBody Candidate candidate, @PathVariable Long idCandidate) throws CandidateNotExistsException {
-        Optional<Candidate> candidateOptional = candidateRepository.findById(idCandidate);
-        if (candidateOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            candidate.setIdCandidate(idCandidate);
-            candidateRepository.save(candidate);
-            return ResponseEntity.noContent().build();
-        }
+    @PutMapping("/{idCandidate}/technologies/{idTechnology}")
+    public ResponseEntity<ResponseMessage> addTechnologyToCandidate(@Valid @PathVariable Long idCandidate, @PathVariable Long idTechnology, @RequestParam Long experience) throws
+            CandidateNotExistsException, TechnologyNotExistsException, CandidateByTechnologyAlreadyExistsException {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .location(buildURL("candidates", candidateServiceImp.addTechnologyToCandidate(idCandidate, idTechnology, experience).getDocumentNumber()))
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(messageResponse("Technology added to candidate"));
     }
 
-        @PutMapping("/{idCandidate}/technologies/{idTechnology}")
-        public ResponseEntity<ResponseMessage> addTechnologyToCandidate (@Valid @PathVariable Long idCandidate, @PathVariable Long idTechnology, @RequestParam Long experience) throws
-        CandidateNotExistsException, TechnologyNotExistsException, CandidateByTechnologyAlreadyExistsException {
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .location(buildURL("candidates", candidateServiceImp.addTechnologyToCandidate(idCandidate, idTechnology, experience).getDocumentNumber()))
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(messageResponse("Technology added to candidate"));
-        }
-
-        @DeleteMapping("/{idCandidate}")
-        public ResponseEntity<ResponseMessage> deleteCandidate (@PathVariable Long idCandidate) throws
-        CandidateNotExistsException {
-            candidateServiceImp.deleteCandidate(idCandidate);
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(messageResponse("Candidate removed"));
-        }
+    @DeleteMapping("/{idCandidate}")
+    public ResponseEntity<ResponseMessage> deleteCandidate(@PathVariable Long idCandidate) throws
+            CandidateNotExistsException {
+        candidateServiceImp.deleteCandidate(idCandidate);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(messageResponse("Candidate removed"));
     }
+}
