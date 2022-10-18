@@ -5,7 +5,9 @@ import com.testbackend.test.exception.CandidateByTechnologyAlreadyExistsExceptio
 import com.testbackend.test.exception.CandidateNotExistsException;
 import com.testbackend.test.exception.TechnologyNotExistsException;
 import com.testbackend.test.model.dto.CandidateDto;
+import com.testbackend.test.model.dto.ExperienceDto;
 import com.testbackend.test.model.entity.Candidate;
+import com.testbackend.test.model.entity.CandidateByTechnology;
 import com.testbackend.test.model.entity.Technology;
 import com.testbackend.test.repository.CandidateRepository;
 import com.testbackend.test.service.CandidateService;
@@ -16,7 +18,9 @@ import org.springframework.stereotype.Service;
 import static com.testbackend.test.dtoconverter.CandidateToCandidateDto.converter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -65,6 +69,21 @@ public class CandidateServiceImp implements CandidateService {
         Technology technology = technologyServiceImp.getTechnologyById(idTechnology);
         candidateByTechnologyServiceImp.addCandidateByTechnology(candidate, technology, experience);
         return candidate;
+    }
+
+    public Set<CandidateDto> getCandidatesByTechnology(String nameTechnology){
+        Set<CandidateDto> candidatesDto = new HashSet<>();
+        List<CandidateByTechnology> candidatesForTechnologies = candidateByTechnologyServiceImp.getCandidatesByTechnologyByNameTechnology(nameTechnology);
+
+        for(CandidateByTechnology cxt : candidatesForTechnologies){
+            List<ExperienceDto> technologies = new ArrayList<>();
+            for(ExperienceDto experience : candidateByTechnologyServiceImp.getExperiencesByCandidate(cxt.getCandidate())){
+                if(experience.getName().equals(nameTechnology))
+                    technologies.add(experience);
+            }
+            candidatesDto.add(converter(cxt.getCandidate(), technologies));
+        }
+        return candidatesDto;
     }
 
     public Candidate updateCandidate(Candidate candidate) throws CandidateNotExistsException {

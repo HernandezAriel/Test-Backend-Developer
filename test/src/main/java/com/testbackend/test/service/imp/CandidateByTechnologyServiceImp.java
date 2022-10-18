@@ -63,5 +63,8 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
     public List<CandidateByTechnology> getCandidatesByTechnologyByTechnology(Technology technology) {
         return candidateByTechnologyRepository.findByTechnology(technology);
     }
+    public List<CandidateByTechnology> getCandidatesByTechnologyByNameTechnology(String nameTechnology){
+        return candidateByTechnologyRepository.findByNameTechnology(nameTechnology);
+    }
 
 }
