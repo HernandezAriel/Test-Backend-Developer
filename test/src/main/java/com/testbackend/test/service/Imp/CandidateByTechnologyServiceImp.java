@@ -1,6 +1,7 @@
 package com.testbackend.test.service.Imp;
 
 import com.testbackend.test.exception.CandidateByTechnologyAlreadyExistsException;
+import com.testbackend.test.service.CandidateByTechnologyService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import com.testbackend.test.model.dto.ExperienceDto;
@@ -19,7 +20,7 @@ import static com.testbackend.test.dtoconverter.CandidateByTechnologyToExperienc
 
 @Slf4j
 @Service
-public class CandidateByTechnologyService implements com.testbackend.test.service.CandidateByTechnologyService {
+public class CandidateByTechnologyServiceImp implements CandidateByTechnologyService {
 
     @Autowired
     CandidateByTechnologyRepository candidateByTechnologyRepository;

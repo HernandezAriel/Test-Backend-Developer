@@ -8,6 +8,7 @@ import com.testbackend.test.model.dto.CandidateDto;
 import com.testbackend.test.model.entity.Candidate;
 import com.testbackend.test.model.entity.Technology;
 import com.testbackend.test.repository.CandidateRepository;
+import com.testbackend.test.service.CandidateService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,14 +20,14 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class CandidateService implements com.testbackend.test.service.CandidateService {
+public class CandidateServiceImp implements CandidateService {
 
     @Autowired
     private CandidateRepository candidateRepository;
     @Autowired
-    private TechnologyService technologyService;
+    private TechnologyServiceImp technologyServiceImp;
     @Autowired
-    private CandidateByTechnologyService candidateByTechnologyService;
+    private CandidateByTechnologyServiceImp candidateByTechnologyServiceImp;
 
     public Candidate addCandidate(Candidate candidate) throws CandidateAlreadyExistsException {
         if((candidateRepository.findByDocumentNumber(candidate.getDocumentNumber()))!= null){
@@ -43,7 +44,7 @@ public class CandidateService implements com.testbackend.test.service.CandidateS
     public List<CandidateDto> getAllCandidates(){
         List<CandidateDto> candidatesDto = new ArrayList<>();
         for(Candidate candidate : candidateRepository.findAll()){
-            candidatesDto.add(converter(candidate, candidateByTechnologyService.getExperiencesByCandidate(candidate)));
+            candidatesDto.add(converter(candidate, candidateByTechnologyServiceImp.getExperiencesByCandidate(candidate)));
         }
         return candidatesDto;
     }
@@ -54,14 +55,14 @@ public class CandidateService implements com.testbackend.test.service.CandidateS
     public CandidateDto getCandidateDtoById(Long idCandidate) throws CandidateNotExistsException{
         Candidate candidate = getCandidateById(idCandidate);
         log.debug("Candidate to Add Technology: " + candidate);
-        return converter(candidate, candidateByTechnologyService.getExperiencesByCandidate(candidate));
+        return converter(candidate, candidateByTechnologyServiceImp.getExperiencesByCandidate(candidate));
     }
 
 
     public Candidate addTechnologyToCandidate(Long idCandidate, Long idTechnology, Long experience) throws CandidateNotExistsException, TechnologyNotExistsException, CandidateByTechnologyAlreadyExistsException {
         Candidate candidate = getCandidateById(idCandidate);
-        Technology technology = technologyService.getTechnologyById(idTechnology);
-        candidateByTechnologyService.addCandidateByTechnology(candidate, technology, experience);
+        Technology technology = technologyServiceImp.getTechnologyById(idTechnology);
+        candidateByTechnologyServiceImp.addCandidateByTechnology(candidate, technology, experience);
         return candidate;
     }
 
@@ -79,7 +80,7 @@ public class CandidateService implements com.testbackend.test.service.CandidateS
 
     public void deleteCandidate(Long idCandidate) throws CandidateNotExistsException  {
         Candidate candidate = getCandidateById(idCandidate);
-        if(!candidateByTechnologyService.getCandidatesByTechnologyByCandidate(candidate).isEmpty()){
+        if(!candidateByTechnologyServiceImp.getCandidatesByTechnologyByCandidate(candidate).isEmpty()){
             log.error("Candidate not exists");
             throw new CandidateNotExistsException("Candidate not exists");
         }

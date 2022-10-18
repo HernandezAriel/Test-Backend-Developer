@@ -5,6 +5,7 @@ import com.testbackend.test.exception.TechnologyNotExistsException;
 import com.testbackend.test.model.dto.TechnologyDto;
 import com.testbackend.test.model.entity.Technology;
 import com.testbackend.test.repository.TechnologyRepository;
+import com.testbackend.test.service.TechnologyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,12 +18,12 @@ import static java.util.Objects.isNull;
 
 @Slf4j
 @Service
-public class TechnologyService implements com.testbackend.test.service.TechnologyService {
+public class TechnologyServiceImp implements TechnologyService {
 
     @Autowired
     private TechnologyRepository technologyRepository;
     @Autowired
-    private CandidateByTechnologyService candidateByTechnologyService;
+    private CandidateByTechnologyServiceImp candidateByTechnologyServiceImp;
     @Autowired
     ModelMapper modelMapper;
 
@@ -71,7 +72,7 @@ public class TechnologyService implements com.testbackend.test.service.Technolog
         log.info("idTechnology" + idTechnology);
         Technology technology = getTechnologyById(idTechnology);
         log.debug("Technology to delete: " + technology);
-        if((candidateByTechnologyService.getCandidatesByTechnologyByTechnology(technology))==null){
+        if((candidateByTechnologyServiceImp.getCandidatesByTechnologyByTechnology(technology))==null){
             log.error("Technology not exists");
             throw new TechnologyNotExistsException("Technology " + technology.getName() + " not exists");
         }
