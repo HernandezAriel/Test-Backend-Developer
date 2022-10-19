@@ -14,6 +14,10 @@ import org.modelmapper.ModelMapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.testbackend.test.dtoconverter.TechnologyMapper.converterTechnologyToDto;
+import static com.testbackend.test.dtoconverter.TechnologyMapper.converterDtoToTechnology;
+
+
 import static java.util.Objects.isNull;
 
 @Slf4j
@@ -31,15 +35,17 @@ public class TechnologyServiceImp implements TechnologyService {
         this.modelMapper = modelMapper;
     }
 
-    public Technology addTechnology(TechnologyDto technologyDto) throws TechnologyAlreadyExistsException {
+    public TechnologyDto addTechnology(TechnologyDto technologyDto) throws TechnologyAlreadyExistsException {
         log.debug("Technology to add: " + technologyDto);
         Technology technology = technologyRepository.findByNameAndVersion(technologyDto.getName(), technologyDto.getVersion());
-        if (!isNull(technology)) {
+        if (technology != null) {
             log.error("Technology already exists");
             throw new TechnologyAlreadyExistsException("Technology " + technologyDto.getName() + " version " + technologyDto.getVersion() + " already exists");
         } else {
+            Technology technology1 = converterDtoToTechnology(technologyDto);
+            technologyRepository.save(technology1);
             log.info("Candidate has been created");
-            return technologyRepository.save(technology);
+            return converterTechnologyToDto(technology1);
         }
     }
 
