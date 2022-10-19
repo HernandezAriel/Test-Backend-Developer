@@ -4,6 +4,7 @@ import com.testbackend.test.exception.CandidateAlreadyExistsException;
 import com.testbackend.test.exception.CandidateByTechnologyAlreadyExistsException;
 import com.testbackend.test.exception.CandidateNotExistsException;
 import com.testbackend.test.exception.TechnologyNotExistsException;
+import com.testbackend.test.model.dto.CandidateDto;
 import com.testbackend.test.model.entity.Candidate;
 import com.testbackend.test.repository.CandidateRepository;
 import com.testbackend.test.service.imp.CandidateByTechnologyServiceImp;
@@ -12,10 +13,12 @@ import com.testbackend.test.service.imp.TechnologyServiceImp;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.modelmapper.ModelMapper;
 
 import java.util.List;
 import java.util.Optional;
 
+import static com.testbackend.test.testUtil.TechnologyTestUtil.getTechnologyDto;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
@@ -36,24 +39,23 @@ public class CandidateServiceImpTest {
     private TechnologyServiceImp technologyServiceImp;
     private CandidateByTechnologyServiceImp candidateByTechnologyServiceImp;
     private CandidateServiceImp candidateServiceImp;
+    private ModelMapper modelMapper;
 
     @Before
     public void start() {
         this.candidateRepository = mock(CandidateRepository.class);
         this.technologyServiceImp = mock(TechnologyServiceImp.class);
         this.candidateByTechnologyServiceImp = mock(CandidateByTechnologyServiceImp.class);
-        this.candidateServiceImp = new CandidateServiceImp(candidateRepository, technologyServiceImp, candidateByTechnologyServiceImp);
+        modelMapper = mock(ModelMapper.class);
+        this.candidateServiceImp = new CandidateServiceImp(candidateRepository, technologyServiceImp, candidateByTechnologyServiceImp, modelMapper);
     }
 
     @Test
     public void addCandidateOkTest() throws CandidateAlreadyExistsException {
-        when(candidateRepository.findByIdCandidateOrDocumentNumber(1L, "987654321")).thenReturn(null);
-        when(candidateRepository.save(getCandidate())).thenReturn(getCandidate());
-        Candidate candidate = candidateServiceImp.addCandidate(getCandidateDto());
-        assertNotNull(candidate);
-        assertEquals(getCandidateDto(), candidate);
-        verify(candidateRepository, times(1)).findByIdCandidateOrDocumentNumber(1L, "987654321");
-        verify(candidateRepository, times(1)).save(getCandidate());
+        Candidate candidate = getCandidate();
+        when(candidateRepository.save(candidate)).thenReturn(candidate);
+        CandidateDto candidateDto = candidateServiceImp.addCandidate(getCandidateDto());
+        assertEquals(candidateDto, candidateServiceImp.addCandidate(getCandidateDto()));
     }
 
     @Test
