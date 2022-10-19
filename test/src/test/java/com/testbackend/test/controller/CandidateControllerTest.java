@@ -50,7 +50,7 @@ public class CandidateControllerTest {
     public void addCandidateOkTest() throws CandidateAlreadyExistsException {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-        when(candidateServiceImp.addCandidate(getCandidateDto())).thenReturn(getCandidate());
+        when(candidateServiceImp.addCandidate(getCandidateDto())).thenReturn(getCandidateDto());
         ResponseEntity<ResponseMessage> response = candidateController.addCandidate(getCandidateDto());
         Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
         Assertions.assertEquals(UrlBuilder.buildURL("candidates", getCandidate().getIdCandidate()).toString()
