@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class TechnologyDto {
 
+    private Long id;
     private String name;
     private String version;
 }

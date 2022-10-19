@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static com.testbackend.test.dtoconverter.CandidateToCandidateDto.converter;
+import static com.testbackend.test.dtoconverter.CandidateMapper.converter;
 
 import java.util.ArrayList;
 import java.util.List;
