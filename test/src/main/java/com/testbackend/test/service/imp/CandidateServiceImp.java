@@ -1,5 +1,7 @@
 package com.testbackend.test.service.imp;
 
+import com.testbackend.test.dtoconverter.CandidateMapper;
+import com.testbackend.test.dtoconverter.TechnologyMapper;
 import com.testbackend.test.exception.CandidateAlreadyExistsException;
 import com.testbackend.test.exception.CandidateByTechnologyAlreadyExistsException;
 import com.testbackend.test.exception.CandidateNotExistsException;
@@ -12,10 +14,16 @@ import com.testbackend.test.model.entity.Technology;
 import com.testbackend.test.repository.CandidateRepository;
 import com.testbackend.test.service.CandidateService;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static com.testbackend.test.dtoconverter.CandidateToCandidateDto.converter;
+import static com.testbackend.test.dtoconverter.CandidateMapper.converterCandidateToDtoExp;
+import static com.testbackend.test.dtoconverter.CandidateMapper.converterCandidateToDto;
+import static com.testbackend.test.dtoconverter.CandidateMapper.converterDtoToCandidate;
+
+import static com.testbackend.test.dtoconverter.TechnologyMapper.converterTechnologyToDto;
+import static com.testbackend.test.dtoconverter.TechnologyMapper.converterDtoToTechnology;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -28,28 +36,32 @@ public class CandidateServiceImp implements CandidateService {
     private final CandidateRepository candidateRepository;
     private final TechnologyServiceImp technologyServiceImp;
     private final CandidateByTechnologyServiceImp candidateByTechnologyServiceImp;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public CandidateServiceImp(CandidateRepository candidateRepository, TechnologyServiceImp technologyServiceImp, CandidateByTechnologyServiceImp candidateByTechnologyServiceImp) {
+    public CandidateServiceImp(CandidateRepository candidateRepository, TechnologyServiceImp technologyServiceImp, CandidateByTechnologyServiceImp candidateByTechnologyServiceImp, ModelMapper modelMapper) {
         this.candidateRepository = candidateRepository;
         this.technologyServiceImp = technologyServiceImp;
         this.candidateByTechnologyServiceImp = candidateByTechnologyServiceImp;
+        this.modelMapper = modelMapper;
     }
 
-    public Candidate addCandidate(CandidateDto candidateDto) throws CandidateAlreadyExistsException {
+    public CandidateDto addCandidate(CandidateDto candidateDto) throws CandidateAlreadyExistsException {
         Candidate candidate = candidateRepository.findByIdCandidateOrDocumentNumber(candidateDto.getIdCandidate(), candidateDto.getDocumentNumber());
         if (candidate != null) {
             throw new CandidateAlreadyExistsException("Candidate already exists");
         } else {
+            Candidate candidate1 = converterDtoToCandidate(candidateDto);
+            candidateRepository.save(candidate1);
             log.info("Candidate has been created");
-            return candidateRepository.save(candidate);
+            return converterCandidateToDto(candidate1);
         }
     }
 
     public List<CandidateDto> getAllCandidates() {
         List<CandidateDto> candidatesDto = new ArrayList<>();
         for (Candidate candidate : candidateRepository.findAll()) {
-            candidatesDto.add(converter(candidate, candidateByTechnologyServiceImp.getExperiencesByCandidate(candidate)));
+            candidatesDto.add(converterCandidateToDtoExp(candidate, candidateByTechnologyServiceImp.getExperiencesByCandidate(candidate)));
         }
         return candidatesDto;
     }
@@ -61,7 +73,7 @@ public class CandidateServiceImp implements CandidateService {
     public CandidateDto getCandidateDtoById(Long idCandidate) throws CandidateNotExistsException {
         Candidate candidate = getCandidateById(idCandidate);
         log.debug("Candidate to Add Technology: " + candidate);
-        return converter(candidate, candidateByTechnologyServiceImp.getExperiencesByCandidate(candidate));
+        return converterCandidateToDtoExp(candidate, candidateByTechnologyServiceImp.getExperiencesByCandidate(candidate));
     }
 
 
@@ -72,17 +84,17 @@ public class CandidateServiceImp implements CandidateService {
         return candidate;
     }
 
-    public Set<CandidateDto> getCandidatesByTechnology(String nameTechnology){
+    public Set<CandidateDto> getCandidatesByTechnology(String nameTechnology) {
         Set<CandidateDto> candidatesDto = new HashSet<>();
         List<CandidateByTechnology> candidatesForTechnologies = candidateByTechnologyServiceImp.getCandidatesByTechnologyByNameTechnology(nameTechnology);
 
-        for(CandidateByTechnology cxt : candidatesForTechnologies){
+        for (CandidateByTechnology cbt : candidatesForTechnologies) {
             List<ExperienceDto> technologies = new ArrayList<>();
-            for(ExperienceDto experience : candidateByTechnologyServiceImp.getExperiencesByCandidate(cxt.getCandidate())){
-                if(experience.getName().equals(nameTechnology))
+            for (ExperienceDto experience : candidateByTechnologyServiceImp.getExperiencesByCandidate(cbt.getCandidate())) {
+                if (experience.getName().equals(nameTechnology))
                     technologies.add(experience);
             }
-            candidatesDto.add(converter(cxt.getCandidate(), technologies));
+            candidatesDto.add(converterCandidateToDtoExp(cbt.getCandidate(), technologies));
         }
         return candidatesDto;
     }

@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.testbackend.test.dtoconverter.CandidateByTechnologyToExperienceDto.converter;
+import static com.testbackend.test.dtoconverter.CandidateByTechnologyMapper.converter;
 
 @Slf4j
 @Service
@@ -37,8 +37,9 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
 
     public void addCandidateByTechnology(Candidate candidate, Technology technology, Long experience) throws CandidateByTechnologyAlreadyExistsException {
         CandidateByTechnology cbt = candidateByTechnologyRepository.findByCandidateAndTechnology(candidate, technology);
-        if (cbt != null)
-            throw new CandidateByTechnologyAlreadyExistsException("Thechnology " + technology.getName() + " already exists for this candidate");
+        if(cbt != null)
+
+            throw new CandidateByTechnologyAlreadyExistsException("Technology " + technology.getName() + " already exists for this candidate");
         else {
             log.info("Technology added to candidate");
             candidateByTechnologyRepository.save(CandidateByTechnology.builder()

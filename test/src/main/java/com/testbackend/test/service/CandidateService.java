@@ -11,7 +11,7 @@ import java.util.Set;
 
 public interface CandidateService {
 
-    Candidate addCandidate(CandidateDto candidateDto) throws CandidateAlreadyExistsException;
+    CandidateDto addCandidate(CandidateDto candidateDto) throws CandidateAlreadyExistsException;
     List<CandidateDto> getAllCandidates();
     Candidate getCandidateById(Long idCandidate) throws CandidateNotExistsException;
     CandidateDto getCandidateDtoById(Long idCandidate) throws CandidateNotExistsException;
