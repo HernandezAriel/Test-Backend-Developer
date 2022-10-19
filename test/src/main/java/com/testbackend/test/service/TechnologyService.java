@@ -16,3 +16,4 @@ public interface TechnologyService {
     Technology updateTechnology(Technology technology) throws TechnologyNotExistsException;
     void deleteTechnology(Long idTechnology) throws TechnologyNotExistsException;
 }
+
