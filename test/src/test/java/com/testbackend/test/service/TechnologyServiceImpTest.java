@@ -1,8 +1,13 @@
 package com.testbackend.test.service;
 
+import com.testbackend.test.controller.TechnologyController;
 import com.testbackend.test.exception.TechnologyAlreadyExistsException;
 import com.testbackend.test.exception.TechnologyNotExistsException;
+import com.testbackend.test.model.dto.CandidateDto;
+import com.testbackend.test.model.dto.TechnologyDto;
+import com.testbackend.test.model.entity.Candidate;
 import com.testbackend.test.model.entity.Technology;
+import com.testbackend.test.model.util.ResponseMessage;
 import com.testbackend.test.repository.TechnologyRepository;
 import com.testbackend.test.service.imp.CandidateByTechnologyServiceImp;
 import com.testbackend.test.service.imp.TechnologyServiceImp;
@@ -12,11 +17,16 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
 
+import static com.testbackend.test.testUtil.CandidateTestUtil.getCandidate;
+import static com.testbackend.test.testUtil.CandidateTestUtil.getCandidateDto;
 import static com.testbackend.test.testUtil.TechnologyTestUtil.getTechnologyDto;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 
@@ -42,12 +52,10 @@ public class TechnologyServiceImpTest {
 
     @Test
     public void addTechnologyOkTest() throws TechnologyAlreadyExistsException {
-        when(technologyRepository.findByNameAndVersion("Java", "11")).thenReturn(null);
-        when(technologyRepository.save(getTechnology())).thenReturn(getTechnology());
-        Technology technology = technologyServiceImp.addTechnology(getTechnologyDto());
-        Assertions.assertEquals(getTechnology(), technology);
-        verify(technologyRepository, times(1)).findByNameAndVersion("Java", "11");
-        verify(technologyRepository, times(1)).save(getTechnology());
+        Technology technology = getTechnology();
+        when(technologyRepository.save(technology)).thenReturn(technology);
+        TechnologyDto technologyDto = technologyServiceImp.addTechnology(getTechnologyDto());
+        assertEquals(technologyDto, technologyServiceImp.addTechnology(getTechnologyDto()));
     }
 
     @Test
@@ -76,12 +84,8 @@ public class TechnologyServiceImpTest {
     @Test
     public void deleteTechnologyOkTest() throws TechnologyNotExistsException {
         when(technologyRepository.findById(1L)).thenReturn(Optional.of(getTechnology()));
-        when(candidateByTechnologyServiceImp.getCandidatesByTechnologyByTechnology(getTechnology())).thenReturn(List.of());
-        doNothing().when(technologyRepository).deleteById(1L);
         technologyServiceImp.deleteTechnology(1L);
-        verify(technologyRepository, times(1)).findById(1L);
-        verify(candidateByTechnologyServiceImp, times(1)).getCandidatesByTechnologyByTechnology(getTechnology());
-        verify(technologyRepository, times(1)).deleteById(1L);
+        verify(technologyRepository, times(1)).delete(getTechnology());
     }
 
     @Test
