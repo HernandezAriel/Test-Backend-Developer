@@ -25,10 +25,9 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
     private final CandidateByTechnologyRepository candidateByTechnologyRepository;
 
     @Autowired
-    public CandidateByTechnologyServiceImp(CandidateByTechnologyRepository candidateByTechnologyRepository) {
+    public CandidateByTechnologyServiceImp(CandidateByTechnologyRepository candidateByTechnologyRepository){
         this.candidateByTechnologyRepository = candidateByTechnologyRepository;
     }
-
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
@@ -50,18 +49,17 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
         }
     }
 
-    public List<CandidateByTechnology> getCandidatesByTechnologyByCandidate(Candidate candidate) {
+    public List<CandidateByTechnology> getCandidatesByTechnologyByCandidate(Candidate candidate){
         return candidateByTechnologyRepository.findByCandidate(candidate);
     }
 
     public List<ExperienceDto> getExperiencesByCandidate(Candidate candidate) {
         List<ExperienceDto> experiences = new ArrayList<>();
-        for (CandidateByTechnology cbt : candidateByTechnologyRepository.findByCandidate(candidate)) {
+        for(CandidateByTechnology cbt : candidateByTechnologyRepository.findByCandidate(candidate)) {
             experiences.add(converter(cbt));
         }
         return experiences;
     }
-
     public List<CandidateByTechnology> getCandidatesByTechnologyByTechnology(Technology technology) {
         return candidateByTechnologyRepository.findByTechnology(technology);
     }
