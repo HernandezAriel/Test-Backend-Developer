@@ -39,3 +39,4 @@ public class CandidateMapper {
                 .birthDate(candidateDto.getBirthDate()).build();
     }
 }
+
