@@ -9,10 +9,11 @@ import java.util.List;
 
 public interface TechnologyService {
 
-    Technology addTechnology(Technology technology) throws TechnologyAlreadyExistsException;
+    TechnologyDto addTechnology(TechnologyDto technologyDto) throws TechnologyAlreadyExistsException;
     List<TechnologyDto> getAllTechnologies();
     Technology getTechnologyById(Long idTechnology) throws TechnologyNotExistsException;
     TechnologyDto getTechnologyDtoById(Long idTechnology) throws TechnologyNotExistsException;
     Technology updateTechnology(Technology technology) throws TechnologyNotExistsException;
     void deleteTechnology(Long idTechnology) throws TechnologyNotExistsException;
 }
+
