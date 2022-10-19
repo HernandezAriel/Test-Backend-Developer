@@ -18,7 +18,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static com.testbackend.test.dtoconverter.CandidateMapper.converter;
+import static com.testbackend.test.dtoconverter.CandidateMapper.converterCandidateToDtoExp;
+import static com.testbackend.test.dtoconverter.CandidateMapper.converterCandidateToDto;
+import static com.testbackend.test.dtoconverter.CandidateMapper.converterDtoToCandidate;
+
+import static com.testbackend.test.dtoconverter.TechnologyMapper.converterTechnologyToDto;
+import static com.testbackend.test.dtoconverter.TechnologyMapper.converterDtoToTechnology;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -117,3 +122,4 @@ public class CandidateServiceImp implements CandidateService {
 
     }
 }
+
