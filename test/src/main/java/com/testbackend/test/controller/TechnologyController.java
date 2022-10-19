@@ -3,7 +3,6 @@ package com.testbackend.test.controller;
 import com.testbackend.test.exception.TechnologyAlreadyExistsException;
 import com.testbackend.test.exception.TechnologyNotExistsException;
 import com.testbackend.test.model.dto.TechnologyDto;
-import com.testbackend.test.model.entity.Technology;
 import com.testbackend.test.model.util.ResponseMessage;
 import com.testbackend.test.service.TechnologyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +48,7 @@ public class TechnologyController {
     public ResponseEntity<ResponseMessage> addTechnology(@Valid @RequestBody TechnologyDto technologyDto) throws TechnologyAlreadyExistsException {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .location(buildURL("technologies", technologyService.addTechnology(technologyDto).getIdTechnology()))
+                .location(buildURL("technologies", technologyService.addTechnology(technologyDto).getId()))
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(messageResponse("Technology has been created"));
     }

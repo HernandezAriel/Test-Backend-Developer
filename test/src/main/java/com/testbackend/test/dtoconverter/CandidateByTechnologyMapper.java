@@ -3,7 +3,7 @@ package com.testbackend.test.dtoconverter;
 import com.testbackend.test.model.dto.ExperienceDto;
 import com.testbackend.test.model.entity.CandidateByTechnology;
 
-public class CandidateByTechnologyToExperienceDto {
+public class CandidateByTechnologyMapper {
 
     public static ExperienceDto converter(CandidateByTechnology cbt){
         return ExperienceDto.builder()
@@ -12,4 +12,5 @@ public class CandidateByTechnologyToExperienceDto {
                 .experience(cbt.getExperience())
                 .build();
     }
+
 }

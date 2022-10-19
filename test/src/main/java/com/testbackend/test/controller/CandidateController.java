@@ -5,9 +5,7 @@ import com.testbackend.test.exception.CandidateByTechnologyAlreadyExistsExceptio
 import com.testbackend.test.exception.CandidateNotExistsException;
 import com.testbackend.test.exception.TechnologyNotExistsException;
 import com.testbackend.test.model.dto.CandidateDto;
-import com.testbackend.test.model.entity.Candidate;
 import com.testbackend.test.model.util.ResponseMessage;
-import com.testbackend.test.repository.CandidateRepository;
 import com.testbackend.test.service.imp.CandidateServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import static com.testbackend.test.util.UrlBuilder.buildURL;
