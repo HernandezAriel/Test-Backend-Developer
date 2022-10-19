@@ -1,8 +1,11 @@
 package com.testbackend.test.service;
 
 import com.testbackend.test.exception.CandidateByTechnologyAlreadyExistsException;
+import com.testbackend.test.model.dto.CandidateByTechnologyDto;
 import com.testbackend.test.model.dto.ExperienceDto;
+import com.testbackend.test.model.dto.TechnologyDto;
 import com.testbackend.test.model.entity.CandidateByTechnology;
+import com.testbackend.test.model.entity.Technology;
 import com.testbackend.test.repository.CandidateByTechnologyRepository;
 import com.testbackend.test.service.imp.CandidateByTechnologyServiceImp;
 import org.junit.Assert;
@@ -13,12 +16,20 @@ import org.junit.jupiter.api.Assertions;
 
 import java.util.List;
 
+import static com.testbackend.test.testUtil.TechnologyTestUtil.getTechnologyDto;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static com.testbackend.test.testUtil.CandidateTestUtil.getCandidate;
 import static com.testbackend.test.testUtil.TechnologyTestUtil.getTechnology;
 import static com.testbackend.test.testUtil.CandidateByTechnologyTestUtil.getListExperienceDto;
 import static com.testbackend.test.testUtil.CandidateByTechnologyTestUtil.getCandidateByTechnology;
 import static com.testbackend.test.testUtil.CandidateByTechnologyTestUtil.getListCandidateByTechnology;
+import static com.testbackend.test.testUtil.CandidateByTechnologyTestUtil.getCandidateByTechnology;
+import static com.testbackend.test.testUtil.CandidateTestUtil.getCandidate;
+import static com.testbackend.test.testUtil.CandidateTestUtil.getCandidateDto;
+import static com.testbackend.test.testUtil.TechnologyTestUtil.getTechnology;
+
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -36,18 +47,7 @@ public class CandidateByTechnologyServiceImpTest {
     }
 
     @Test
-    public void addCandidateByTechnologyOkTest() throws CandidateByTechnologyAlreadyExistsException {
-        when(candidateByTechnologyRepository.findByCandidateAndTechnology(getCandidate(), getTechnology())).thenReturn(null);
-        when(candidateByTechnologyRepository.save(getCandidateByTechnology())).thenReturn(getCandidateByTechnology());
-
-        candidateByTechnologyServiceImp.addCandidateByTechnology(getCandidate(), getTechnology(), 1L);
-
-        verify(candidateByTechnologyRepository, times(1)).findByCandidateAndTechnology(getCandidate(), getTechnology());
-        verify(candidateByTechnologyRepository, times(1)).save(getCandidateByTechnology());
-    }
-
-    @Test
-    public void addCandidateForTechnologyAlreadyExistsTest() {
+    public void addCandidateByTechnologyAlreadyExistsTest() {
         when(candidateByTechnologyRepository.findByCandidateAndTechnology(getCandidate(), getTechnology())).thenReturn(getCandidateByTechnology());
         Assert.assertThrows(CandidateByTechnologyAlreadyExistsException.class, () -> candidateByTechnologyServiceImp.addCandidateByTechnology(getCandidate(), getTechnology(), 1L));
         verify(candidateByTechnologyRepository, times(1)).findByCandidateAndTechnology(getCandidate(), getTechnology());
@@ -55,7 +55,7 @@ public class CandidateByTechnologyServiceImpTest {
     }
 
     @Test
-    public void getCandidatesForTechnologyByCandidateOkTest() {
+    public void getCandidatesByTechnologyByCandidateOkTest() {
         when(candidateByTechnologyRepository.findByCandidate(getCandidate())).thenReturn(getListCandidateByTechnology());
         List<CandidateByTechnology> cxt = candidateByTechnologyServiceImp.getCandidatesByTechnologyByCandidate(getCandidate());
         Assertions.assertEquals(getListCandidateByTechnology().size(), cxt.size());
