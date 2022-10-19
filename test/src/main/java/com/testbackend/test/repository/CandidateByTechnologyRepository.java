@@ -13,12 +13,12 @@ import java.util.List;
 @Repository
 public interface CandidateByTechnologyRepository extends JpaRepository<CandidateByTechnology, Long>{
 
-    String CANDIDATES_BY_TECHNOLOGY = "SELECT cxt.id_candidate_for_technology, cxt.id_candidate, cxt.id_technology, cxt.years_experience " +
-            "FROM candidates_for_technologies AS cxt " +
+    String CANDIDATES_BY_TECHNOLOGY = "SELECT cbt.id_candidate_by_technology, cbt.id_candidate, cbt.id_technology, cbt.experience " +
+            "FROM candidates_by_technologies AS cbt " +
             "JOIN technologies AS t " +
-            "ON cxt.id_technology = t.id_technology " +
+            "ON cbt.id_technology = t.id_technology " +
             "WHERE t.name = ?1";
-    CandidateByTechnology findByCandidateAndTechnology(Candidate candidate, Technology technology);
+    CandidateByTechnology findByCandidateAndTechnology(Candidate candidateDto, Technology technologyDto);
     List<CandidateByTechnology> findByCandidate(Candidate candidate);
     List<CandidateByTechnology> findByTechnology(Technology technology);
     @Query(value = CANDIDATES_BY_TECHNOLOGY, nativeQuery = true)

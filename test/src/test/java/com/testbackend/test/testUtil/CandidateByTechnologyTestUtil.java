@@ -8,7 +8,7 @@ import static com.testbackend.test.testUtil.TechnologyTestUtil.getTechnology;
 import java.util.List;
 
 public class CandidateByTechnologyTestUtil {
-    public static CandidateByTechnology getCandidateForTechnology() {
+    public static CandidateByTechnology getCandidateByTechnology() {
         return CandidateByTechnology.builder()
                 .idCandidateByTechnology(1L)
                 .candidate(getCandidate())
@@ -17,8 +17,8 @@ public class CandidateByTechnologyTestUtil {
                 .build();
     }
 
-    public static List<CandidateByTechnology> getListCandidateForTechnology() {
-        return List.of(getCandidateForTechnology());
+    public static List<CandidateByTechnology> getListCandidateByTechnology() {
+        return List.of(getCandidateByTechnology());
     }
 
     public static ExperienceDto getExperienceDto() {

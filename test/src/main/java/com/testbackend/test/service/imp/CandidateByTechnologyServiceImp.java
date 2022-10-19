@@ -22,8 +22,12 @@ import static com.testbackend.test.dtoconverter.CandidateByTechnologyMapper.conv
 @Service
 public class CandidateByTechnologyServiceImp implements CandidateByTechnologyService {
 
+    private final CandidateByTechnologyRepository candidateByTechnologyRepository;
+
     @Autowired
-    CandidateByTechnologyRepository candidateByTechnologyRepository;
+    public CandidateByTechnologyServiceImp(CandidateByTechnologyRepository candidateByTechnologyRepository) {
+        this.candidateByTechnologyRepository = candidateByTechnologyRepository;
+    }
 
     @Bean
     public ModelMapper modelMapper() {
@@ -35,7 +39,7 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
         CandidateByTechnology cbt = candidateByTechnologyRepository.findByCandidateAndTechnology(candidate, technology);
         if(cbt != null)
 
-            throw new CandidateByTechnologyAlreadyExistsException("Thechnology " + technology.getName() + " already exists for this candidate");
+            throw new CandidateByTechnologyAlreadyExistsException("Technology " + technology.getName() + " already exists for this candidate");
         else {
             log.info("Technology added to candidate");
             candidateByTechnologyRepository.save(CandidateByTechnology.builder()
@@ -46,19 +50,23 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
         }
     }
 
-    public List<CandidateByTechnology> getCandidatesByTechnologyByCandidate(Candidate candidate){
+    public List<CandidateByTechnology> getCandidatesByTechnologyByCandidate(Candidate candidate) {
         return candidateByTechnologyRepository.findByCandidate(candidate);
     }
 
     public List<ExperienceDto> getExperiencesByCandidate(Candidate candidate) {
         List<ExperienceDto> experiences = new ArrayList<>();
-        for(CandidateByTechnology cbt : candidateByTechnologyRepository.findByCandidate(candidate)) {
+        for (CandidateByTechnology cbt : candidateByTechnologyRepository.findByCandidate(candidate)) {
             experiences.add(converter(cbt));
         }
         return experiences;
     }
+
     public List<CandidateByTechnology> getCandidatesByTechnologyByTechnology(Technology technology) {
         return candidateByTechnologyRepository.findByTechnology(technology);
+    }
+    public List<CandidateByTechnology> getCandidatesByTechnologyByNameTechnology(String nameTechnology){
+        return candidateByTechnologyRepository.findByNameTechnology(nameTechnology);
     }
 
 }
