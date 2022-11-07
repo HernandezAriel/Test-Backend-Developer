@@ -7,6 +7,7 @@ import com.testbackend.test.exception.TechnologyNotExistsException;
 import com.testbackend.test.model.dto.CandidateDto;
 import com.testbackend.test.model.util.ResponseMessage;
 import com.testbackend.test.service.imp.CandidateServiceImp;
+import io.swagger.annotations.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
