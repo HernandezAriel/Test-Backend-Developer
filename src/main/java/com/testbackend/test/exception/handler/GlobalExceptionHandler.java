@@ -3,6 +3,7 @@ package com.testbackend.test.exception.handler;
 import com.testbackend.test.exception.CandidateAlreadyExistsException;
 import com.testbackend.test.exception.CandidateByTechnologyAlreadyExistsException;
 import com.testbackend.test.exception.CandidateNotExistsException;
+import com.testbackend.test.exception.EmptyException;
 import com.testbackend.test.exception.TechnologyAlreadyExistsException;
 import com.testbackend.test.exception.TechnologyNotExistsException;
 import com.testbackend.test.model.util.ResponseMessage;
@@ -53,6 +54,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body((ResponseMessage.builder()
                         .message(technologyNotExistsException.getMessage()).build()));
+    }
+
+    public ResponseEntity<ResponseMessage> emptyExceptionsHandler(EmptyException exception){
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                .body(ResponseMessage.builder()
+                        .message(exception.getMessage()).build());
     }
 
 }
