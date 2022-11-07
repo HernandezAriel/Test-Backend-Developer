@@ -16,6 +16,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,13 +44,17 @@ public class CandidateServiceImp implements CandidateService {
         return candidateDto;
     }
 
-//    public List<CandidateDto> getAllCandidates() {
-//        List<Candidate> candidates = candidateRepository.findAll();
-//        for (Candidate candidate : candidateRepository.findAll()) {
-//            candidatesDto.add(converterCandidateToDtoExp(candidate, candidateByTechnologyServiceImp.getExperiencesByCandidate(candidate)));
-//        }
-//        return candidatesDto;
-//    }
+    public List<CandidateDto> getAllCandidates() {
+        List<Candidate> candidates = candidateRepository.findAll();
+        List<CandidateDto>candidatesDto = new ArrayList<>();
+        if(candidates.isEmpty()){
+            throw new EmptyException("List is empty");
+        }
+        for (Candidate candidate : candidates) {
+            candidatesDto.add(modelMapper.map(candidate, CandidateDto.class));
+        }
+        return candidatesDto;
+    }
 
     public Candidate getCandidateById(Long idCandidate) throws CandidateNotExistsException {
         return candidateRepository.findById(idCandidate).orElseThrow(() -> new CandidateNotExistsException("Candidate Not Exists"));
@@ -102,7 +107,6 @@ public class CandidateServiceImp implements CandidateService {
             log.info("Candidate deleted");
             candidateRepository.deleteById(idCandidate);
         }
-
     }
 }
 
