@@ -6,7 +6,7 @@ import com.testbackend.test.model.dto.TechnologyDto;
 import com.testbackend.test.model.entity.Technology;
 import com.testbackend.test.repository.TechnologyRepository;
 import com.testbackend.test.service.TechnologyService;
-import lombok.extern.slf4j.Slf4j;
+import lombok
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;

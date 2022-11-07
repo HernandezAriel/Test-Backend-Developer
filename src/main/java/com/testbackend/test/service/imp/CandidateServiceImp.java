@@ -1,7 +1,5 @@
 package com.testbackend.test.service.imp;
 
-import com.testbackend.test.dtoconverter.CandidateMapper;
-import com.testbackend.test.dtoconverter.TechnologyMapper;
 import com.testbackend.test.exception.CandidateAlreadyExistsException;
 import com.testbackend.test.exception.CandidateByTechnologyAlreadyExistsException;
 import com.testbackend.test.exception.CandidateNotExistsException;
@@ -18,17 +16,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static com.testbackend.test.dtoconverter.CandidateMapper.converterCandidateToDtoExp;
-import static com.testbackend.test.dtoconverter.CandidateMapper.converterCandidateToDto;
-import static com.testbackend.test.dtoconverter.CandidateMapper.converterDtoToCandidate;
-
-import static com.testbackend.test.dtoconverter.TechnologyMapper.converterTechnologyToDto;
-import static com.testbackend.test.dtoconverter.TechnologyMapper.converterDtoToTechnology;
-
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -47,24 +36,20 @@ public class CandidateServiceImp implements CandidateService {
     }
 
     public CandidateDto addCandidate(CandidateDto candidateDto) throws CandidateAlreadyExistsException {
-        Candidate candidate = candidateRepository.findByIdCandidateOrDocumentNumber(candidateDto.getIdCandidate(), candidateDto.getDocumentNumber());
-        if (candidate != null) {
-            throw new CandidateAlreadyExistsException("Candidate already exists");
-        } else {
-            Candidate candidate1 = converterDtoToCandidate(candidateDto);
-            candidateRepository.save(candidate1);
-            log.info("Candidate has been created");
-            return converterCandidateToDto(candidate1);
-        }
+        Candidate candidate = candidateRepository.findByIdCandidateOrDocumentNumber(candidateDto.getIdCandidate(), candidateDto.getDocumentNumber())
+                .orElseThrow(() -> new CandidateAlreadyExistsException("Candidate already exists"));
+        candidateRepository.save(candidate);
+        log.info("Candidate has been created");
+        return candidateDto;
     }
 
-    public List<CandidateDto> getAllCandidates() {
-        List<CandidateDto> candidatesDto = new ArrayList<>();
-        for (Candidate candidate : candidateRepository.findAll()) {
-            candidatesDto.add(converterCandidateToDtoExp(candidate, candidateByTechnologyServiceImp.getExperiencesByCandidate(candidate)));
-        }
-        return candidatesDto;
-    }
+//    public List<CandidateDto> getAllCandidates() {
+//        List<Candidate> candidates = candidateRepository.findAll();
+//        for (Candidate candidate : candidateRepository.findAll()) {
+//            candidatesDto.add(converterCandidateToDtoExp(candidate, candidateByTechnologyServiceImp.getExperiencesByCandidate(candidate)));
+//        }
+//        return candidatesDto;
+//    }
 
     public Candidate getCandidateById(Long idCandidate) throws CandidateNotExistsException {
         return candidateRepository.findById(idCandidate).orElseThrow(() -> new CandidateNotExistsException("Candidate Not Exists"));
@@ -73,9 +58,8 @@ public class CandidateServiceImp implements CandidateService {
     public CandidateDto getCandidateDtoById(Long idCandidate) throws CandidateNotExistsException {
         Candidate candidate = getCandidateById(idCandidate);
         log.debug("Candidate to Add Technology: " + candidate);
-        return converterCandidateToDtoExp(candidate, candidateByTechnologyServiceImp.getExperiencesByCandidate(candidate));
+        return modelMapper.map(candidate, CandidateDto.class);
     }
-
 
     public Candidate addTechnologyToCandidate(Long idCandidate, Long idTechnology, Long experience) throws CandidateNotExistsException, TechnologyNotExistsException, CandidateByTechnologyAlreadyExistsException {
         Candidate candidate = getCandidateById(idCandidate);
@@ -91,8 +75,7 @@ public class CandidateServiceImp implements CandidateService {
         for (CandidateByTechnology cbt : candidatesForTechnologies) {
             List<ExperienceDto> technologies = new ArrayList<>();
             for (ExperienceDto experience : candidateByTechnologyServiceImp.getExperiencesByCandidate(cbt.getCandidate())) {
-                if (experience.getName().equals(nameTechnology))
-                    technologies.add(experience);
+                if (experience.getName().equals(nameTechnology)) technologies.add(experience);
             }
             candidatesDto.add(converterCandidateToDtoExp(cbt.getCandidate(), technologies));
         }
