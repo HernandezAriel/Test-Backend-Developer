@@ -1,5 +1,6 @@
 package com.testbackend.test.service.imp;
 
+import com.testbackend.test.exception.EmptyException;
 import com.testbackend.test.exception.TechnologyAlreadyExistsException;
 import com.testbackend.test.exception.TechnologyNotExistsException;
 import com.testbackend.test.model.dto.TechnologyDto;
@@ -42,8 +43,12 @@ public class TechnologyServiceImp implements TechnologyService {
     }
 
     public List<TechnologyDto> getAllTechnologies() {
+        List<Technology> technologies = technologyRepository.findAll();
         List<TechnologyDto> technologiesDto = new ArrayList<>();
-        for (Technology technology : technologyRepository.findAll()) {
+        if (technologies.isEmpty()) {
+            throw new EmptyException("Techonology List is empty");
+        }
+        for (Technology technology : technologies) {
             technologiesDto.add(modelMapper.map(technology, TechnologyDto.class));
         }
         return technologiesDto;
