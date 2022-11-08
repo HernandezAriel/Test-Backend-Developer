@@ -6,6 +6,7 @@ import com.testbackend.test.exception.CandidateNotExistsException;
 import com.testbackend.test.exception.TechnologyNotExistsException;
 import com.testbackend.test.model.dto.CandidateDto;
 import com.testbackend.test.model.util.ResponseMessage;
+import com.testbackend.test.service.CandidateService;
 import com.testbackend.test.service.imp.CandidateServiceImp;
 import io.swagger.annotations.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,35 +34,32 @@ import static com.testbackend.test.util.ResponseUtil.messageResponse;
 @RequestMapping("/candidates")
 public class CandidateController {
 
-    private final CandidateServiceImp candidateServiceImp;
+    private final CandidateService candidateService;
 
     @Autowired
     public CandidateController(CandidateServiceImp candidateServiceImp) {
-        this.candidateServiceImp = candidateServiceImp;
+        this.candidateService = candidateService;
     }
 
     @GetMapping
     public ResponseEntity<List<CandidateDto>> getAllCandidates() {
-        return new ResponseEntity<>(candidateServiceImp.getAllCandidates(), HttpStatus.OK);
+        return new ResponseEntity<>(candidateService.getAllCandidates(), HttpStatus.OK);
     }
 
     @GetMapping("/{idCandidate}")
     public ResponseEntity<CandidateDto> getCandidateById(@PathVariable Long idCandidate) {
-        return ResponseEntity.ok(candidateServiceImp.getCandidateDtoById(idCandidate));
+        return ResponseEntity.ok(candidateService.getCandidateDtoById(idCandidate));
     }
 
-    @GetMapping("/technologies/{nameTechnology}")
-    public ResponseEntity<Set<CandidateDto>> getCandidatesByTechnology(@PathVariable String nameTechnology) {
-        return ResponseEntity.ok(candidateServiceImp.getCandidatesByTechnology(nameTechnology));
-    }
+//    @GetMapping("/technologies/{nameTechnology}")
+//    public ResponseEntity<Set<CandidateDto>> getCandidatesByTechnology(@PathVariable String nameTechnology) {
+//        return ResponseEntity.ok(candidateServiceImp.getCandidatesByTechnology(nameTechnology));
+//    }
 
     @PostMapping
-    public ResponseEntity<ResponseMessage> addCandidate(@Valid @RequestBody CandidateDto candidateDto) {
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .location(buildURL("candidates", candidateServiceImp.addCandidate(candidateDto).getIdCandidate()))
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(messageResponse("Candidate has been created"));
+    public ResponseEntity<String> addCandidate(@Valid @RequestBody CandidateDto candidateDto) {
+        candidateService.addCandidate(candidateDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/{idCandidate}/technologies/{idTechnology}")
