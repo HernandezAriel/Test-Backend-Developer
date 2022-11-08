@@ -1,5 +1,7 @@
 package com.testbackend.test.repository;
 
+import com.testbackend.test.model.dto.CandidateDto;
+import com.testbackend.test.model.dto.TechnologyDto;
 import com.testbackend.test.model.entity.Candidate;
 import com.testbackend.test.model.entity.CandidateByTechnology;
 import com.testbackend.test.model.entity.Technology;
@@ -18,7 +20,7 @@ public interface CandidateByTechnologyRepository extends JpaRepository<Candidate
             "JOIN technologies AS t " +
             "ON cbt.id_technology = t.id_technology " +
             "WHERE t.name = ?1";
-    CandidateByTechnology findByCandidateAndTechnology(Candidate candidateDto, Technology technologyDto);
+    CandidateByTechnology findByCandidateAndTechnology(CandidateDto candidateDto, TechnologyDto technologyDto);
     List<CandidateByTechnology> findByCandidate(Candidate candidate);
     List<CandidateByTechnology> findByTechnology(Technology technology);
     @Query(value = CANDIDATES_BY_TECHNOLOGY, nativeQuery = true)
