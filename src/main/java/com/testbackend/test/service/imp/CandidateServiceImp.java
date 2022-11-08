@@ -3,6 +3,7 @@ package com.testbackend.test.service.imp;
 import com.testbackend.test.exception.CandidateAlreadyExistsException;
 import com.testbackend.test.exception.CandidateByTechnologyAlreadyExistsException;
 import com.testbackend.test.exception.CandidateNotExistsException;
+import com.testbackend.test.exception.EmptyException;
 import com.testbackend.test.exception.TechnologyNotExistsException;
 import com.testbackend.test.model.dto.CandidateDto;
 import com.testbackend.test.model.dto.ExperienceDto;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 @Slf4j
 @Service

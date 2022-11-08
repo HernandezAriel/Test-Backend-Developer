@@ -17,7 +17,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(CandidateAlreadyExistsException.class)
-    ResponseEntity<ResponseMessage> candidateAlreadyExistsException(CandidateAlreadyExistsException candidateAlreadyExistsException){
+    ResponseEntity<ResponseMessage> candidateAlreadyExistsException(CandidateAlreadyExistsException candidateAlreadyExistsException) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body((ResponseMessage.builder()
@@ -25,7 +25,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(CandidateByTechnologyAlreadyExistsException.class)
-    ResponseEntity<ResponseMessage> candidateByTechnologyAlreadyExistsException(CandidateByTechnologyAlreadyExistsException candidateByTechnologyAlreadyExistsException){
+    ResponseEntity<ResponseMessage> candidateByTechnologyAlreadyExistsException(CandidateByTechnologyAlreadyExistsException candidateByTechnologyAlreadyExistsException) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body((ResponseMessage.builder()
@@ -33,7 +33,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(CandidateNotExistsException.class)
-    ResponseEntity<ResponseMessage> candidateNotExistsException(CandidateNotExistsException candidateNotExistsException ){
+    ResponseEntity<ResponseMessage> candidateNotExistsException(CandidateNotExistsException candidateNotExistsException) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body((ResponseMessage.builder()
@@ -41,7 +41,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(TechnologyAlreadyExistsException.class)
-    ResponseEntity<ResponseMessage> technologyAlreadyExistsException(TechnologyAlreadyExistsException technologyAlreadyExistsException ){
+    ResponseEntity<ResponseMessage> technologyAlreadyExistsException(TechnologyAlreadyExistsException technologyAlreadyExistsException) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body((ResponseMessage.builder()
@@ -49,17 +49,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(TechnologyNotExistsException.class)
-    ResponseEntity<ResponseMessage> technologyNotExistsException(TechnologyNotExistsException technologyNotExistsException ){
+    ResponseEntity<ResponseMessage> technologyNotExistsException(TechnologyNotExistsException technologyNotExistsException) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body((ResponseMessage.builder()
                         .message(technologyNotExistsException.getMessage()).build()));
     }
 
-    public ResponseEntity<ResponseMessage> emptyExceptionsHandler(EmptyException exception){
+    @ExceptionHandler(EmptyException.class)
+    public ResponseEntity<ResponseMessage> emptyExceptionHandler(EmptyException emptyException) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT)
                 .body(ResponseMessage.builder()
-                        .message(exception.getMessage()).build());
+                        .message(emptyException.getMessage()).build());
     }
 
 }
