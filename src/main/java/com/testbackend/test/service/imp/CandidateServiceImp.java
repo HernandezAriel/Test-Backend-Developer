@@ -88,15 +88,8 @@ public class CandidateServiceImp implements CandidateService {
         candidateRepository.save(modelMapper.map(candidateDto, getCandidateById(id).getClass()));
     }
 
-    public void deleteCandidate(Long idCandidate) throws CandidateNotExistsException {
-        Candidate candidate = getCandidateById(idCandidate);
-        if (!candidateByTechnologyServiceImp.getCandidatesByTechnologyByCandidate(candidate).isEmpty()) {
-            log.error("Candidate not exists");
-            throw new CandidateNotExistsException("Candidate not exists");
-        } else {
-            log.info("Candidate deleted");
-            candidateRepository.deleteById(idCandidate);
-        }
+    public void deleteCandidate(Long idCandidate) {
+        candidateRepository.deleteById(getCandidateById(idCandidate).getIdCandidate());
     }
 
     public Candidate addTechnologyToCandidate(Long idCandidate, Long idTechnology, Long experience) throws CandidateNotExistsException, TechnologyNotExistsException, CandidateByTechnologyAlreadyExistsException {
