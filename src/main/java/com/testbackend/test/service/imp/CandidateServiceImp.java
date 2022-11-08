@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Slf4j
 @Service
 public class CandidateServiceImp implements CandidateService {
@@ -37,18 +36,20 @@ public class CandidateServiceImp implements CandidateService {
         this.modelMapper = modelMapper;
     }
 
-    public CandidateDto addCandidate(CandidateDto candidateDto) throws CandidateAlreadyExistsException {
-        Candidate candidate = candidateRepository.findByIdCandidateOrDocumentNumber(candidateDto.getIdCandidate(), candidateDto.getDocumentNumber())
-                .orElseThrow(() -> new CandidateAlreadyExistsException("Candidate already exists"));
-        candidateRepository.save(candidate);
-        log.info("Candidate has been created");
-        return candidateDto;
+    public CandidateDto addCandidate(CandidateDto candidateDto) {
+        if (candidateRepository.findByIdCandidateOrDocumentNumber(candidateDto.getIdCandidate(), candidateDto.getDocumentNumber()).isPresent()) {
+            throw new CandidateAlreadyExistsException("Candidate already exists");
+        } else {
+            candidateRepository.save(modelMapper.map(candidateDto, Candidate.class));
+            log.info("Candidate has been created");
+            return candidateDto;
+        }
     }
 
     public List<CandidateDto> getAllCandidates() {
         List<Candidate> candidates = candidateRepository.findAll();
-        List<CandidateDto>candidatesDto = new ArrayList<>();
-        if(candidates.isEmpty()){
+        List<CandidateDto> candidatesDto = new ArrayList<>();
+        if (candidates.isEmpty()) {
             throw new EmptyException("List is empty");
         }
         for (Candidate candidate : candidates) {
@@ -57,57 +58,30 @@ public class CandidateServiceImp implements CandidateService {
         return candidatesDto;
     }
 
-    public Candidate getCandidateById(Long idCandidate) throws CandidateNotExistsException {
-        return candidateRepository.findById(idCandidate).orElseThrow(() -> new CandidateNotExistsException("Candidate Not Exists"));
+    public Candidate getCandidateById(Long idCandidate) {
+        return candidateRepository.findById(idCandidate)
+                .orElseThrow(() -> new CandidateNotExistsException("Candidate Not Exists"));
     }
 
-    public CandidateDto getCandidateDtoById(Long idCandidate) throws CandidateNotExistsException {
+    public CandidateDto getCandidateDtoById(Long idCandidate) {
         Candidate candidate = getCandidateById(idCandidate);
         log.debug("Candidate to Add Technology: " + candidate);
         return modelMapper.map(candidate, CandidateDto.class);
     }
 
-    public Candidate addTechnologyToCandidate(Long idCandidate, Long idTechnology, Long experience) throws CandidateNotExistsException, TechnologyNotExistsException, CandidateByTechnologyAlreadyExistsException {
+    public void updateCandidate(CandidateDto candidateDto, Long id) {
+        candidateRepository.save(modelMapper.map(candidateDto, getCandidateById(id).getClass()));
+    }
+
+    public void deleteCandidate(Long idCandidate) {
+        candidateRepository.deleteById(getCandidateById(idCandidate).getIdCandidate());
+    }
+
+    public Candidate addTechnologyToCandidate(Long idCandidate, Long idTechnology, Long experience) {
         Candidate candidate = getCandidateById(idCandidate);
         Technology technology = technologyServiceImp.getTechnologyById(idTechnology);
         candidateByTechnologyServiceImp.addCandidateByTechnology(candidate, technology, experience);
         return candidate;
-    }
-
-    public Set<CandidateDto> getCandidatesByTechnology(String nameTechnology) {
-        Set<CandidateDto> candidatesDto = new HashSet<>();
-        List<CandidateByTechnology> candidatesForTechnologies = candidateByTechnologyServiceImp.getCandidatesByTechnologyByNameTechnology(nameTechnology);
-
-        for (CandidateByTechnology cbt : candidatesForTechnologies) {
-            List<ExperienceDto> technologies = new ArrayList<>();
-            for (ExperienceDto experience : candidateByTechnologyServiceImp.getExperiencesByCandidate(cbt.getCandidate())) {
-                if (experience.getName().equals(nameTechnology)) technologies.add(experience);
-            }
-            candidatesDto.add(converterCandidateToDtoExp(cbt.getCandidate(), technologies));
-        }
-        return candidatesDto;
-    }
-
-    public Candidate updateCandidate(Candidate candidate) throws CandidateNotExistsException {
-        if (candidate.getIdCandidate() == null || getCandidateById(candidate.getIdCandidate()) == null) {
-            log.error("Candidate not exists");
-            throw new CandidateNotExistsException("Candidate not exists");
-        } else {
-            log.info("Candidate updated");
-            return candidateRepository.save(candidate);
-        }
-
-    }
-
-    public void deleteCandidate(Long idCandidate) throws CandidateNotExistsException {
-        Candidate candidate = getCandidateById(idCandidate);
-        if (!candidateByTechnologyServiceImp.getCandidatesByTechnologyByCandidate(candidate).isEmpty()) {
-            log.error("Candidate not exists");
-            throw new CandidateNotExistsException("Candidate not exists");
-        } else {
-            log.info("Candidate deleted");
-            candidateRepository.deleteById(idCandidate);
-        }
     }
 }
 
