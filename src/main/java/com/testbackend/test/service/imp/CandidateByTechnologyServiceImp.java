@@ -8,13 +8,11 @@ import com.testbackend.test.model.dto.TechnologyDto;
 import com.testbackend.test.service.CandidateByTechnologyService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import com.testbackend.test.model.dto.ExperienceDto;
 import com.testbackend.test.model.entity.Candidate;
 import com.testbackend.test.model.entity.CandidateByTechnology;
 import com.testbackend.test.model.entity.Technology;
 import com.testbackend.test.repository.CandidateByTechnologyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,16 +24,14 @@ import java.util.List;
 public class CandidateByTechnologyServiceImp implements CandidateByTechnologyService {
 
     private final CandidateByTechnologyRepository candidateByTechnologyRepository;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public CandidateByTechnologyServiceImp(CandidateByTechnologyRepository candidateByTechnologyRepository) {
+    public CandidateByTechnologyServiceImp(CandidateByTechnologyRepository candidateByTechnologyRepository, ModelMapper modelMapper) {
         this.candidateByTechnologyRepository = candidateByTechnologyRepository;
+        this.modelMapper = modelMapper;
     }
 
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
 
     public void addCandidateByTechnology(CandidateDto candidateDto, TechnologyDto technologyDto, Long experience) {
         CandidateByTechnology candidateByTechnology = candidateByTechnologyRepository.findByCandidateAndTechnology(candidateDto, technologyDto);
@@ -44,8 +40,8 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
         } else {
             log.info("Technology added to candidate");
             candidateByTechnologyRepository.save(CandidateByTechnology.builder()
-                    .candidate(modelMapper().map(candidateDto, Candidate.class))
-                    .technology(modelMapper().map(technologyDto, Technology.class))
+                    .candidate(modelMapper.map(candidateDto, Candidate.class))
+                    .technology(modelMapper.map(technologyDto, Technology.class))
                     .experience(experience)
                     .build());
         }
@@ -58,21 +54,13 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
             throw new EmptyException("List is empty");
         }
         for(CandidateByTechnology candidateByTechnology : candidatesBytechnology){
-            candidatesByTechnologyDto.add(modelMapper().map(candidateByTechnology, CandidateByTechnologyDto.class));
+            candidatesByTechnologyDto.add(modelMapper.map(candidateByTechnology, CandidateByTechnologyDto.class));
         }
         return candidatesByTechnologyDto;
     }
 
-    public List<ExperienceDto> getExperiencesByCandidate(Candidate candidate) {
-        List<ExperienceDto> experiences = new ArrayList<>();
-        for (CandidateByTechnology cbt : candidateByTechnologyRepository.findByCandidate(candidate)) {
-            experiences.add(converter(cbt));
-        }
-        return experiences;
-    }
-
-    public List<CandidateByTechnology> getCandidatesByTechnologyByTechnology(Technology technology) {
-        return candidateByTechnologyRepository.findByTechnology(technology);
+    public List<CandidateByTechnology> getCandidatesByTechnologyByTechnology(TechnologyDto technologyDto) {
+        return candidateByTechnologyRepository.findByTechnology(technologyDto);
     }
 
     public List<CandidateByTechnology> getCandidatesByTechnologyByNameTechnology(String nameTechnology) {
