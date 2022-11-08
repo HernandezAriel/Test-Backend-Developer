@@ -1,11 +1,14 @@
 package com.testbackend.test.service.imp;
 
 import com.testbackend.test.exception.CandidateByTechnologyAlreadyExistsException;
+import com.testbackend.test.exception.CandidateNotExistsException;
 import com.testbackend.test.exception.EmptyException;
 import com.testbackend.test.model.dto.CandidateByTechnologyDto;
 import com.testbackend.test.model.dto.CandidateDto;
 import com.testbackend.test.model.dto.TechnologyDto;
 import com.testbackend.test.service.CandidateByTechnologyService;
+import com.testbackend.test.service.CandidateService;
+import com.testbackend.test.service.TechnologyService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import com.testbackend.test.model.entity.Candidate;
@@ -26,8 +29,9 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
 
     private final CandidateByTechnologyRepository candidateByTechnologyRepository;
 
+
     @Autowired
-    public CandidateByTechnologyServiceImp(CandidateByTechnologyRepository candidateByTechnologyRepository) {
+    public CandidateByTechnologyServiceImp(CandidateByTechnologyRepository candidateByTechnologyRepository){
         this.candidateByTechnologyRepository = candidateByTechnologyRepository;
     }
 
@@ -36,15 +40,15 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
         return new ModelMapper();
     }
 
-    public void addTechnologyToCandidate(CandidateDto candidateDto, TechnologyDto technologyDto, Long experience) {
-        CandidateByTechnology candidateByTechnology = candidateByTechnologyRepository.findByCandidateAndTechnology(candidateDto, technologyDto);
-        if (candidateByTechnology != null) {
-            throw new CandidateByTechnologyAlreadyExistsException("Technology " + technologyDto.getName() + " already exists for this candidate");
-        } else {
+    public void addCandidateByTechnology(Candidate candidate, Technology technology, Long experience) {
+        CandidateByTechnology candidateByTechnology = candidateByTechnologyRepository.findByCandidateAndTechnology(candidate, technology);
+        if(candidateByTechnology != null)
+            throw new CandidateByTechnologyAlreadyExistsException("Thechnology " + technology.getName() + " already exists for this candidate");
+        else {
             log.info("Technology added to candidate");
             candidateByTechnologyRepository.save(CandidateByTechnology.builder()
-                    .candidate(modelMapper().map(candidateDto, Candidate.class))
-                    .technology(modelMapper().map(technologyDto, Technology.class))
+                    .candidate(candidate)
+                    .technology(technology)
                     .experience(experience)
                     .build());
         }

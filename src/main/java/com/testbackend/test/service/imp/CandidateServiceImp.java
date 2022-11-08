@@ -80,11 +80,11 @@ public class CandidateServiceImp implements CandidateService {
         candidateRepository.deleteById(getCandidateById(idCandidate).getIdCandidate());
     }
 
-    public CandidateDto addTechnologyToCandidate(Long idCandidate, Long idTechnology, Long experience) {
-        CandidateDto candidateDto = getCandidateDtoById(idCandidate);
-        TechnologyDto technologyDto = technologyService.getTechnologyDtoById(idTechnology);
-        candidateByTechnologyService.addTechnologyToCandidate(candidateDto, technologyDto, experience);
-        return candidateDto;
+    public Candidate addCandidateByTechnology(Long idCandidate, Long idTechnology, Long experience) {
+        Candidate candidate = getCandidateById(idCandidate);
+        Technology technology = technologyService.getTechnologyById(idTechnology);
+        candidateByTechnologyService.addCandidateByTechnology(candidate, technology, experience);
+        return candidate;
     }
 }
 
