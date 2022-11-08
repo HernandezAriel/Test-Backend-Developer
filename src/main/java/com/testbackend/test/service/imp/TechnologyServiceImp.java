@@ -31,7 +31,7 @@ public class TechnologyServiceImp implements TechnologyService {
         this.modelMapper = modelMapper;
     }
 
-    public TechnologyDto addTechnology(TechnologyDto technologyDto) throws TechnologyAlreadyExistsException {
+    public TechnologyDto addTechnology(TechnologyDto technologyDto) {
         log.debug("Technology to add: " + technologyDto);
         if (technologyRepository.findByNameAndVersion(technologyDto.getName(), technologyDto.getVersion()).isPresent()) {
             throw new TechnologyAlreadyExistsException("Technology already exists");
@@ -54,7 +54,7 @@ public class TechnologyServiceImp implements TechnologyService {
         return technologiesDto;
     }
 
-    public Technology getTechnologyById(Long idTechnology) throws TechnologyNotExistsException {
+    public Technology getTechnologyById(Long idTechnology) {
         return technologyRepository.findById(idTechnology)
                 .orElseThrow(() -> new TechnologyNotExistsException("Technology not exists"));
     }
@@ -64,11 +64,11 @@ public class TechnologyServiceImp implements TechnologyService {
         return modelMapper.map(technology, TechnologyDto.class);
     }
 
-    public void updateTechnology(TechnologyDto technologyDto, Long id) throws TechnologyNotExistsException {
+    public void updateTechnology(TechnologyDto technologyDto, Long id) {
         technologyRepository.save(modelMapper.map(technologyDto, getTechnologyById(id).getClass()));
     }
 
-    public void deleteTechnology(Long idTechnology) throws TechnologyNotExistsException {
+    public void deleteTechnology(Long idTechnology) {
         technologyRepository.deleteById(getTechnologyById(idTechnology).getIdTechnology());
     }
 }
