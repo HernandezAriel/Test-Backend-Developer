@@ -69,15 +69,6 @@ public class TechnologyServiceImp implements TechnologyService {
     }
 
     public void deleteTechnology(Long idTechnology) throws TechnologyNotExistsException {
-        log.info("idTechnology" + idTechnology);
-        Technology technology = getTechnologyById(idTechnology);
-        log.debug("Technology to delete: " + technology);
-        if ((candidateByTechnologyServiceImp.getCandidatesByTechnologyByTechnology(technology)) == null) {
-            log.error("Technology not exists");
-            throw new TechnologyNotExistsException("Technology " + technology.getName() + " not exists");
-        } else {
-            log.info("Candidate deleted");
-            technologyRepository.delete(technology);
-        }
+        technologyRepository.deleteById(getTechnologyById(idTechnology).getIdTechnology());
     }
 }
