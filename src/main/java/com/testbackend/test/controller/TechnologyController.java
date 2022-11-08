@@ -1,20 +1,10 @@
 package com.testbackend.test.controller;
 
-import com.testbackend.test.exception.TechnologyAlreadyExistsException;
-import com.testbackend.test.exception.TechnologyNotExistsException;
-import com.testbackend.test.model.dto.CandidateByTechnologyDto;
-import com.testbackend.test.model.dto.CandidateDto;
 import com.testbackend.test.model.dto.TechnologyDto;
-import com.testbackend.test.model.util.ResponseMessage;
-import com.testbackend.test.projection.CandidateByTechnologyProjection;
-import com.testbackend.test.service.CandidateByTechnologyService;
 import com.testbackend.test.service.TechnologyService;
-import com.testbackend.test.service.imp.CandidateByTechnologyServiceImp;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,9 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
-
-import static com.testbackend.test.util.UrlBuilder.buildURL;
-import static com.testbackend.test.util.ResponseUtil.messageResponse;
 
 @RestController
 @RequestMapping("/technologies")
@@ -72,7 +59,7 @@ public class TechnologyController {
             description = "Update technology information")
     @PutMapping
     public ResponseEntity<String> updateTechnology(TechnologyDto technologyDto, Long id) {
-        technologyService.updateTechnology(technologyDto,id);
+        technologyService.updateTechnology(technologyDto, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

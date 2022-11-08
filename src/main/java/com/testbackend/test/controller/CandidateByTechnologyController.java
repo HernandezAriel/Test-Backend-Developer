@@ -1,10 +1,8 @@
 package com.testbackend.test.controller;
 
-import com.testbackend.test.model.dto.CandidateByTechnologyDto;
 import com.testbackend.test.projection.CandidateByTechnologyProjection;
 import com.testbackend.test.service.CandidateByTechnologyService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
