@@ -2,10 +2,14 @@ package com.testbackend.test.controller;
 
 import com.testbackend.test.exception.TechnologyAlreadyExistsException;
 import com.testbackend.test.exception.TechnologyNotExistsException;
+import com.testbackend.test.model.dto.CandidateByTechnologyDto;
 import com.testbackend.test.model.dto.CandidateDto;
 import com.testbackend.test.model.dto.TechnologyDto;
 import com.testbackend.test.model.util.ResponseMessage;
+import com.testbackend.test.projection.CandidateByTechnologyProjection;
+import com.testbackend.test.service.CandidateByTechnologyService;
 import com.testbackend.test.service.TechnologyService;
+import com.testbackend.test.service.imp.CandidateByTechnologyServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -64,4 +68,5 @@ public class TechnologyController {
         technologyService.deleteTechnology(idTechnology);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }

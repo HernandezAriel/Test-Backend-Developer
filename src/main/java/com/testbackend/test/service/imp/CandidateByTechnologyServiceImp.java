@@ -8,6 +8,7 @@ import com.testbackend.test.model.dto.CandidateDto;
 import com.testbackend.test.model.dto.TechnologyDto;
 import com.testbackend.test.model.entity.Candidate;
 import com.testbackend.test.model.entity.Technology;
+import com.testbackend.test.projection.CandidateByTechnologyProjection;
 import com.testbackend.test.service.CandidateByTechnologyService;
 import com.testbackend.test.service.CandidateService;
 import com.testbackend.test.service.TechnologyService;
@@ -70,7 +71,7 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
         return candidateByTechnologyRepository.findByTechnology(technologyDto);
     }
 
-    public List<CandidateByTechnology> getCandidatesByTechnologyByNameTechnology(String nameTechnology) {
+    public List<CandidateByTechnologyProjection> getCandidatesByTechnologyByNameTechnology(String nameTechnology) {
         return candidateByTechnologyRepository.findByNameTechnology(nameTechnology);
     }
 

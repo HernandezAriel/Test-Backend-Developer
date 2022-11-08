@@ -5,7 +5,9 @@ import com.testbackend.test.exception.TechnologyAlreadyExistsException;
 import com.testbackend.test.exception.TechnologyNotExistsException;
 import com.testbackend.test.model.dto.TechnologyDto;
 import com.testbackend.test.model.entity.Technology;
+import com.testbackend.test.projection.CandidateByTechnologyProjection;
 import com.testbackend.test.repository.TechnologyRepository;
+import com.testbackend.test.service.CandidateByTechnologyService;
 import com.testbackend.test.service.TechnologyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +23,13 @@ import java.util.List;
 public class TechnologyServiceImp implements TechnologyService {
 
     private final TechnologyRepository technologyRepository;
-    private final CandidateByTechnologyServiceImp candidateByTechnologyServiceImp;
+    private final CandidateByTechnologyService candidateByTechnologyService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public TechnologyServiceImp(TechnologyRepository technologyRepository, CandidateByTechnologyServiceImp candidateByTechnologyServiceImp, ModelMapper modelMapper) {
+    public TechnologyServiceImp(TechnologyRepository technologyRepository, CandidateByTechnologyService candidateByTechnologyService, ModelMapper modelMapper) {
         this.technologyRepository = technologyRepository;
-        this.candidateByTechnologyServiceImp = candidateByTechnologyServiceImp;
+        this.candidateByTechnologyService = candidateByTechnologyService;
         this.modelMapper = modelMapper;
     }
 
@@ -70,5 +72,8 @@ public class TechnologyServiceImp implements TechnologyService {
 
     public void deleteTechnology(Long idTechnology) {
         technologyRepository.deleteById(getTechnologyById(idTechnology).getIdTechnology());
+    }
+    public List<CandidateByTechnologyProjection> findCandidatesByTechnologies(String nameTechnology) {
+        return candidateByTechnologyService.getCandidatesByTechnologyByNameTechnology(nameTechnology);
     }
 }

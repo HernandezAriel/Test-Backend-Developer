@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -23,4 +24,5 @@ public class CandidateDto {
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date birthDate;
+
 }
