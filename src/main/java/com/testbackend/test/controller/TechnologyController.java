@@ -2,6 +2,7 @@ package com.testbackend.test.controller;
 
 import com.testbackend.test.exception.TechnologyAlreadyExistsException;
 import com.testbackend.test.exception.TechnologyNotExistsException;
+import com.testbackend.test.model.dto.CandidateDto;
 import com.testbackend.test.model.dto.TechnologyDto;
 import com.testbackend.test.model.util.ResponseMessage;
 import com.testbackend.test.service.TechnologyService;
@@ -45,12 +46,9 @@ public class TechnologyController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseMessage> addTechnology(@Valid @RequestBody TechnologyDto technologyDto) {
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .location(buildURL("technologies", technologyService.addTechnology(technologyDto).getId()))
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(messageResponse("Technology has been created"));
+    public ResponseEntity<String> addTechnology(@Valid @RequestBody TechnologyDto technologyDto) {
+        technologyService.addTechnology(technologyDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{idTechnology}")
