@@ -64,14 +64,8 @@ public class TechnologyServiceImp implements TechnologyService {
         return modelMapper.map(technology, TechnologyDto.class);
     }
 
-    public Technology updateTechnology(Technology technology) throws TechnologyNotExistsException {
-        if (technologyRepository.findByName(technology.getName()) == null) {
-            log.error("Technology not exists");
-            throw new TechnologyNotExistsException("Technology " + technology.getName() + " not exists");
-        } else {
-            log.info("Candidate updated");
-            return technologyRepository.save(technology);
-        }
+    public void updateTechnology(TechnologyDto technologyDto, Long id) throws TechnologyNotExistsException {
+        technologyRepository.save(modelMapper.map(technologyDto, getTechnologyById(id).getClass()));
     }
 
     public void deleteTechnology(Long idTechnology) throws TechnologyNotExistsException {
