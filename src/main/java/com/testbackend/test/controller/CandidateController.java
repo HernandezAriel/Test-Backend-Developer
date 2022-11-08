@@ -72,10 +72,8 @@ public class CandidateController {
     }
 
     @DeleteMapping("/{idCandidate}")
-    public ResponseEntity<ResponseMessage> deleteCandidate(@PathVariable Long idCandidate) {
-        candidateServiceImp.deleteCandidate(idCandidate);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(messageResponse("Candidate removed"));
+    public ResponseEntity<String> deleteCandidate(@PathVariable Long idCandidate) {
+        candidateService.deleteCandidate(idCandidate);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
