@@ -80,11 +80,11 @@ public class CandidateServiceImp implements CandidateService {
         candidateRepository.deleteById(getCandidateById(idCandidate).getIdCandidate());
     }
 
-    public Candidate addTechnologyToCandidate(Long idCandidate, Long idTechnology, Long experience) {
-        Candidate candidate = getCandidateById(idCandidate);
-        Technology technology = technologyService.getTechnologyById(idTechnology);
-        candidateByTechnologyService.addCandidateByTechnology(modelMapper.map(candidate, CandidateDto.class), modelMapper.map(technology, TechnologyDto.class), experience);
-        return candidate;
+    public CandidateDto addTechnologyToCandidate(Long idCandidate, Long idTechnology, Long experience) {
+        CandidateDto candidateDto = getCandidateDtoById(idCandidate);
+        TechnologyDto technologyDto = technologyService.getTechnologyDtoById(idTechnology);
+        candidateByTechnologyService.addTechnologyToCandidate(candidateDto, technologyDto, experience);
+        return candidateDto;
     }
 }
 
