@@ -40,12 +40,12 @@ public class TechnologyController {
     }
 
     @GetMapping("/{idTechnology}")
-    public ResponseEntity<TechnologyDto> getTechnologyById(@PathVariable Long idTechnology) throws TechnologyNotExistsException {
+    public ResponseEntity<TechnologyDto> getTechnologyById(@PathVariable Long idTechnology) {
         return ResponseEntity.ok(technologyService.getTechnologyDtoById(idTechnology));
     }
 
     @PostMapping
-    public ResponseEntity<ResponseMessage> addTechnology(@Valid @RequestBody TechnologyDto technologyDto) throws TechnologyAlreadyExistsException {
+    public ResponseEntity<ResponseMessage> addTechnology(@Valid @RequestBody TechnologyDto technologyDto) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .location(buildURL("technologies", technologyService.addTechnology(technologyDto).getId()))
@@ -54,7 +54,7 @@ public class TechnologyController {
     }
 
     @DeleteMapping("/{idTechnology}")
-    public ResponseEntity<String> deleteTechnology(@PathVariable Long idTechnology) throws TechnologyNotExistsException {
+    public ResponseEntity<String> deleteTechnology(@PathVariable Long idTechnology) {
         technologyService.deleteTechnology(idTechnology);
         return ResponseEntity.ok().body("Technology Deleted");
     }
