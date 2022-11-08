@@ -33,6 +33,17 @@ public class CandidateTestUtil {
                 .build();
     }
 
+    public static CandidateDto getCandidateDtoUpdate() {
+        return CandidateDto.builder()
+                .idCandidate(1L)
+                .firstName("Ken")
+                .lastName("Masters")
+                .documentType(DocumentType.DNI)
+                .documentNumber("123456789")
+                .birthDate(null)
+                .build();
+    }
+
     public static List<Candidate> getListCandidates() {
         var candidates = new ArrayList<Candidate>();
         candidates.add(getCandidate());

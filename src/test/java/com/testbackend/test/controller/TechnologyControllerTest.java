@@ -42,9 +42,8 @@ public class TechnologyControllerTest {
         technologyController = new TechnologyController(technologyServiceImp);
     }
 
-
     @Test
-    public void deleteTechnologyOkTest() throws TechnologyNotExistsException{
+    public void deleteTechnologyOkTest() throws TechnologyNotExistsException {
         doNothing().when(technologyServiceImp).deleteTechnology(1L);
         ResponseEntity<String> response = technologyController.deleteTechnology(1L);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
