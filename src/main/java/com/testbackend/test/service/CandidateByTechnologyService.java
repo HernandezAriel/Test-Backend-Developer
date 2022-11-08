@@ -6,6 +6,7 @@ import com.testbackend.test.model.dto.TechnologyDto;
 import com.testbackend.test.model.entity.Candidate;
 import com.testbackend.test.model.entity.CandidateByTechnology;
 import com.testbackend.test.model.entity.Technology;
+import com.testbackend.test.projection.CandidateByTechnologyProjection;
 
 
 import java.util.List;
@@ -18,5 +19,6 @@ public interface CandidateByTechnologyService {
 
     List<CandidateByTechnology> getCandidatesByTechnologyByTechnology(TechnologyDto technologyDto);
 
-    List<CandidateByTechnology> getCandidatesByTechnologyByNameTechnology(String nameTechnology);
+    List<CandidateByTechnologyProjection> getCandidatesByTechnologyByNameTechnology(String nameTechnology);
+
 }

@@ -5,6 +5,7 @@ import com.testbackend.test.model.dto.TechnologyDto;
 import com.testbackend.test.model.entity.Candidate;
 import com.testbackend.test.model.entity.CandidateByTechnology;
 import com.testbackend.test.model.entity.Technology;
+import com.testbackend.test.projection.CandidateByTechnologyProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -24,5 +25,5 @@ public interface CandidateByTechnologyRepository extends JpaRepository<Candidate
     List<CandidateByTechnology> findByCandidate(CandidateDto candidateDto);
     List<CandidateByTechnology> findByTechnology(TechnologyDto technologyDto);
     @Query(value = CANDIDATES_BY_TECHNOLOGY, nativeQuery = true)
-    List<CandidateByTechnology> findByNameTechnology(String nameTechnology);
+    List<CandidateByTechnologyProjection> findByNameTechnology(String nameTechnology);
 }
