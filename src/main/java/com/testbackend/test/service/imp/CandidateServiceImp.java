@@ -7,6 +7,7 @@ import com.testbackend.test.exception.EmptyException;
 import com.testbackend.test.exception.TechnologyNotExistsException;
 import com.testbackend.test.model.dto.CandidateDto;
 import com.testbackend.test.model.dto.ExperienceDto;
+import com.testbackend.test.model.dto.TechnologyDto;
 import com.testbackend.test.model.entity.Candidate;
 import com.testbackend.test.model.entity.CandidateByTechnology;
 import com.testbackend.test.model.entity.Technology;
@@ -80,7 +81,7 @@ public class CandidateServiceImp implements CandidateService {
     public Candidate addTechnologyToCandidate(Long idCandidate, Long idTechnology, Long experience) {
         Candidate candidate = getCandidateById(idCandidate);
         Technology technology = technologyServiceImp.getTechnologyById(idTechnology);
-        candidateByTechnologyServiceImp.addCandidateByTechnology(candidate, technology, experience);
+        candidateByTechnologyServiceImp.addCandidateByTechnology(modelMapper.map(candidate, CandidateDto.class), modelMapper.map(technology, TechnologyDto.class), experience);
         return candidate;
     }
 }

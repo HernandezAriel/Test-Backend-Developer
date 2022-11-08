@@ -46,17 +46,17 @@ public class CandidateController {
     }
 
     @GetMapping("/{idCandidate}")
-    public ResponseEntity<CandidateDto> getCandidateById(@PathVariable Long idCandidate) throws CandidateNotExistsException {
+    public ResponseEntity<CandidateDto> getCandidateById(@PathVariable Long idCandidate) {
         return ResponseEntity.ok(candidateServiceImp.getCandidateDtoById(idCandidate));
     }
 
     @GetMapping("/technologies/{nameTechnology}")
-    public ResponseEntity<Set<CandidateDto>> getCandidatesByTechnology(@PathVariable String nameTechnology){
+    public ResponseEntity<Set<CandidateDto>> getCandidatesByTechnology(@PathVariable String nameTechnology) {
         return ResponseEntity.ok(candidateServiceImp.getCandidatesByTechnology(nameTechnology));
     }
 
     @PostMapping
-    public ResponseEntity<ResponseMessage> addCandidate(@Valid @RequestBody CandidateDto candidateDto) throws CandidateAlreadyExistsException {
+    public ResponseEntity<ResponseMessage> addCandidate(@Valid @RequestBody CandidateDto candidateDto) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .location(buildURL("candidates", candidateServiceImp.addCandidate(candidateDto).getIdCandidate()))
@@ -65,8 +65,7 @@ public class CandidateController {
     }
 
     @PutMapping("/{idCandidate}/technologies/{idTechnology}")
-    public ResponseEntity<ResponseMessage> addTechnologyToCandidate(@Valid @PathVariable Long idCandidate, @PathVariable Long idTechnology, @RequestParam Long experience) throws
-            CandidateNotExistsException, TechnologyNotExistsException, CandidateByTechnologyAlreadyExistsException {
+    public ResponseEntity<ResponseMessage> addTechnologyToCandidate(@Valid @PathVariable Long idCandidate, @PathVariable Long idTechnology, @RequestParam Long experience) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .location(buildURL("candidates", candidateServiceImp.addTechnologyToCandidate(idCandidate, idTechnology, experience).getIdCandidate()))
@@ -75,8 +74,7 @@ public class CandidateController {
     }
 
     @DeleteMapping("/{idCandidate}")
-    public ResponseEntity<ResponseMessage> deleteCandidate(@PathVariable Long idCandidate) throws
-            CandidateNotExistsException {
+    public ResponseEntity<ResponseMessage> deleteCandidate(@PathVariable Long idCandidate) {
         candidateServiceImp.deleteCandidate(idCandidate);
         return ResponseEntity
                 .status(HttpStatus.OK)
