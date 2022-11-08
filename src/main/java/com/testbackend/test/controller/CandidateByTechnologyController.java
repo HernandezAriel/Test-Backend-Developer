@@ -3,6 +3,8 @@ package com.testbackend.test.controller;
 import com.testbackend.test.model.dto.CandidateByTechnologyDto;
 import com.testbackend.test.projection.CandidateByTechnologyProjection;
 import com.testbackend.test.service.CandidateByTechnologyService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,9 @@ public class CandidateByTechnologyController {
         this.candidateByTechnologyService = candidateByTechnologyService;
     }
 
+    @Operation(
+            summary = "Find and get all Candidates by technology",
+            description = "get a list of all Candidates with a specific technology")
     @GetMapping("/{name}")
     public ResponseEntity<List<CandidateByTechnologyProjection>> findCandidatesByTechnologies(String name) {
         return new ResponseEntity<>(candidateByTechnologyService.getCandidatesByTechnologyByNameTechnology(name), HttpStatus.OK);
