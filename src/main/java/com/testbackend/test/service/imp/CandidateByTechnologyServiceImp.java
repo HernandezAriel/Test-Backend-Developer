@@ -1,6 +1,8 @@
 package com.testbackend.test.service.imp;
 
 import com.testbackend.test.exception.CandidateByTechnologyAlreadyExistsException;
+import com.testbackend.test.exception.EmptyException;
+import com.testbackend.test.model.dto.CandidateByTechnologyDto;
 import com.testbackend.test.model.dto.CandidateDto;
 import com.testbackend.test.model.dto.TechnologyDto;
 import com.testbackend.test.service.CandidateByTechnologyService;
@@ -49,8 +51,16 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
         }
     }
 
-    public List<CandidateByTechnology> getCandidatesByTechnologyByCandidate(Candidate candidate) {
-        return candidateByTechnologyRepository.findByCandidate(candidate);
+    public List<CandidateByTechnologyDto> getCandidatesByTechnologyByCandidate(CandidateDto candidateDto) {
+        List<CandidateByTechnology> candidatesBytechnology = candidateByTechnologyRepository.findByCandidate(candidateDto);
+        List<CandidateByTechnologyDto> candidatesByTechnologyDto = new ArrayList<>();
+        if(candidatesBytechnology.isEmpty()){
+            throw new EmptyException("List is empty");
+        }
+        for(CandidateByTechnology candidateByTechnology : candidatesBytechnology){
+            candidatesByTechnologyDto.add(modelMapper().map(candidateByTechnology, CandidateByTechnologyDto.class));
+        }
+        return candidatesByTechnologyDto;
     }
 
     public List<ExperienceDto> getExperiencesByCandidate(Candidate candidate) {
