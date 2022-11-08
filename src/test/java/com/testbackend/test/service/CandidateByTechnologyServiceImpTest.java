@@ -54,31 +54,14 @@ public class CandidateByTechnologyServiceImpTest {
         verify(candidateByTechnologyRepository, times(0)).save(getCandidateByTechnology());
     }
 
-    @Test
-    public void getCandidatesByTechnologyByCandidateOkTest() {
-        when(candidateByTechnologyRepository.findByCandidate(getCandidate())).thenReturn(getListCandidateByTechnology());
-        List<CandidateByTechnology> cxt = candidateByTechnologyServiceImp.getCandidatesByTechnologyByCandidate(getCandidate());
-        Assertions.assertEquals(getListCandidateByTechnology().size(), cxt.size());
-        Assertions.assertEquals(getListCandidateByTechnology().get(0), cxt.get(0));
-        verify(candidateByTechnologyRepository, times(1)).findByCandidate(getCandidate());
-    }
-
-    @Test
-    public void getExperiencesByCandidateOkTest() {
-        when(candidateByTechnologyRepository.findByCandidate(getCandidate())).thenReturn(getListCandidateByTechnology());
-        List<ExperienceDto> experiencesDto = candidateByTechnologyServiceImp.getExperiencesByCandidate(getCandidate());
-        Assertions.assertEquals(getListExperienceDto().size(), experiencesDto.size());
-        Assertions.assertEquals(getListExperienceDto().get(0), experiencesDto.get(0));
-        verify(candidateByTechnologyRepository, times(1)).findByCandidate(getCandidate());
-    }
 
     @Test
     public void getCandidatesByTechnologyByTechnologyOkTest() {
-        when(candidateByTechnologyRepository.findByTechnology(getTechnology())).thenReturn(getListCandidateByTechnology());
-        List<CandidateByTechnology> cbt = candidateByTechnologyServiceImp.getCandidatesByTechnologyByTechnology(getTechnology());
+        when(candidateByTechnologyRepository.findByTechnology(getTechnologyDto())).thenReturn(getListCandidateByTechnology());
+        List<CandidateByTechnology> cbt = candidateByTechnologyServiceImp.getCandidatesByTechnologyByTechnology(getTechnologyDto());
         Assertions.assertEquals(getListCandidateByTechnology().size(), cbt.size());
         Assertions.assertEquals(getListCandidateByTechnology().get(0), cbt.get(0));
-        verify(candidateByTechnologyRepository, times(1)).findByTechnology(getTechnology());
+        verify(candidateByTechnologyRepository, times(1)).findByTechnology(getTechnologyDto());
     }
 
     @Test

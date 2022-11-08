@@ -51,7 +51,7 @@ public class CandidateControllerTest {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
         when(candidateServiceImp.addCandidate(getCandidateDto())).thenReturn(getCandidateDto());
-        ResponseEntity<ResponseMessage> response = candidateController.addCandidate(getCandidateDto());
+        ResponseEntity<String> response = candidateController.addCandidate(getCandidateDto());
         Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
         Assertions.assertEquals(UrlBuilder.buildURL("candidates", getCandidate().getIdCandidate()).toString()
                 , Objects.requireNonNull(response.getHeaders().get("Location")).get(0));
@@ -71,26 +71,18 @@ public class CandidateControllerTest {
     public void addTechnologyToCandidateOkTest() throws TechnologyNotExistsException, CandidateByTechnologyAlreadyExistsException, CandidateNotExistsException {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-        when(candidateServiceImp.addTechnologyToCandidate(1L, 1L, 1L)).thenReturn(getCandidate());
-        ResponseEntity<ResponseMessage> response = candidateController.addTechnologyToCandidate(1L, 1L, 1L);
+        when(candidateServiceImp.addCandidateByTechnology(1L, 1L, 1L)).thenReturn(getCandidate());
+        ResponseEntity<String> response = candidateController.addCandidateByTechnology(1L, 1L, 1L);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         Assertions.assertEquals(UrlBuilder.buildURL("candidates", getCandidate().getIdCandidate()).toString()
                 , Objects.requireNonNull(response.getHeaders().get("Location")).get(0));
-        verify(candidateServiceImp, times(1)).addTechnologyToCandidate(1L, 1L, 1L);
-    }
-
-    @Test
-    public void getCandidatesByTechnologyOkTest(){
-        when(candidateServiceImp.getCandidatesByTechnology("Java")).thenReturn(getSetCandidateDto());
-        ResponseEntity<Set<CandidateDto>> response = candidateController.getCandidatesByTechnology("Java");
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assertions.assertEquals(getSetCandidateDto().size(), Objects.requireNonNull(response.getBody()).size());
+        verify(candidateServiceImp, times(1)).addCandidateByTechnology(1L, 1L, 1L);
     }
 
     @Test
     public void deleteCandidateOkTest() throws CandidateNotExistsException {
         doNothing().when(candidateServiceImp).deleteCandidate(1L);
-        ResponseEntity<ResponseMessage> response = candidateController.deleteCandidate(1L);
+        ResponseEntity<String> response = candidateController.deleteCandidate(1L);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         verify(candidateServiceImp, times(1)).deleteCandidate(1L);
     }

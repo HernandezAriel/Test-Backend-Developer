@@ -60,7 +60,7 @@ public class TechnologyServiceImpTest {
 
     @Test
     public void addTechnologyAlreadyExists() {
-        when(technologyRepository.findByNameAndVersion("Java", "11")).thenReturn(getTechnology());
+        when(technologyRepository.findByNameAndVersion("Java", "11")).thenReturn(Optional.ofNullable(getTechnology()));
         Assert.assertThrows(TechnologyAlreadyExistsException.class, () -> technologyServiceImp.addTechnology(getTechnologyDto()));
         verify(technologyRepository, times(1)).findByNameAndVersion("Java", "11");
         verify(technologyRepository, times(0)).save(getTechnology());
@@ -93,7 +93,7 @@ public class TechnologyServiceImpTest {
         when(technologyRepository.findById(1L)).thenReturn(Optional.empty());
         Assert.assertThrows(TechnologyNotExistsException.class, () -> technologyServiceImp.deleteTechnology(1L));
         verify(technologyRepository, times(1)).findById(1L);
-        verify(candidateByTechnologyServiceImp, times(0)).getCandidatesByTechnologyByTechnology(getTechnology());
+        verify(candidateByTechnologyServiceImp, times(0)).getCandidatesByTechnologyByTechnology(getTechnologyDto());
         verify(technologyRepository, times(0)).deleteById(1L);
     }
 
