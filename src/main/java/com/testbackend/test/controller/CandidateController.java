@@ -62,6 +62,12 @@ public class CandidateController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @PutMapping("/{idCandidate}")
+    public ResponseEntity<String> updateCandidate(@Valid @RequestBody CandidateDto candidateDto, @PathVariable Long idCandidate) {
+        candidateService.updateCandidate(candidateDto, idCandidate);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PutMapping("/{idCandidate}/technologies/{idTechnology}/{experience}")
     public ResponseEntity<String> addTechnologyToCandidate(@Valid @PathVariable Long idCandidate, @PathVariable Long idTechnology, @PathVariable Long experience) {
         candidateService.addTechnologyToCandidate(idCandidate, idTechnology, experience);
