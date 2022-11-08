@@ -6,7 +6,7 @@ import com.testbackend.test.model.dto.TechnologyDto;
 import com.testbackend.test.model.entity.Technology;
 import com.testbackend.test.repository.TechnologyRepository;
 import com.testbackend.test.service.TechnologyService;
-import lombok
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
@@ -14,11 +14,6 @@ import org.modelmapper.ModelMapper;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.testbackend.test.dtoconverter.TechnologyMapper.converterTechnologyToDto;
-import static com.testbackend.test.dtoconverter.TechnologyMapper.converterDtoToTechnology;
-
-
-import static java.util.Objects.isNull;
 
 @Slf4j
 @Service
@@ -37,15 +32,12 @@ public class TechnologyServiceImp implements TechnologyService {
 
     public TechnologyDto addTechnology(TechnologyDto technologyDto) throws TechnologyAlreadyExistsException {
         log.debug("Technology to add: " + technologyDto);
-        Technology technology = technologyRepository.findByNameAndVersion(technologyDto.getName(), technologyDto.getVersion());
-        if (technology != null) {
-            log.error("Technology already exists");
-            throw new TechnologyAlreadyExistsException("Technology " + technologyDto.getName() + " version " + technologyDto.getVersion() + " already exists");
+        if (technologyRepository.findByNameAndVersion(technologyDto.getName(), technologyDto.getVersion()).isPresent()) {
+            throw new TechnologyAlreadyExistsException("Technology already exists");
         } else {
-            Technology technology1 = converterDtoToTechnology(technologyDto);
-            technologyRepository.save(technology1);
+            technologyRepository.save(modelMapper.map(technologyDto, Technology.class));
             log.info("Candidate has been created");
-            return converterTechnologyToDto(technology1);
+            return technologyDto;
         }
     }
 
