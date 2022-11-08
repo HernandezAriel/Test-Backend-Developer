@@ -37,7 +37,7 @@ public class CandidateController {
     private final CandidateService candidateService;
 
     @Autowired
-    public CandidateController(CandidateServiceImp candidateServiceImp) {
+    public CandidateController(CandidateService candidateService) {
         this.candidateService = candidateService;
     }
 
@@ -62,13 +62,10 @@ public class CandidateController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping("/{idCandidate}/technologies/{idTechnology}")
-    public ResponseEntity<ResponseMessage> addTechnologyToCandidate(@Valid @PathVariable Long idCandidate, @PathVariable Long idTechnology, @RequestParam Long experience) {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .location(buildURL("candidates", candidateServiceImp.addTechnologyToCandidate(idCandidate, idTechnology, experience).getIdCandidate()))
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(messageResponse("Technology added to candidate"));
+    @PutMapping("/{idCandidate}/technologies/{idTechnology}/{experience}")
+    public ResponseEntity<String> addTechnologyToCandidate(@Valid @PathVariable Long idCandidate, @PathVariable Long idTechnology, @PathVariable Long experience) {
+        candidateService.addTechnologyToCandidate(idCandidate, idTechnology, experience);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{idCandidate}")

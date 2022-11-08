@@ -13,6 +13,7 @@ import com.testbackend.test.model.entity.CandidateByTechnology;
 import com.testbackend.test.model.entity.Technology;
 import com.testbackend.test.repository.CandidateByTechnologyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,12 +25,15 @@ import java.util.List;
 public class CandidateByTechnologyServiceImp implements CandidateByTechnologyService {
 
     private final CandidateByTechnologyRepository candidateByTechnologyRepository;
-    private final ModelMapper modelMapper;
 
     @Autowired
-    public CandidateByTechnologyServiceImp(CandidateByTechnologyRepository candidateByTechnologyRepository, ModelMapper modelMapper) {
+    public CandidateByTechnologyServiceImp(CandidateByTechnologyRepository candidateByTechnologyRepository) {
         this.candidateByTechnologyRepository = candidateByTechnologyRepository;
-        this.modelMapper = modelMapper;
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 
 
@@ -40,8 +44,8 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
         } else {
             log.info("Technology added to candidate");
             candidateByTechnologyRepository.save(CandidateByTechnology.builder()
-                    .candidate(modelMapper.map(candidateDto, Candidate.class))
-                    .technology(modelMapper.map(technologyDto, Technology.class))
+                    .candidate(modelMapper().map(candidateDto, Candidate.class))
+                    .technology(modelMapper().map(technologyDto, Technology.class))
                     .experience(experience)
                     .build());
         }
@@ -54,7 +58,7 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
             throw new EmptyException("List is empty");
         }
         for(CandidateByTechnology candidateByTechnology : candidatesBytechnology){
-            candidatesByTechnologyDto.add(modelMapper.map(candidateByTechnology, CandidateByTechnologyDto.class));
+            candidatesByTechnologyDto.add(modelMapper().map(candidateByTechnology, CandidateByTechnologyDto.class));
         }
         return candidatesByTechnologyDto;
     }
