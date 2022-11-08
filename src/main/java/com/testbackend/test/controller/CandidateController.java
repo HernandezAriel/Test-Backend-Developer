@@ -51,11 +51,6 @@ public class CandidateController {
         return ResponseEntity.ok(candidateService.getCandidateDtoById(idCandidate));
     }
 
-//    @GetMapping("/technologies/{nameTechnology}")
-//    public ResponseEntity<Set<CandidateDto>> getCandidatesByTechnology(@PathVariable String nameTechnology) {
-//        return ResponseEntity.ok(candidateServiceImp.getCandidatesByTechnology(nameTechnology));
-//    }
-
     @PostMapping
     public ResponseEntity<String> addCandidate(@Valid @RequestBody CandidateDto candidateDto) {
         candidateService.addCandidate(candidateDto);
@@ -70,7 +65,7 @@ public class CandidateController {
 
     @PutMapping("/{idCandidate}/technologies/{idTechnology}/{experience}")
     public ResponseEntity<String> addTechnologyToCandidate(@Valid @PathVariable Long idCandidate, @PathVariable Long idTechnology, @PathVariable Long experience) {
-        candidateService.addTechnologyToCandidate(idCandidate, idTechnology, experience);
+        candidateService.addCandidateByTechnology(idCandidate, idTechnology, experience);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

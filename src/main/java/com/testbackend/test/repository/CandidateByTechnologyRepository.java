@@ -20,7 +20,7 @@ public interface CandidateByTechnologyRepository extends JpaRepository<Candidate
             "JOIN technologies AS t " +
             "ON cbt.id_technology = t.id_technology " +
             "WHERE t.name = ?1";
-    CandidateByTechnology findByCandidateAndTechnology(CandidateDto candidateDto, TechnologyDto technologyDto);
+    CandidateByTechnology findByCandidateAndTechnology(Candidate candidate, Technology technology);
     List<CandidateByTechnology> findByCandidate(CandidateDto candidateDto);
     List<CandidateByTechnology> findByTechnology(TechnologyDto technologyDto);
     @Query(value = CANDIDATES_BY_TECHNOLOGY, nativeQuery = true)
