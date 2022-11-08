@@ -55,11 +55,12 @@ public class TechnologyServiceImp implements TechnologyService {
     }
 
     public Technology getTechnologyById(Long idTechnology) throws TechnologyNotExistsException {
-        return technologyRepository.findById(idTechnology).orElseThrow(() -> new TechnologyNotExistsException("Technology not exists"));
+        return technologyRepository.findById(idTechnology)
+                .orElseThrow(() -> new TechnologyNotExistsException("Technology not exists"));
     }
 
-    public TechnologyDto getTechnologyDtoById(Long idTechnology) throws TechnologyNotExistsException {
-        Technology technology = technologyRepository.findById(idTechnology).orElse(null);
+    public TechnologyDto getTechnologyDtoById(Long idTechnology) {
+        Technology technology = getTechnologyById(idTechnology);
         return modelMapper.map(technology, TechnologyDto.class);
     }
 
