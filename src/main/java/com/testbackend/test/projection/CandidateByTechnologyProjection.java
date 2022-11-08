@@ -8,16 +8,16 @@ import java.util.Date;
 public interface CandidateByTechnologyProjection {
 
     @Value("#{target.firstName}")
-    String getName();
+    String getFirstName();
 
     @Value("#{target.lastName}")
     String getLastName();
 
     @Value("#{target.documentType}")
-    DocumentType getDniType();
+    DocumentType getDocumentType();
 
     @Value("#{target.documentNumber}")
-    String getDni();
+    String getDocumentNumber();
 
     @Value("#{target.birthDate}")
     Date getBirthDate();
