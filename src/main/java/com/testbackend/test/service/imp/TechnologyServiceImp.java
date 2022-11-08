@@ -21,13 +21,11 @@ import java.util.List;
 public class TechnologyServiceImp implements TechnologyService {
 
     private final TechnologyRepository technologyRepository;
-    private final CandidateByTechnologyServiceImp candidateByTechnologyServiceImp;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public TechnologyServiceImp(TechnologyRepository technologyRepository, CandidateByTechnologyServiceImp candidateByTechnologyServiceImp, ModelMapper modelMapper) {
+    public TechnologyServiceImp(TechnologyRepository technologyRepository, ModelMapper modelMapper) {
         this.technologyRepository = technologyRepository;
-        this.candidateByTechnologyServiceImp = candidateByTechnologyServiceImp;
         this.modelMapper = modelMapper;
     }
 

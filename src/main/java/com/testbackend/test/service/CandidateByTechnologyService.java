@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface CandidateByTechnologyService {
 
-    //void addCandidateByTechnology(CandidateDto candidateDto, TechnologyDto technologyDto, Long experience);
+    void addCandidateByTechnology(Long idCandidate, Long idTechnology, Long experience);
 
     List<CandidateByTechnologyDto> getCandidatesByTechnologyByCandidate(CandidateDto candidateDto);
 

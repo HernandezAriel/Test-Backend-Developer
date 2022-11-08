@@ -47,7 +47,7 @@ public class TechnologyControllerTest {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
         when(technologyServiceImp.addTechnology(getTechnologyDto())).thenReturn(getTechnologyDto());
-        ResponseEntity<ResponseMessage> response = technologyController.addTechnology(getTechnologyDto());
+        ResponseEntity<String> response = technologyController.addTechnology(getTechnologyDto());
         Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
         Assertions.assertEquals(UrlBuilder.buildURL("technologies", getTechnologyDto().getId()).toString()
                 , Objects.requireNonNull((response).getHeaders().get("Location")).get(0));

@@ -4,6 +4,8 @@ import com.testbackend.test.exception.EmptyException;
 import com.testbackend.test.model.dto.CandidateByTechnologyDto;
 import com.testbackend.test.model.dto.CandidateDto;
 import com.testbackend.test.model.dto.TechnologyDto;
+import com.testbackend.test.model.entity.Candidate;
+import com.testbackend.test.model.entity.Technology;
 import com.testbackend.test.service.CandidateByTechnologyService;
 import com.testbackend.test.service.CandidateService;
 import com.testbackend.test.service.TechnologyService;
@@ -39,15 +41,16 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
         return new ModelMapper();
     }
 
-//    public CandidateByTechnologyDto addCandidateByTechnology(CandidateByTechnologyDto candidateByTechnologyDto) {
-//        var optionalCandidate = candidateService.getCandidateById(candidateByTechnologyDto.getCandidate().getIdCandidate());
-//        var optionalTechnology = technologyService.getTechnologyById(candidateByTechnologyDto.getTechnology().getIdTechnology());
-//        CandidateByTechnology candidateByTechnology;
-//        candidateByTechnology.setCandidate(modelMapper().map(candidateByTechnologyDto.getCandidate(), Candidate.class));
-//        candidateByTechnologyRepository.save(candidateByTechnology);
-//        log.info("Se creo el CandidateByTechnology con exito");
-//        return CandidateByTechnologyMapper.mapModelToDto(candidateByTechnology);
-//    }
+    public void addCandidateByTechnology(Long idCandidate, Long idTechnology, Long experience) {
+        Candidate candidate = candidateService.getCandidateById(idCandidate);
+        Technology technology = technologyService.getTechnologyById(idTechnology);
+        CandidateByTechnology candidateByTechnology = null;
+        candidateByTechnology.setCandidate(candidate);
+        candidateByTechnology.setTechnology(technology);
+        candidateByTechnology.setExperience(experience);
+        candidateByTechnologyRepository.save(candidateByTechnology);
+        log.info("Se creo el CandidateByTechnology con exito");
+    }
 
     public List<CandidateByTechnologyDto> getCandidatesByTechnologyByCandidate(CandidateDto candidateDto) {
         List<CandidateByTechnology> candidatesBytechnology = candidateByTechnologyRepository.findByCandidate(candidateDto);
