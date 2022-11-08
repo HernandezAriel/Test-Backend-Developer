@@ -1,12 +1,13 @@
 package com.testbackend.test.service.imp;
 
+import com.testbackend.test.exception.EmptyException;
 import com.testbackend.test.exception.TechnologyAlreadyExistsException;
 import com.testbackend.test.exception.TechnologyNotExistsException;
 import com.testbackend.test.model.dto.TechnologyDto;
 import com.testbackend.test.model.entity.Technology;
 import com.testbackend.test.repository.TechnologyRepository;
 import com.testbackend.test.service.TechnologyService;
-import lombok
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
@@ -14,11 +15,6 @@ import org.modelmapper.ModelMapper;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.testbackend.test.dtoconverter.TechnologyMapper.converterTechnologyToDto;
-import static com.testbackend.test.dtoconverter.TechnologyMapper.converterDtoToTechnology;
-
-
-import static java.util.Objects.isNull;
 
 @Slf4j
 @Service
@@ -35,57 +31,44 @@ public class TechnologyServiceImp implements TechnologyService {
         this.modelMapper = modelMapper;
     }
 
-    public TechnologyDto addTechnology(TechnologyDto technologyDto) throws TechnologyAlreadyExistsException {
+    public TechnologyDto addTechnology(TechnologyDto technologyDto) {
         log.debug("Technology to add: " + technologyDto);
-        Technology technology = technologyRepository.findByNameAndVersion(technologyDto.getName(), technologyDto.getVersion());
-        if (technology != null) {
-            log.error("Technology already exists");
-            throw new TechnologyAlreadyExistsException("Technology " + technologyDto.getName() + " version " + technologyDto.getVersion() + " already exists");
+        if (technologyRepository.findByNameAndVersion(technologyDto.getName(), technologyDto.getVersion()).isPresent()) {
+            throw new TechnologyAlreadyExistsException("Technology already exists");
         } else {
-            Technology technology1 = converterDtoToTechnology(technologyDto);
-            technologyRepository.save(technology1);
+            technologyRepository.save(modelMapper.map(technologyDto, Technology.class));
             log.info("Candidate has been created");
-            return converterTechnologyToDto(technology1);
+            return technologyDto;
         }
     }
 
     public List<TechnologyDto> getAllTechnologies() {
+        List<Technology> technologies = technologyRepository.findAll();
         List<TechnologyDto> technologiesDto = new ArrayList<>();
-        for (Technology technology : technologyRepository.findAll()) {
+        if (technologies.isEmpty()) {
+            throw new EmptyException("Techonology List is empty");
+        }
+        for (Technology technology : technologies) {
             technologiesDto.add(modelMapper.map(technology, TechnologyDto.class));
         }
         return technologiesDto;
     }
 
-    public Technology getTechnologyById(Long idTechnology) throws TechnologyNotExistsException {
-        return technologyRepository.findById(idTechnology).orElseThrow(() -> new TechnologyNotExistsException("Technology not exists"));
+    public Technology getTechnologyById(Long idTechnology) {
+        return technologyRepository.findById(idTechnology)
+                .orElseThrow(() -> new TechnologyNotExistsException("Technology not exists"));
     }
 
-    public TechnologyDto getTechnologyDtoById(Long idTechnology) throws TechnologyNotExistsException {
-        Technology technology = technologyRepository.findById(idTechnology).orElse(null);
+    public TechnologyDto getTechnologyDtoById(Long idTechnology) {
+        Technology technology = getTechnologyById(idTechnology);
         return modelMapper.map(technology, TechnologyDto.class);
     }
 
-    public Technology updateTechnology(Technology technology) throws TechnologyNotExistsException {
-        if (technologyRepository.findByName(technology.getName()) == null) {
-            log.error("Technology not exists");
-            throw new TechnologyNotExistsException("Technology " + technology.getName() + " not exists");
-        } else {
-            log.info("Candidate updated");
-            return technologyRepository.save(technology);
-        }
+    public void updateTechnology(TechnologyDto technologyDto, Long id) {
+        technologyRepository.save(modelMapper.map(technologyDto, getTechnologyById(id).getClass()));
     }
 
-    public void deleteTechnology(Long idTechnology) throws TechnologyNotExistsException {
-        log.info("idTechnology" + idTechnology);
-        Technology technology = getTechnologyById(idTechnology);
-        log.debug("Technology to delete: " + technology);
-        if ((candidateByTechnologyServiceImp.getCandidatesByTechnologyByTechnology(technology)) == null) {
-            log.error("Technology not exists");
-            throw new TechnologyNotExistsException("Technology " + technology.getName() + " not exists");
-        } else {
-            log.info("Candidate deleted");
-            technologyRepository.delete(technology);
-        }
+    public void deleteTechnology(Long idTechnology) {
+        technologyRepository.deleteById(getTechnologyById(idTechnology).getIdTechnology());
     }
 }
