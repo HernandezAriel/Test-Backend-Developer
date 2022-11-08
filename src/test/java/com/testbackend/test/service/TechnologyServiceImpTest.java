@@ -1,6 +1,7 @@
 package com.testbackend.test.service;
 
 import com.testbackend.test.controller.TechnologyController;
+import com.testbackend.test.exception.CandidateNotExistsException;
 import com.testbackend.test.exception.TechnologyAlreadyExistsException;
 import com.testbackend.test.exception.TechnologyNotExistsException;
 import com.testbackend.test.model.dto.CandidateDto;
@@ -25,7 +26,10 @@ import java.util.Optional;
 
 import static com.testbackend.test.testUtil.CandidateTestUtil.getCandidate;
 import static com.testbackend.test.testUtil.CandidateTestUtil.getCandidateDto;
+import static com.testbackend.test.testUtil.CandidateTestUtil.getListCandidates;
+import static com.testbackend.test.testUtil.TechnologyTestUtil.getListTechnology;
 import static com.testbackend.test.testUtil.TechnologyTestUtil.getTechnologyDto;
+import static com.testbackend.test.testUtil.TechnologyTestUtil.getTechnologyDtoUpdate;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
@@ -67,6 +71,15 @@ public class TechnologyServiceImpTest {
     }
 
     @Test
+    public void getAllTechnologiesTest() {
+        List<Technology> technologies = getListTechnology();
+        when(technologyRepository.findAll()).thenReturn(technologies);
+        List<TechnologyDto> candidatesDto = technologyServiceImp.getAllTechnologies();
+        verify(technologyRepository, times(1)).findAll();
+        Assertions.assertEquals(candidatesDto, technologyServiceImp.getAllTechnologies());
+    }
+
+    @Test
     public void getTechnologyByIdOkTest() throws TechnologyNotExistsException {
         when(technologyRepository.findById(1L)).thenReturn(Optional.of(getTechnology()));
         Technology technology = technologyServiceImp.getTechnologyById(1L);
@@ -83,9 +96,10 @@ public class TechnologyServiceImpTest {
 
     @Test
     public void deleteTechnologyOkTest() throws TechnologyNotExistsException {
-        when(technologyRepository.findById(1L)).thenReturn(Optional.of(getTechnology()));
-        technologyServiceImp.deleteTechnology(1L);
-        verify(technologyRepository, times(1)).delete(getTechnology());
+        Technology technology = getTechnology();
+        when(technologyRepository.findById(technology.getIdTechnology())).thenReturn(Optional.of(technology));
+        technologyServiceImp.deleteTechnology(technology.getIdTechnology());;
+        verify(technologyRepository, times(1)).delete(technology);
     }
 
     @Test

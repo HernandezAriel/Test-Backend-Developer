@@ -18,9 +18,8 @@ import org.modelmapper.ModelMapper;
 import java.util.List;
 import java.util.Optional;
 
-import static com.testbackend.test.testUtil.TechnologyTestUtil.getTechnologyDto;
+import static com.testbackend.test.testUtil.CandidateTestUtil.getListCandidates;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
@@ -67,11 +66,20 @@ public class CandidateServiceImpTest {
     }
 
     @Test
-    public void getCandidateByIdOkTest() throws CandidateNotExistsException {
+    public void getAllCandidatesTest() {
+        List<Candidate> candidates = getListCandidates();
+        when(candidateRepository.findAll()).thenReturn(candidates);
+        List<CandidateDto> candidatesDto = candidateServiceImp.getAllCandidates();
+        verify(candidateRepository, times(1)).findAll();
+        Assertions.assertEquals(candidatesDto, candidateServiceImp.getAllCandidates());
+    }
+
+    @Test
+    public void getCandidateDtoByIdOkTest() {
         when(candidateRepository.findById(1L)).thenReturn(Optional.of(getCandidate()));
-        Candidate candidate = candidateServiceImp.getCandidateById(1L);
-        assertEquals(getCandidate(), candidate);
+        CandidateDto candidateDto = candidateServiceImp.getCandidateDtoById(1L);
         verify(candidateRepository, times(1)).findById(1L);
+        assertEquals(candidateDto, candidateServiceImp.getCandidateDtoById(1L));
     }
 
     @Test
@@ -116,11 +124,9 @@ public class CandidateServiceImpTest {
     @Test
     public void deleteCandidateOkTest() throws CandidateNotExistsException {
         when(candidateRepository.findById(1L)).thenReturn(Optional.of(getCandidate()));
-        when(candidateByTechnologyServiceImp.getCandidatesByTechnologyByCandidate(getCandidateDto())).thenReturn(List.of());
         doNothing().when(candidateRepository).deleteById(1L);
         candidateServiceImp.deleteCandidate(1L);
         verify(candidateRepository, times(1)).findById(1L);
-        verify(candidateByTechnologyServiceImp, times(1)).getCandidatesByTechnologyByCandidate(getCandidateDto());
         verify(candidateRepository, times(1)).deleteById(1L);
     }
 
