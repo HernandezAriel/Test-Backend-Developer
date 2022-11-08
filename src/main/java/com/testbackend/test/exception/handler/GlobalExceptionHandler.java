@@ -57,7 +57,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(EmptyException.class)
-    public ResponseEntity<ResponseMessage> emptyExceptionHandler(EmptyException emptyException) {
+    public ResponseEntity<ResponseMessage> emptyException(EmptyException emptyException) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT)
                 .body(ResponseMessage.builder()
                         .message(emptyException.getMessage()).build());

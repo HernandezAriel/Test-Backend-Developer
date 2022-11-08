@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Slf4j
 @Service
 public class CandidateServiceImp implements CandidateService {
@@ -37,18 +36,20 @@ public class CandidateServiceImp implements CandidateService {
         this.modelMapper = modelMapper;
     }
 
-    public CandidateDto addCandidate(CandidateDto candidateDto) throws CandidateAlreadyExistsException {
-        Candidate candidate = candidateRepository.findByIdCandidateOrDocumentNumber(candidateDto.getIdCandidate(), candidateDto.getDocumentNumber())
-                .orElseThrow(() -> new CandidateAlreadyExistsException("Candidate already exists"));
-        candidateRepository.save(candidate);
-        log.info("Candidate has been created");
-        return candidateDto;
+    public CandidateDto addCandidate(CandidateDto candidateDto) {
+        if (candidateRepository.findByIdCandidateOrDocumentNumber(candidateDto.getIdCandidate(), candidateDto.getDocumentNumber()).isPresent()) {
+            throw new CandidateAlreadyExistsException("Candidate already exists");
+        } else {
+            candidateRepository.save(modelMapper.map(candidateDto, Candidate.class));
+            log.info("Candidate has been created");
+            return candidateDto;
+        }
     }
 
     public List<CandidateDto> getAllCandidates() {
         List<Candidate> candidates = candidateRepository.findAll();
-        List<CandidateDto>candidatesDto = new ArrayList<>();
-        if(candidates.isEmpty()){
+        List<CandidateDto> candidatesDto = new ArrayList<>();
+        if (candidates.isEmpty()) {
             throw new EmptyException("List is empty");
         }
         for (Candidate candidate : candidates) {
