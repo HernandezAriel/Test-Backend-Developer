@@ -36,8 +36,7 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
         return new ModelMapper();
     }
 
-
-    public void addCandidateByTechnology(CandidateDto candidateDto, TechnologyDto technologyDto, Long experience) {
+    public void addTechnologyToCandidate(CandidateDto candidateDto, TechnologyDto technologyDto, Long experience) {
         CandidateByTechnology candidateByTechnology = candidateByTechnologyRepository.findByCandidateAndTechnology(candidateDto, technologyDto);
         if (candidateByTechnology != null) {
             throw new CandidateByTechnologyAlreadyExistsException("Technology " + technologyDto.getName() + " already exists for this candidate");
@@ -54,10 +53,10 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
     public List<CandidateByTechnologyDto> getCandidatesByTechnologyByCandidate(CandidateDto candidateDto) {
         List<CandidateByTechnology> candidatesBytechnology = candidateByTechnologyRepository.findByCandidate(candidateDto);
         List<CandidateByTechnologyDto> candidatesByTechnologyDto = new ArrayList<>();
-        if(candidatesBytechnology.isEmpty()){
+        if (candidatesBytechnology.isEmpty()) {
             throw new EmptyException("List is empty");
         }
-        for(CandidateByTechnology candidateByTechnology : candidatesBytechnology){
+        for (CandidateByTechnology candidateByTechnology : candidatesBytechnology) {
             candidatesByTechnologyDto.add(modelMapper().map(candidateByTechnology, CandidateByTechnologyDto.class));
         }
         return candidatesByTechnologyDto;

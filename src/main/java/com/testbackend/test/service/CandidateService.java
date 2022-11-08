@@ -15,7 +15,7 @@ public interface CandidateService {
     List<CandidateDto> getAllCandidates();
     Candidate getCandidateById(Long idCandidate);
     CandidateDto getCandidateDtoById(Long idCandidate);
-    Candidate addTechnologyToCandidate(Long idCandidate, Long idTechnology, Long experience);
+    CandidateDto addTechnologyToCandidate(Long idCandidate, Long idTechnology, Long experience);
     void updateCandidate(CandidateDto candidateDto, Long id);
     void deleteCandidate(Long idCandidate);
 

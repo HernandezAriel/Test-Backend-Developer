@@ -12,7 +12,9 @@ import com.testbackend.test.model.entity.Candidate;
 import com.testbackend.test.model.entity.CandidateByTechnology;
 import com.testbackend.test.model.entity.Technology;
 import com.testbackend.test.repository.CandidateRepository;
+import com.testbackend.test.service.CandidateByTechnologyService;
 import com.testbackend.test.service.CandidateService;
+import com.testbackend.test.service.TechnologyService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +27,15 @@ import java.util.List;
 @Service
 public class CandidateServiceImp implements CandidateService {
     private final CandidateRepository candidateRepository;
-    private final TechnologyServiceImp technologyServiceImp;
-    private final CandidateByTechnologyServiceImp candidateByTechnologyServiceImp;
+    private final TechnologyService technologyService;
+    private final CandidateByTechnologyService candidateByTechnologyService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public CandidateServiceImp(CandidateRepository candidateRepository, TechnologyServiceImp technologyServiceImp, CandidateByTechnologyServiceImp candidateByTechnologyServiceImp, ModelMapper modelMapper) {
+    public CandidateServiceImp(CandidateRepository candidateRepository, TechnologyService technologyService, CandidateByTechnologyService candidateByTechnologyService, ModelMapper modelMapper) {
         this.candidateRepository = candidateRepository;
-        this.technologyServiceImp = technologyServiceImp;
-        this.candidateByTechnologyServiceImp = candidateByTechnologyServiceImp;
+        this.technologyService = technologyService;
+        this.candidateByTechnologyService = candidateByTechnologyService;
         this.modelMapper = modelMapper;
     }
 
@@ -78,11 +80,11 @@ public class CandidateServiceImp implements CandidateService {
         candidateRepository.deleteById(getCandidateById(idCandidate).getIdCandidate());
     }
 
-    public Candidate addTechnologyToCandidate(Long idCandidate, Long idTechnology, Long experience) {
-        Candidate candidate = getCandidateById(idCandidate);
-        Technology technology = technologyServiceImp.getTechnologyById(idTechnology);
-        candidateByTechnologyServiceImp.addCandidateByTechnology(modelMapper.map(candidate, CandidateDto.class), modelMapper.map(technology, TechnologyDto.class), experience);
-        return candidate;
+    public CandidateDto addTechnologyToCandidate(Long idCandidate, Long idTechnology, Long experience) {
+        CandidateDto candidateDto = getCandidateDtoById(idCandidate);
+        TechnologyDto technologyDto = technologyService.getTechnologyDtoById(idTechnology);
+        candidateByTechnologyService.addTechnologyToCandidate(candidateDto, technologyDto, experience);
+        return candidateDto;
     }
 }
 
