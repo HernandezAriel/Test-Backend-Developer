@@ -6,6 +6,7 @@ import com.testbackend.test.exception.CandidateNotExistsException;
 import com.testbackend.test.exception.TechnologyNotExistsException;
 import com.testbackend.test.model.dto.CandidateDto;
 import com.testbackend.test.model.util.ResponseMessage;
+import com.testbackend.test.service.CandidateService;
 import com.testbackend.test.service.imp.CandidateServiceImp;
 import io.swagger.annotations.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,53 +34,43 @@ import static com.testbackend.test.util.ResponseUtil.messageResponse;
 @RequestMapping("/candidates")
 public class CandidateController {
 
-    private final CandidateServiceImp candidateServiceImp;
+    private final CandidateService candidateService;
 
     @Autowired
-    public CandidateController(CandidateServiceImp candidateServiceImp) {
-        this.candidateServiceImp = candidateServiceImp;
+    public CandidateController(CandidateService candidateService) {
+        this.candidateService = candidateService;
     }
 
     @GetMapping
     public ResponseEntity<List<CandidateDto>> getAllCandidates() {
-        return new ResponseEntity<>(candidateServiceImp.getAllCandidates(), HttpStatus.OK);
+        return new ResponseEntity<>(candidateService.getAllCandidates(), HttpStatus.OK);
     }
 
     @GetMapping("/{idCandidate}")
-    public ResponseEntity<CandidateDto> getCandidateById(@PathVariable Long idCandidate) throws CandidateNotExistsException {
-        return ResponseEntity.ok(candidateServiceImp.getCandidateDtoById(idCandidate));
+    public ResponseEntity<CandidateDto> getCandidateById(@PathVariable Long idCandidate) {
+        return ResponseEntity.ok(candidateService.getCandidateDtoById(idCandidate));
     }
 
-    @GetMapping("/technologies/{nameTechnology}")
-    public ResponseEntity<Set<CandidateDto>> getCandidatesByTechnology(@PathVariable String nameTechnology){
-        return ResponseEntity.ok(candidateServiceImp.getCandidatesByTechnology(nameTechnology));
-    }
+//    @GetMapping("/technologies/{nameTechnology}")
+//    public ResponseEntity<Set<CandidateDto>> getCandidatesByTechnology(@PathVariable String nameTechnology) {
+//        return ResponseEntity.ok(candidateServiceImp.getCandidatesByTechnology(nameTechnology));
+//    }
 
     @PostMapping
-    public ResponseEntity<ResponseMessage> addCandidate(@Valid @RequestBody CandidateDto candidateDto) throws CandidateAlreadyExistsException {
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .location(buildURL("candidates", candidateServiceImp.addCandidate(candidateDto).getIdCandidate()))
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(messageResponse("Candidate has been created"));
+    public ResponseEntity<String> addCandidate(@Valid @RequestBody CandidateDto candidateDto) {
+        candidateService.addCandidate(candidateDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping("/{idCandidate}/technologies/{idTechnology}")
-    public ResponseEntity<ResponseMessage> addTechnologyToCandidate(@Valid @PathVariable Long idCandidate, @PathVariable Long idTechnology, @RequestParam Long experience) throws
-            CandidateNotExistsException, TechnologyNotExistsException, CandidateByTechnologyAlreadyExistsException {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .location(buildURL("candidates", candidateServiceImp.addTechnologyToCandidate(idCandidate, idTechnology, experience).getIdCandidate()))
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(messageResponse("Technology added to candidate"));
+    @PutMapping("/{idCandidate}/technologies/{idTechnology}/{experience}")
+    public ResponseEntity<String> addTechnologyToCandidate(@Valid @PathVariable Long idCandidate, @PathVariable Long idTechnology, @PathVariable Long experience) {
+        candidateService.addTechnologyToCandidate(idCandidate, idTechnology, experience);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{idCandidate}")
-    public ResponseEntity<ResponseMessage> deleteCandidate(@PathVariable Long idCandidate) throws
-            CandidateNotExistsException {
-        candidateServiceImp.deleteCandidate(idCandidate);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(messageResponse("Candidate removed"));
+    public ResponseEntity<String> deleteCandidate(@PathVariable Long idCandidate) {
+        candidateService.deleteCandidate(idCandidate);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

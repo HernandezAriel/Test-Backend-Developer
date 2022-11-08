@@ -14,7 +14,7 @@ public interface CandidateByTechnologyService {
 
     List<CandidateByTechnologyDto> getCandidatesByTechnologyByCandidate(CandidateDto candidateDto);
 
-    List<CandidateByTechnology> getCandidatesByTechnologyByTechnology(TechnologyDto technologyDto)
+    List<CandidateByTechnology> getCandidatesByTechnologyByTechnology(TechnologyDto technologyDto);
 
     List<CandidateByTechnology> getCandidatesByTechnologyByNameTechnology(String nameTechnology);
 }
