@@ -79,12 +79,5 @@ public class CandidateServiceImp implements CandidateService {
     public void deleteCandidate(Long idCandidate) {
         candidateRepository.deleteById(getCandidateById(idCandidate).getIdCandidate());
     }
-
-    public Candidate addCandidateByTechnology(Long idCandidate, Long idTechnology, Long experience) {
-        Candidate candidate = getCandidateById(idCandidate);
-        Technology technology = technologyService.getTechnologyById(idTechnology);
-        candidateByTechnologyService.addCandidateByTechnology(candidate, technology, experience);
-        return candidate;
-    }
 }
 
