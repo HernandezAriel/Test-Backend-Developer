@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
@@ -30,17 +31,18 @@ public class Candidate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull(message = "Id is required\n")
     private Long idCandidate;
 
-    @NotNull(message = "First Name is required\n")
+    @NotBlank(message = "First Name is required\n")
     private String firstName;
 
-    @NotNull(message = "Last Name is required\n")
+    @NotBlank(message = "Last Name is required\n")
     private String lastName;
 
     private DocumentType documentType;
 
-    @NotNull(message = "Document Number is required\n")
+    @NotBlank(message = "Document Number is required\n")
     @Size(min = 6, max = 9)
     private String documentNumber;
 

@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
@@ -28,14 +29,15 @@ public class CandidateByTechnology {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull(message = "Id is required\n")
     private Long idCandidateByTechnology;
 
-    @NotNull(message = "Candidate must not be null")
+    @NotBlank(message = "Candidate must not be null")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_candidate")
     private Candidate candidate;
 
-    @NotNull(message = "Technology must not be null")
+    @NotBlank(message = "Technology must not be null")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_technology")
     private Technology technology;
