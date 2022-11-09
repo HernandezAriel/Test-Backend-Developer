@@ -51,7 +51,7 @@ public class TechnologyServiceImpTest {
         technologyRepository = mock(TechnologyRepository.class);
         candidateByTechnologyServiceImp = mock(CandidateByTechnologyServiceImp.class);
         modelMapper = mock(ModelMapper.class);
-        technologyServiceImp = new TechnologyServiceImp(technologyRepository, candidateByTechnologyServiceImp, modelMapper);
+        technologyServiceImp = new TechnologyServiceImp(technologyRepository, modelMapper);
     }
 
     @Test
@@ -83,8 +83,9 @@ public class TechnologyServiceImpTest {
     public void getTechnologyByIdOkTest() throws TechnologyNotExistsException {
         when(technologyRepository.findById(1L)).thenReturn(Optional.of(getTechnology()));
         Technology technology = technologyServiceImp.getTechnologyById(1L);
-        Assertions.assertEquals(getTechnology(), technology);
         verify(technologyRepository, times(1)).findById(1L);
+        assertEquals(technology, technologyServiceImp.getTechnologyById(1L));
+
     }
 
     @Test
@@ -95,20 +96,19 @@ public class TechnologyServiceImpTest {
     }
 
     @Test
-    public void deleteTechnologyOkTest() throws TechnologyNotExistsException {
-        Technology technology = getTechnology();
-        when(technologyRepository.findById(technology.getIdTechnology())).thenReturn(Optional.of(technology));
-        technologyServiceImp.deleteTechnology(technology.getIdTechnology());;
-        verify(technologyRepository, times(1)).delete(technology);
+    public void getTechnologyDtoByIdOkTest() {
+        when(technologyRepository.findById(1L)).thenReturn(Optional.of(getTechnology()));
+        TechnologyDto technologyDto = technologyServiceImp.getTechnologyDtoById(1L);
+        verify(technologyRepository, times(1)).findById(1L);
+        assertEquals(technologyDto, technologyServiceImp.getTechnologyDtoById(1L));
     }
 
     @Test
-    public void deleteTechnologyNotExistsTest() {
-        when(technologyRepository.findById(1L)).thenReturn(Optional.empty());
-        Assert.assertThrows(TechnologyNotExistsException.class, () -> technologyServiceImp.deleteTechnology(1L));
+    public void deleteTechnologyOkTest() throws TechnologyNotExistsException {
+        when(technologyRepository.findById(1L)).thenReturn(Optional.of(getTechnology()));
+        doNothing().when(technologyRepository).deleteById(1L);
+        technologyServiceImp.deleteTechnology(1L);;
         verify(technologyRepository, times(1)).findById(1L);
-        verify(candidateByTechnologyServiceImp, times(0)).getCandidatesByTechnologyByTechnology(getTechnologyDto());
-        verify(technologyRepository, times(0)).deleteById(1L);
+        verify(technologyRepository, times(1)).deleteById(1L);
     }
-
 }

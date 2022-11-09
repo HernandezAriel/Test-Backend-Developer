@@ -4,7 +4,6 @@ import com.testbackend.test.exception.CandidateByTechnologyAlreadyExistsExceptio
 import com.testbackend.test.exception.EmptyException;
 import com.testbackend.test.model.dto.CandidateByTechnologyDto;
 import com.testbackend.test.model.dto.CandidateDto;
-import com.testbackend.test.model.dto.TechnologyDto;
 import com.testbackend.test.model.entity.Candidate;
 import com.testbackend.test.model.entity.Technology;
 import com.testbackend.test.projection.CandidateByTechnologyProjection;

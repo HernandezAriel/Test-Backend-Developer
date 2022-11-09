@@ -7,19 +7,19 @@ import java.util.Date;
 
 public interface CandidateByTechnologyProjection {
 
-    @Value("#{target.firstName}")
-    String getFirstName();
+    @Value("#{target.first_name}")
+    String getName();
 
-    @Value("#{target.lastName}")
+    @Value("#{target.last_name}")
     String getLastName();
 
-    @Value("#{target.documentType}")
-    DocumentType getDocumentType();
+    @Value("#{target.document_type}")
+    DocumentType getDniType();
 
-    @Value("#{target.documentNumber}")
-    String getDocumentNumber();
+    @Value("#{target.document_number}")
+    String getDni();
 
-    @Value("#{target.birthDate}")
+    @Value("#{target.birth_date}")
     Date getBirthDate();
 
     @Value("#{target.name}")

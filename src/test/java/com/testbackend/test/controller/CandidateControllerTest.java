@@ -25,10 +25,12 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
 import static com.testbackend.test.testUtil.CandidateTestUtil.getCandidateDtoUpdate;
+import static com.testbackend.test.testUtil.CandidateTestUtil.getListCandidateDto;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -49,8 +51,6 @@ public class CandidateControllerTest {
     private CandidateService candidateService;
     private CandidateController candidateController;
 
-    @Autowired
-    private MockMvc mockMvc;
 
     @Before
     public void setUp() {
@@ -59,15 +59,22 @@ public class CandidateControllerTest {
     }
 
     @Test
-    public void createCandidateTest() throws Exception {
+    public void addCandidateTest() throws Exception {
         CandidateDto candidateDto = getCandidateDto();
-        CandidateDto candidateCreateUpdate = getCandidateDtoUpdate();
-        when(candidateService.addCandidate(candidateCreateUpdate)).thenReturn(candidateDto);
-        String candidateGson = new Gson().toJson(candidateDto);
-        mockMvc.perform(MockMvcRequestBuilders.post("/candidates")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(candidateGson))
-                .andExpect(MockMvcResultMatchers.status().isCreated());
+        CandidateDto addCandidateDto = getCandidateDto();
+        when(candidateService.addCandidate(addCandidateDto)).thenReturn(candidateDto);
+        ResponseEntity<String> response = candidateController.addCandidate(candidateDto);
+        Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        verify(candidateService, times(1)).addCandidate(candidateDto);
+    }
+
+    @Test
+    public void getAllCandidatesTest() {
+        List<CandidateDto> candidates = getListCandidateDto();
+        when(candidateService.getAllCandidates()).thenReturn(candidates);
+        ResponseEntity<List<CandidateDto>> response = candidateController.getAllCandidates();
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        verify(candidateService, times(1)).getAllCandidates();
     }
 
     @Test
@@ -79,17 +86,6 @@ public class CandidateControllerTest {
         verify(candidateService, times(1)).getCandidateDtoById(1L);
     }
 
-    @Test
-    public void addTechnologyToCandidateOkTest() throws TechnologyNotExistsException, CandidateByTechnologyAlreadyExistsException, CandidateNotExistsException {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-        when(candidateService.addCandidateByTechnology(1L, 1L, 1L)).thenReturn(getCandidate());
-        ResponseEntity<String> response = candidateController.addCandidateByTechnology(1L, 1L, 1L);
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assertions.assertEquals(UrlBuilder.buildURL("candidates", getCandidate().getIdCandidate()).toString()
-                , Objects.requireNonNull(response.getHeaders().get("Location")).get(0));
-        verify(candidateService, times(1)).addCandidateByTechnology(1L, 1L, 1L);
-    }
 
     @Test
     public void deleteCandidateOkTest() throws CandidateNotExistsException {
