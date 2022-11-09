@@ -36,6 +36,9 @@ public class CandidateByTechnologyController {
         return new ResponseEntity<>(candidateByTechnologyService.getCandidatesByTechnologyByNameTechnology(name), HttpStatus.OK);
     }
 
+    @Operation(
+            summary = "Add Technology To Candidate",
+            description = "Add a exists technology to specific candidate")
     @PostMapping
     public ResponseEntity<String> addTechnologyToCandidate(@Valid @RequestBody CandidateByTechnologyAddDto candidateByTechnologyAddDto) {
         candidateByTechnologyService.addTechnologyToCandidate(candidateByTechnologyAddDto);
