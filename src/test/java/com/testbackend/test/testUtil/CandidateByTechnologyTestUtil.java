@@ -46,7 +46,7 @@ public class CandidateByTechnologyTestUtil {
         return List.of(getExperienceDto());
     }
 
-    public static List<CandidateByTechnologyProjection> getListCandidateByTechnologyProjection(){
+    public static List<CandidateByTechnologyProjection> getListCandidateByTechnologyProjection() {
         var list = new ArrayList<CandidateByTechnologyProjection>();
         list.add(getCandidateByTechnologyProjection());
         return list;

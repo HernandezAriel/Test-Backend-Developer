@@ -1,10 +1,8 @@
 package com.testbackend.test.controller;
 
 import com.testbackend.test.model.dto.CandidateByTechnologyAddDto;
-import com.testbackend.test.model.dto.CandidateDto;
 import com.testbackend.test.projection.CandidateByTechnologyProjection;
 import com.testbackend.test.service.CandidateByTechnologyService;
-import com.testbackend.test.service.CandidateService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -15,8 +13,6 @@ import java.util.List;
 
 import static com.testbackend.test.testUtil.CandidateByTechnologyTestUtil.getCandidateByTechnologyAddDto;
 import static com.testbackend.test.testUtil.CandidateByTechnologyTestUtil.getListCandidateByTechnologyProjection;
-import static com.testbackend.test.testUtil.CandidateTestUtil.getCandidateDto;
-import static com.testbackend.test.testUtil.CandidateTestUtil.getListCandidateDto;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;

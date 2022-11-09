@@ -25,6 +25,7 @@ public class CandidateServiceImp implements CandidateService {
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
+
     @Autowired
     public CandidateServiceImp(CandidateRepository candidateRepository) {
         this.candidateRepository = candidateRepository;

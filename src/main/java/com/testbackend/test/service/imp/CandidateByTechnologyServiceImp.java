@@ -3,7 +3,6 @@ package com.testbackend.test.service.imp;
 import com.testbackend.test.exception.CandidateNotExistsException;
 import com.testbackend.test.exception.TechnologyNotExistsException;
 import com.testbackend.test.model.dto.CandidateByTechnologyAddDto;
-import com.testbackend.test.model.dto.CandidateByTechnologyDto;
 import com.testbackend.test.model.entity.Candidate;
 import com.testbackend.test.model.entity.Technology;
 import com.testbackend.test.projection.CandidateByTechnologyProjection;
