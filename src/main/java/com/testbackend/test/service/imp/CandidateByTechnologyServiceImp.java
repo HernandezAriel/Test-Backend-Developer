@@ -3,6 +3,7 @@ package com.testbackend.test.service.imp;
 import com.testbackend.test.exception.CandidateNotExistsException;
 import com.testbackend.test.exception.TechnologyNotExistsException;
 import com.testbackend.test.model.dto.CandidateByTechnologyAddDto;
+import com.testbackend.test.model.dto.CandidateByTechnologyDto;
 import com.testbackend.test.model.entity.Candidate;
 import com.testbackend.test.model.entity.Technology;
 import com.testbackend.test.projection.CandidateByTechnologyProjection;
@@ -12,6 +13,7 @@ import com.testbackend.test.service.CandidateByTechnologyService;
 import lombok.extern.slf4j.Slf4j;
 import com.testbackend.test.model.entity.CandidateByTechnology;
 import com.testbackend.test.repository.CandidateByTechnologyRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,33 +24,38 @@ import java.util.List;
 public class CandidateByTechnologyServiceImp implements CandidateByTechnologyService {
 
     private final CandidateByTechnologyRepository candidateByTechnologyRepository;
+    private final ModelMapper modelMapper;
 
-    @Autowired
     CandidateRepository candidateRepository;
-    @Autowired
+
     TechnologyRepository technologyRepository;
 
     @Autowired
-    public CandidateByTechnologyServiceImp(CandidateByTechnologyRepository candidateByTechnologyRepository) {
+    public CandidateByTechnologyServiceImp(CandidateByTechnologyRepository candidateByTechnologyRepository, ModelMapper modelMapper, CandidateRepository candidateRepository, TechnologyRepository technologyRepository) {
         this.candidateByTechnologyRepository = candidateByTechnologyRepository;
+        this.modelMapper = modelMapper;
+        this.candidateRepository = candidateRepository;
+        this.technologyRepository = technologyRepository;
     }
 
-    public void addTechnologyToCandidate(CandidateByTechnologyAddDto candidateByTechnologyAddDto) {
+    public CandidateByTechnologyAddDto addTechnologyToCandidate(CandidateByTechnologyAddDto candidateByTechnologyAddDto) {
         Candidate candidate = getCandidateById(candidateByTechnologyAddDto);
         Technology technology = getTechnologyById(candidateByTechnologyAddDto);
-        candidateByTechnologyRepository.save(CandidateByTechnology.builder()
+        CandidateByTechnology candidateByTechnology = CandidateByTechnology.builder()
                 .candidate(candidate)
                 .technology(technology)
                 .experience(candidateByTechnologyAddDto.getExperience())
-                .build());
+                .build();
+        candidateByTechnologyRepository.save(candidateByTechnology);
         log.info("CandidateByTechnology created");
+        return modelMapper.map(candidateByTechnology, CandidateByTechnologyAddDto.class);
     }
 
     public List<CandidateByTechnologyProjection> getCandidatesByTechnologyByNameTechnology(String nameTechnology) {
         return candidateByTechnologyRepository.findByNameTechnology(nameTechnology);
     }
 
-    private Candidate getCandidateById(CandidateByTechnologyAddDto candidateByTechnologyAddDto) {
+    public Candidate getCandidateById(CandidateByTechnologyAddDto candidateByTechnologyAddDto) {
         return candidateRepository.findById(candidateByTechnologyAddDto.getCandidateId())
                 .orElseThrow(() -> {
                     log.error("Candidate Not Exists");
@@ -56,7 +63,7 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
                 });
     }
 
-    private Technology getTechnologyById(CandidateByTechnologyAddDto candidateByTechnologyAddDto) {
+    public Technology getTechnologyById(CandidateByTechnologyAddDto candidateByTechnologyAddDto) {
         return technologyRepository.findById(candidateByTechnologyAddDto.getTechnologyId())
                 .orElseThrow(() -> {
                     log.error("Technology not exists");

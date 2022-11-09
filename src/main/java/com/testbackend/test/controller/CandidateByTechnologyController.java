@@ -37,7 +37,7 @@ public class CandidateByTechnologyController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createCandidateByTechnology(@Valid @RequestBody CandidateByTechnologyAddDto candidateByTechnologyAddDto) {
+    public ResponseEntity<String> addTechnologyToCandidate(@Valid @RequestBody CandidateByTechnologyAddDto candidateByTechnologyAddDto) {
         candidateByTechnologyService.addTechnologyToCandidate(candidateByTechnologyAddDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
