@@ -70,5 +70,6 @@ public class TechnologyServiceImp implements TechnologyService {
 
     public void deleteTechnology(Long idTechnology) {
         technologyRepository.deleteById(getTechnologyById(idTechnology).getIdTechnology());
+        log.info("Delete Successful");
     }
 }
