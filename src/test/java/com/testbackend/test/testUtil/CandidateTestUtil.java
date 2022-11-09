@@ -56,7 +56,7 @@ public class CandidateTestUtil {
         return candidates;
     }
 
-    public static Set<CandidateDto> getSetCandidateDto(){
+    public static Set<CandidateDto> getSetCandidateDto() {
         return Set.of(getCandidateDto());
     }
 

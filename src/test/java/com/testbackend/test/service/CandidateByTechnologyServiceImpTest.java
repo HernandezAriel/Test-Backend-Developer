@@ -1,39 +1,16 @@
 package com.testbackend.test.service;
 
-import com.testbackend.test.exception.CandidateByTechnologyAlreadyExistsException;
-import com.testbackend.test.model.dto.CandidateByTechnologyDto;
-import com.testbackend.test.model.dto.ExperienceDto;
-import com.testbackend.test.model.dto.TechnologyDto;
 import com.testbackend.test.model.entity.Candidate;
 import com.testbackend.test.model.entity.CandidateByTechnology;
 import com.testbackend.test.model.entity.Technology;
 import com.testbackend.test.repository.CandidateByTechnologyRepository;
-import com.testbackend.test.repository.CandidateRepository;
-import com.testbackend.test.repository.TechnologyRepository;
-import com.testbackend.test.service.imp.CandidateByTechnologyServiceImp;
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-
-import static com.testbackend.test.testUtil.TechnologyTestUtil.getTechnologyDto;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static com.testbackend.test.testUtil.CandidateTestUtil.getCandidate;
 import static com.testbackend.test.testUtil.TechnologyTestUtil.getTechnology;
-import static com.testbackend.test.testUtil.CandidateByTechnologyTestUtil.getListExperienceDto;
 import static com.testbackend.test.testUtil.CandidateByTechnologyTestUtil.getCandidateByTechnology;
-import static com.testbackend.test.testUtil.CandidateByTechnologyTestUtil.getListCandidateByTechnology;
-import static com.testbackend.test.testUtil.CandidateByTechnologyTestUtil.getCandidateByTechnology;
-import static com.testbackend.test.testUtil.CandidateTestUtil.getCandidate;
-import static com.testbackend.test.testUtil.CandidateTestUtil.getCandidateDto;
-import static com.testbackend.test.testUtil.TechnologyTestUtil.getTechnology;
-
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -42,17 +19,11 @@ import static org.mockito.Mockito.when;
 public class CandidateByTechnologyServiceImpTest {
 
     private CandidateByTechnologyRepository candidateByTechnologyRepository;
-    private CandidateByTechnologyServiceImp candidateByTechnologyServiceImp;
 
-    @Autowired
-    CandidateRepository candidateRepository;
-    @Autowired
-    TechnologyRepository technologyRepository;
 
     @Before
     public void setUp() {
         candidateByTechnologyRepository = mock(CandidateByTechnologyRepository.class);
-        candidateByTechnologyServiceImp = new CandidateByTechnologyServiceImp(candidateByTechnologyRepository);
     }
 
     @Test

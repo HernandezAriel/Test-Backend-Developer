@@ -8,10 +8,15 @@ import java.util.List;
 public interface TechnologyService {
 
     TechnologyDto addTechnology(TechnologyDto technologyDto);
+
     List<TechnologyDto> getAllTechnologies();
+
     Technology getTechnologyById(Long idTechnology);
+
     TechnologyDto getTechnologyDtoById(Long idTechnology);
+
     void updateTechnology(TechnologyDto technologyDto, Long id);
+
     void deleteTechnology(Long idTechnology);
 }
 

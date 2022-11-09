@@ -9,7 +9,7 @@ import java.net.URI;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UrlBuilder {
 
-    public static <T> URI buildURL(String entity, T id){
+    public static <T> URI buildURL(String entity, T id) {
         return ServletUriComponentsBuilder
                 .fromCurrentContextPath()
                 .path("{entity}/{id}")

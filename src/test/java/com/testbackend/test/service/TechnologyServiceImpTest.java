@@ -1,35 +1,22 @@
 package com.testbackend.test.service;
 
-import com.testbackend.test.controller.TechnologyController;
-import com.testbackend.test.exception.CandidateNotExistsException;
 import com.testbackend.test.exception.TechnologyAlreadyExistsException;
 import com.testbackend.test.exception.TechnologyNotExistsException;
-import com.testbackend.test.model.dto.CandidateDto;
 import com.testbackend.test.model.dto.TechnologyDto;
-import com.testbackend.test.model.entity.Candidate;
 import com.testbackend.test.model.entity.Technology;
-import com.testbackend.test.model.util.ResponseMessage;
 import com.testbackend.test.repository.TechnologyRepository;
-import com.testbackend.test.service.imp.CandidateByTechnologyServiceImp;
 import com.testbackend.test.service.imp.TechnologyServiceImp;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
 
-import static com.testbackend.test.testUtil.CandidateTestUtil.getCandidate;
-import static com.testbackend.test.testUtil.CandidateTestUtil.getCandidateDto;
-import static com.testbackend.test.testUtil.CandidateTestUtil.getListCandidates;
 import static com.testbackend.test.testUtil.TechnologyTestUtil.getListTechnology;
 import static com.testbackend.test.testUtil.TechnologyTestUtil.getTechnologyDto;
-import static com.testbackend.test.testUtil.TechnologyTestUtil.getTechnologyDtoUpdate;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
@@ -42,15 +29,12 @@ import static org.mockito.Mockito.when;
 public class TechnologyServiceImpTest {
 
     private TechnologyRepository technologyRepository;
-    private CandidateByTechnologyServiceImp candidateByTechnologyServiceImp;
-    private ModelMapper modelMapper;
     private TechnologyServiceImp technologyServiceImp;
 
     @Before
     public void start() {
         technologyRepository = mock(TechnologyRepository.class);
-        candidateByTechnologyServiceImp = mock(CandidateByTechnologyServiceImp.class);
-        modelMapper = mock(ModelMapper.class);
+        ModelMapper modelMapper = mock(ModelMapper.class);
         technologyServiceImp = new TechnologyServiceImp(technologyRepository, modelMapper);
     }
 
@@ -107,7 +91,7 @@ public class TechnologyServiceImpTest {
     public void deleteTechnologyOkTest() throws TechnologyNotExistsException {
         when(technologyRepository.findById(1L)).thenReturn(Optional.of(getTechnology()));
         doNothing().when(technologyRepository).deleteById(1L);
-        technologyServiceImp.deleteTechnology(1L);;
+        technologyServiceImp.deleteTechnology(1L);
         verify(technologyRepository, times(1)).findById(1L);
         verify(technologyRepository, times(1)).deleteById(1L);
     }
