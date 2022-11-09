@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ResponseUtil {
-    public static ResponseMessage messageResponse(String message){
+    public static ResponseMessage messageResponse(String message) {
         return ResponseMessage.builder().message(message).build();
     }
 }

@@ -1,20 +1,12 @@
 package com.testbackend.test.service.imp;
 
 import com.testbackend.test.exception.CandidateAlreadyExistsException;
-import com.testbackend.test.exception.CandidateByTechnologyAlreadyExistsException;
 import com.testbackend.test.exception.CandidateNotExistsException;
 import com.testbackend.test.exception.EmptyException;
-import com.testbackend.test.exception.TechnologyNotExistsException;
 import com.testbackend.test.model.dto.CandidateDto;
-import com.testbackend.test.model.dto.ExperienceDto;
-import com.testbackend.test.model.dto.TechnologyDto;
 import com.testbackend.test.model.entity.Candidate;
-import com.testbackend.test.model.entity.CandidateByTechnology;
-import com.testbackend.test.model.entity.Technology;
 import com.testbackend.test.repository.CandidateRepository;
-import com.testbackend.test.service.CandidateByTechnologyService;
 import com.testbackend.test.service.CandidateService;
-import com.testbackend.test.service.TechnologyService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,15 +19,11 @@ import java.util.List;
 @Service
 public class CandidateServiceImp implements CandidateService {
     private final CandidateRepository candidateRepository;
-    private final TechnologyService technologyService;
-    private final CandidateByTechnologyService candidateByTechnologyService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public CandidateServiceImp(CandidateRepository candidateRepository, TechnologyService technologyService, CandidateByTechnologyService candidateByTechnologyService, ModelMapper modelMapper) {
+    public CandidateServiceImp(CandidateRepository candidateRepository, ModelMapper modelMapper) {
         this.candidateRepository = candidateRepository;
-        this.technologyService = technologyService;
-        this.candidateByTechnologyService = candidateByTechnologyService;
         this.modelMapper = modelMapper;
     }
 

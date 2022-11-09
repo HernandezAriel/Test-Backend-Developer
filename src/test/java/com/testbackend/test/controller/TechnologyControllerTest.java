@@ -1,23 +1,16 @@
 package com.testbackend.test.controller;
 
 import com.testbackend.test.exception.CandidateNotExistsException;
-import com.testbackend.test.exception.TechnologyAlreadyExistsException;
 import com.testbackend.test.exception.TechnologyNotExistsException;
 import com.testbackend.test.model.dto.TechnologyDto;
-import com.testbackend.test.model.util.ResponseMessage;
 import com.testbackend.test.service.imp.TechnologyServiceImp;
-import com.testbackend.test.util.UrlBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.List;
-import java.util.Objects;
 
 import static com.testbackend.test.testUtil.TechnologyTestUtil.getListTechnologyDto;
 import static org.mockito.Mockito.doNothing;
@@ -26,13 +19,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import static com.testbackend.test.testUtil.CandidateTestUtil.getCandidate;
-import static com.testbackend.test.testUtil.CandidateTestUtil.getCandidateDto;
-import static com.testbackend.test.testUtil.TechnologyTestUtil.getTechnology;
 import static com.testbackend.test.testUtil.TechnologyTestUtil.getTechnologyDto;
-import static com.testbackend.test.testUtil.CandidateByTechnologyTestUtil.getListExperienceDto;
-import static com.testbackend.test.testUtil.CandidateByTechnologyTestUtil.getCandidateByTechnology;
-import static com.testbackend.test.testUtil.CandidateByTechnologyTestUtil.getListCandidateByTechnology;
 
 public class TechnologyControllerTest {
 
@@ -46,7 +33,7 @@ public class TechnologyControllerTest {
     }
 
     @Test
-    public void addTechnologyTest() throws Exception {
+    public void addTechnologyTest() {
         TechnologyDto technologyDto = getTechnologyDto();
         TechnologyDto technologyCreateUpdate = getTechnologyDto();
         when(technologyServiceImp.addTechnology(technologyCreateUpdate)).thenReturn(technologyDto);

@@ -1,15 +1,11 @@
 package com.testbackend.test.service;
 
 import com.testbackend.test.exception.CandidateAlreadyExistsException;
-import com.testbackend.test.exception.CandidateByTechnologyAlreadyExistsException;
 import com.testbackend.test.exception.CandidateNotExistsException;
-import com.testbackend.test.exception.TechnologyNotExistsException;
 import com.testbackend.test.model.dto.CandidateDto;
 import com.testbackend.test.model.entity.Candidate;
 import com.testbackend.test.repository.CandidateRepository;
-import com.testbackend.test.service.imp.CandidateByTechnologyServiceImp;
 import com.testbackend.test.service.imp.CandidateServiceImp;
-import com.testbackend.test.service.imp.TechnologyServiceImp;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -22,7 +18,6 @@ import static com.testbackend.test.testUtil.CandidateTestUtil.getListCandidates;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -30,23 +25,17 @@ import static org.mockito.Mockito.when;
 
 import static com.testbackend.test.testUtil.CandidateTestUtil.getCandidate;
 import static com.testbackend.test.testUtil.CandidateTestUtil.getCandidateDto;
-import static com.testbackend.test.testUtil.TechnologyTestUtil.getTechnology;
 
 public class CandidateServiceImpTest {
 
     private CandidateRepository candidateRepository;
-    private TechnologyServiceImp technologyServiceImp;
-    private CandidateByTechnologyServiceImp candidateByTechnologyServiceImp;
     private CandidateServiceImp candidateServiceImp;
-    private ModelMapper modelMapper;
 
     @Before
     public void start() {
         this.candidateRepository = mock(CandidateRepository.class);
-        this.technologyServiceImp = mock(TechnologyServiceImp.class);
-        this.candidateByTechnologyServiceImp = mock(CandidateByTechnologyServiceImp.class);
-        modelMapper = mock(ModelMapper.class);
-        this.candidateServiceImp = new CandidateServiceImp(candidateRepository, technologyServiceImp, candidateByTechnologyServiceImp, modelMapper);
+        ModelMapper modelMapper = mock(ModelMapper.class);
+        this.candidateServiceImp = new CandidateServiceImp(candidateRepository, modelMapper);
     }
 
     @Test

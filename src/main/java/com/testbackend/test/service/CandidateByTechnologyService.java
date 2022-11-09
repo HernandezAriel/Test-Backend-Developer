@@ -1,7 +1,6 @@
 package com.testbackend.test.service;
 
 import com.testbackend.test.model.dto.CandidateByTechnologyAddDto;
-import com.testbackend.test.model.dto.CandidateByTechnologyDto;
 import com.testbackend.test.projection.CandidateByTechnologyProjection;
 
 
