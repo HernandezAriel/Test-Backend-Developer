@@ -1,5 +1,6 @@
 package com.testbackend.test.controller;
 
+import com.testbackend.test.model.dto.CandidateByTechnologyAddDto;
 import com.testbackend.test.projection.CandidateByTechnologyProjection;
 import com.testbackend.test.service.CandidateByTechnologyService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -8,9 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -32,4 +36,9 @@ public class CandidateByTechnologyController {
         return new ResponseEntity<>(candidateByTechnologyService.getCandidatesByTechnologyByNameTechnology(name), HttpStatus.OK);
     }
 
+    @PostMapping
+    public ResponseEntity<String> createCandidateByTechnology(@Valid @RequestBody CandidateByTechnologyAddDto candidateByTechnologyAddDto) {
+        candidateByTechnologyService.addTechnologyToCandidate(candidateByTechnologyAddDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 }
