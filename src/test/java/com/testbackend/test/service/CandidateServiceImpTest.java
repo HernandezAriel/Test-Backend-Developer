@@ -90,38 +90,6 @@ public class CandidateServiceImpTest {
     }
 
     @Test
-    public void addTechnologyToCandidateOkTest() throws TechnologyNotExistsException, CandidateByTechnologyAlreadyExistsException, CandidateNotExistsException {
-        when(candidateRepository.findById(1L)).thenReturn(Optional.of(getCandidate()));
-        when(technologyServiceImp.getTechnologyById(1L)).thenReturn(getTechnology());
-        doNothing().when(candidateByTechnologyServiceImp).addCandidateByTechnology(getCandidate(), getTechnology(), 1L);
-        Candidate candidate = candidateServiceImp.addCandidateByTechnology(1L, 1L, 1L);
-        assertEquals(getCandidate(), candidate);
-        verify(candidateRepository, times(1)).findById(1L);
-        verify(technologyServiceImp, times(1)).getTechnologyById(1L);
-        verify(candidateByTechnologyServiceImp, times(1)).addCandidateByTechnology(getCandidate(), getTechnology(), 1L);
-    }
-
-    @Test
-    public void addTechnologyToCandidateCandidateNotExistsTest() throws TechnologyNotExistsException, CandidateByTechnologyAlreadyExistsException {
-        when(candidateRepository.findById(1L)).thenReturn(Optional.empty());
-        assertThrows(CandidateNotExistsException.class, () -> candidateServiceImp.addCandidateByTechnology(1L, 1L, 1L));
-        verify(candidateRepository, times(1)).findById(1L);
-        verify(technologyServiceImp, times(0)).getTechnologyById(1L);
-        verify(candidateByTechnologyServiceImp, times(0)).addCandidateByTechnology(getCandidate(), getTechnology(), 1L);
-    }
-
-    @Test
-    public void addTechnologyToCandidateCandidateByTechnologyAlreadyExistsTest() throws TechnologyNotExistsException, CandidateByTechnologyAlreadyExistsException {
-        when(candidateRepository.findById(1L)).thenReturn(Optional.of(getCandidate()));
-        when(technologyServiceImp.getTechnologyById(1L)).thenReturn(getTechnology());
-        doThrow(CandidateByTechnologyAlreadyExistsException.class).when(candidateByTechnologyServiceImp).addCandidateByTechnology(getCandidate(), getTechnology(), 1L);
-        assertThrows(CandidateByTechnologyAlreadyExistsException.class, () -> candidateServiceImp.addCandidateByTechnology(1L, 1L, 1L));
-        verify(candidateRepository, times(1)).findById(1L);
-        verify(technologyServiceImp, times(1)).getTechnologyById(1L);
-        verify(candidateByTechnologyServiceImp, times(1)).addCandidateByTechnology(getCandidate(), getTechnology(), 1L);
-    }
-
-    @Test
     public void deleteCandidateOkTest() throws CandidateNotExistsException {
         when(candidateRepository.findById(1L)).thenReturn(Optional.of(getCandidate()));
         doNothing().when(candidateRepository).deleteById(1L);
@@ -129,15 +97,4 @@ public class CandidateServiceImpTest {
         verify(candidateRepository, times(1)).findById(1L);
         verify(candidateRepository, times(1)).deleteById(1L);
     }
-
-    @Test
-    public void deleteCandidateNotExistsTest() {
-        when(candidateRepository.findById(1L)).thenReturn(Optional.empty());
-        assertThrows(CandidateNotExistsException.class, () -> candidateServiceImp.deleteCandidate(1L));
-        verify(candidateRepository, times(1)).findById(1L);
-        verify(candidateByTechnologyServiceImp, times(0)).getCandidatesByTechnologyByCandidate(getCandidateDto());
-        verify(candidateRepository, times(0)).deleteById(1L);
-    }
-
-
 }
