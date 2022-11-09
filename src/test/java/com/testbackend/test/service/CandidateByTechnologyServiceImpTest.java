@@ -1,5 +1,6 @@
 package com.testbackend.test.service;
 
+import com.testbackend.test.exception.CandidateNotExistsException;
 import com.testbackend.test.model.dto.CandidateByTechnologyAddDto;
 import com.testbackend.test.model.entity.Candidate;
 import com.testbackend.test.model.entity.CandidateByTechnology;
@@ -20,6 +21,7 @@ import java.util.Optional;
 import static com.testbackend.test.testUtil.CandidateByTechnologyTestUtil.getCandidateByTechnologyAddDto;
 import static com.testbackend.test.testUtil.CandidateByTechnologyTestUtil.getListCandidateByTechnologyProjection;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.mock;
 import static com.testbackend.test.testUtil.CandidateTestUtil.getCandidate;
 import static com.testbackend.test.testUtil.TechnologyTestUtil.getTechnology;
@@ -35,6 +37,7 @@ public class CandidateByTechnologyServiceImpTest {
     private CandidateByTechnologyServiceImp candidateByTechnologyServiceImp;
     private CandidateRepository candidateRepository;
     private TechnologyRepository technologyRepository;
+    private CandidateByTechnologyService candidateByTechnologyService;
 
     @Autowired
     CandidateService candidateService;
@@ -46,6 +49,7 @@ public class CandidateByTechnologyServiceImpTest {
         technologyRepository = mock(TechnologyRepository.class);
         candidateService = mock(CandidateService.class);
         ModelMapper modelMapper = mock(ModelMapper.class);
+        candidateByTechnologyService = mock(CandidateByTechnologyService.class);
         candidateByTechnologyServiceImp = new CandidateByTechnologyServiceImp(candidateByTechnologyRepository, modelMapper, candidateRepository, technologyRepository);
     }
 
@@ -71,15 +75,6 @@ public class CandidateByTechnologyServiceImpTest {
         String name = "java";
         when(candidateByTechnologyRepository.findByNameTechnology(name)).thenReturn(candidateByTechnologyProjection);
         assertEquals(candidateByTechnologyServiceImp.getCandidatesByTechnologyByNameTechnology(name), candidateByTechnologyProjection);
-    }
 
-    @Test
-    public void getCandidateByIdOkTest() {
-        CandidateByTechnologyAddDto candidateByTechnologyAddDto = getCandidateByTechnologyAddDto();
-        when(candidateByTechnologyServiceImp.getCandidateById(getCandidateByTechnologyAddDto())).thenReturn(getCandidate());
-        Candidate candidate = candidateByTechnologyServiceImp.getCandidateById(candidateByTechnologyAddDto);
-        verify(candidateByTechnologyServiceImp, times(1)).getCandidateById(candidateByTechnologyAddDto);
-        assertEquals(candidate, candidateByTechnologyServiceImp.getCandidateById(candidateByTechnologyAddDto));
     }
-
 }
