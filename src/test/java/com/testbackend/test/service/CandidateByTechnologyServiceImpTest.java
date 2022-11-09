@@ -93,10 +93,12 @@ public class CandidateByTechnologyServiceImpTest {
     }
 
     @Test
-    public void getCandidateDtoByIdOkTest() {
-        when(candidateRepository.findById(1L)).thenReturn(Optional.of(getCandidate()));
-        CandidateDto candidateDto = candidateService.getCandidateDtoById(1L);
-        verify(candidateRepository, times(1)).findById(1L);
-        assertEquals(candidateDto, candidateService.getCandidateDtoById(1L));
+    public void getCandidateByIdOkTest() {
+        CandidateByTechnologyAddDto candidateByTechnologyAddDto = getCandidateByTechnologyAddDto();
+        when(candidateByTechnologyServiceImp.getCandidateById(getCandidateByTechnologyAddDto())).thenReturn(getCandidate());
+        Candidate candidate = candidateByTechnologyServiceImp.getCandidateById(candidateByTechnologyAddDto);
+        verify(candidateByTechnologyServiceImp, times(1)).getCandidateById(candidateByTechnologyAddDto);
+        assertEquals(candidate, candidateByTechnologyServiceImp.getCandidateById(candidateByTechnologyAddDto));
     }
+
 }
