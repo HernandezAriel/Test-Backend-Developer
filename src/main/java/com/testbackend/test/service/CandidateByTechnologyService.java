@@ -1,9 +1,7 @@
 package com.testbackend.test.service;
 
+import com.testbackend.test.model.dto.CandidateByTechnologyAddDto;
 import com.testbackend.test.model.dto.CandidateByTechnologyDto;
-import com.testbackend.test.model.dto.CandidateDto;
-import com.testbackend.test.model.entity.Candidate;
-import com.testbackend.test.model.entity.Technology;
 import com.testbackend.test.projection.CandidateByTechnologyProjection;
 
 
@@ -11,10 +9,7 @@ import java.util.List;
 
 public interface CandidateByTechnologyService {
 
-    void addCandidateByTechnology(Candidate candidate, Technology technology, Long experience);
-
-    List<CandidateByTechnologyDto> getCandidatesByTechnologyByCandidate(CandidateDto candidateDto);
-
+    void addTechnologyToCandidate(CandidateByTechnologyAddDto candidateByTechnologyAddDto);
 
     List<CandidateByTechnologyProjection> getCandidatesByTechnologyByNameTechnology(String nameTechnology);
 
