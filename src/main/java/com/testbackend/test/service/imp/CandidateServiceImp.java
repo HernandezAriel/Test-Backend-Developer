@@ -53,6 +53,7 @@ public class CandidateServiceImp implements CandidateService {
         List<Candidate> candidates = candidateRepository.findAll();
         List<CandidateDto> candidatesDto = new ArrayList<>();
         if (candidates.isEmpty()) {
+            //log.error("List is empty", ex);
             throw new EmptyException("List is empty");
         }
         for (Candidate candidate : candidates) {
@@ -64,6 +65,7 @@ public class CandidateServiceImp implements CandidateService {
     public Candidate getCandidateById(Long idCandidate) {
         return candidateRepository.findById(idCandidate)
                 .orElseThrow(() -> new CandidateNotExistsException("Candidate Not Exists"));
+        //log.error("Candidate Not Exists", ex);
     }
 
     public CandidateDto getCandidateDtoById(Long idCandidate) {
