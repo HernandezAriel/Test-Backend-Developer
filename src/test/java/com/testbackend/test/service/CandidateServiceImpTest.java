@@ -34,8 +34,7 @@ public class CandidateServiceImpTest {
     @Before
     public void start() {
         this.candidateRepository = mock(CandidateRepository.class);
-        ModelMapper modelMapper = mock(ModelMapper.class);
-        this.candidateServiceImp = new CandidateServiceImp(candidateRepository, modelMapper);
+        this.candidateServiceImp = new CandidateServiceImp(candidateRepository);
     }
 
     @Test

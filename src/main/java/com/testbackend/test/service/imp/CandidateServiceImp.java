@@ -10,6 +10,7 @@ import com.testbackend.test.service.CandidateService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,19 +20,21 @@ import java.util.List;
 @Service
 public class CandidateServiceImp implements CandidateService {
     private final CandidateRepository candidateRepository;
-    private final ModelMapper modelMapper;
 
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
     @Autowired
-    public CandidateServiceImp(CandidateRepository candidateRepository, ModelMapper modelMapper) {
+    public CandidateServiceImp(CandidateRepository candidateRepository) {
         this.candidateRepository = candidateRepository;
-        this.modelMapper = modelMapper;
     }
 
     public CandidateDto addCandidate(CandidateDto candidateDto) {
         if (candidateRepository.findByIdCandidateOrDocumentNumber(candidateDto.getIdCandidate(), candidateDto.getDocumentNumber()).isPresent()) {
             throw new CandidateAlreadyExistsException("Candidate already exists");
         } else {
-            candidateRepository.save(modelMapper.map(candidateDto, Candidate.class));
+            candidateRepository.save(modelMapper().map(candidateDto, Candidate.class));
             log.info("Candidate has been created");
             return candidateDto;
         }
@@ -45,7 +48,7 @@ public class CandidateServiceImp implements CandidateService {
             throw new EmptyException("List is empty");
         }
         for (Candidate candidate : candidates) {
-            candidatesDto.add(modelMapper.map(candidate, CandidateDto.class));
+            candidatesDto.add(modelMapper().map(candidate, CandidateDto.class));
         }
         return candidatesDto;
     }
@@ -59,11 +62,11 @@ public class CandidateServiceImp implements CandidateService {
     public CandidateDto getCandidateDtoById(Long idCandidate) {
         Candidate candidate = getCandidateById(idCandidate);
         log.debug("Candidate to Add Technology: " + candidate);
-        return modelMapper.map(candidate, CandidateDto.class);
+        return modelMapper().map(candidate, CandidateDto.class);
     }
 
     public void updateCandidate(CandidateDto candidateDto, Long id) {
-        candidateRepository.save(modelMapper.map(candidateDto, getCandidateById(id).getClass()));
+        candidateRepository.save(modelMapper().map(candidateDto, getCandidateById(id).getClass()));
     }
 
     public void deleteCandidate(Long idCandidate) {
