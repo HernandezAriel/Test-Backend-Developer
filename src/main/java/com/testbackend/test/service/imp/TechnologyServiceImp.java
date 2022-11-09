@@ -18,7 +18,6 @@ import org.modelmapper.ModelMapper;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Slf4j
 @Service
 public class TechnologyServiceImp implements TechnologyService {
