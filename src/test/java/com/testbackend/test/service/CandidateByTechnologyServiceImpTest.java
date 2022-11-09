@@ -4,15 +4,19 @@ import com.testbackend.test.exception.CandidateByTechnologyAlreadyExistsExceptio
 import com.testbackend.test.model.dto.CandidateByTechnologyDto;
 import com.testbackend.test.model.dto.ExperienceDto;
 import com.testbackend.test.model.dto.TechnologyDto;
+import com.testbackend.test.model.entity.Candidate;
 import com.testbackend.test.model.entity.CandidateByTechnology;
 import com.testbackend.test.model.entity.Technology;
 import com.testbackend.test.repository.CandidateByTechnologyRepository;
+import com.testbackend.test.repository.CandidateRepository;
+import com.testbackend.test.repository.TechnologyRepository;
 import com.testbackend.test.service.imp.CandidateByTechnologyServiceImp;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -40,27 +44,23 @@ public class CandidateByTechnologyServiceImpTest {
     private CandidateByTechnologyRepository candidateByTechnologyRepository;
     private CandidateByTechnologyServiceImp candidateByTechnologyServiceImp;
 
+    @Autowired
+    CandidateRepository candidateRepository;
+    @Autowired
+    TechnologyRepository technologyRepository;
+
     @Before
-    public void start() {
+    public void setUp() {
         candidateByTechnologyRepository = mock(CandidateByTechnologyRepository.class);
         candidateByTechnologyServiceImp = new CandidateByTechnologyServiceImp(candidateByTechnologyRepository);
     }
 
     @Test
-    public void addCandidateByTechnologyAlreadyExistsTest() {
-        when(candidateByTechnologyRepository.findByCandidateAndTechnology(getCandidate(), getTechnology())).thenReturn(getCandidateByTechnology());
-        Assert.assertThrows(CandidateByTechnologyAlreadyExistsException.class, () -> candidateByTechnologyServiceImp.addCandidateByTechnology(getCandidate(), getTechnology(), 1L));
-        verify(candidateByTechnologyRepository, times(1)).findByCandidateAndTechnology(getCandidate(), getTechnology());
-        verify(candidateByTechnologyRepository, times(0)).save(getCandidateByTechnology());
-    }
-
-
-    @Test
-    public void getCandidatesByTechnologyByTechnologyOkTest() {
-        when(candidateByTechnologyRepository.findByTechnology(getTechnologyDto())).thenReturn(getListCandidateByTechnology());
-        List<CandidateByTechnology> cbt = candidateByTechnologyServiceImp.getCandidatesByTechnologyByTechnology(getTechnologyDto());
-        Assertions.assertEquals(getListCandidateByTechnology().size(), cbt.size());
-        Assertions.assertEquals(getListCandidateByTechnology().get(0), cbt.get(0));
-        verify(candidateByTechnologyRepository, times(1)).findByTechnology(getTechnologyDto());
+    public void addTechnologyToCandidate() {
+        Candidate candidate = getCandidate();
+        Technology technology = getTechnology();
+        CandidateByTechnology candidateByTechnology = getCandidateByTechnology();
+        when(candidateByTechnologyRepository.save(candidateByTechnology)).thenReturn(candidateByTechnology);
+        verify(candidateByTechnologyRepository, times(1)).save(getCandidateByTechnology());
     }
 }
