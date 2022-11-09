@@ -1,7 +1,6 @@
 package com.testbackend.test.exception.handler;
 
 import com.testbackend.test.exception.CandidateAlreadyExistsException;
-import com.testbackend.test.exception.CandidateByTechnologyAlreadyExistsException;
 import com.testbackend.test.exception.CandidateNotExistsException;
 import com.testbackend.test.exception.EmptyException;
 import com.testbackend.test.exception.TechnologyAlreadyExistsException;
@@ -22,14 +21,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .status(HttpStatus.NO_CONTENT)
                 .body((ResponseMessage.builder()
                         .message(candidateAlreadyExistsException.getMessage()).build()));
-    }
-
-    @ExceptionHandler(CandidateByTechnologyAlreadyExistsException.class)
-    ResponseEntity<ResponseMessage> candidateByTechnologyAlreadyExistsException(CandidateByTechnologyAlreadyExistsException candidateByTechnologyAlreadyExistsException) {
-        return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
-                .body((ResponseMessage.builder()
-                        .message(candidateByTechnologyAlreadyExistsException.getMessage()).build()));
     }
 
     @ExceptionHandler(CandidateNotExistsException.class)
