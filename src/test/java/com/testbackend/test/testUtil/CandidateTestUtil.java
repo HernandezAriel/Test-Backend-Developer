@@ -4,6 +4,7 @@ import com.testbackend.test.model.dto.CandidateDto;
 import com.testbackend.test.model.entity.Candidate;
 import com.testbackend.test.model.enums.DocumentType;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -31,8 +32,28 @@ public class CandidateTestUtil {
                 .birthDate(null)
                 .build();
     }
-    public static List<CandidateDto> getListCandidateDto(){
-        return List.of(getCandidateDto());
+
+    public static CandidateDto getCandidateDtoUpdate() {
+        return CandidateDto.builder()
+                .idCandidate(1L)
+                .firstName("Ken")
+                .lastName("Masters")
+                .documentType(DocumentType.DNI)
+                .documentNumber("123456789")
+                .birthDate(null)
+                .build();
+    }
+
+    public static List<Candidate> getListCandidates() {
+        var candidates = new ArrayList<Candidate>();
+        candidates.add(getCandidate());
+        return candidates;
+    }
+
+    public static List<CandidateDto> getListCandidateDto() {
+        var candidates = new ArrayList<CandidateDto>();
+        candidates.add(getCandidateDto());
+        return candidates;
     }
 
     public static Set<CandidateDto> getSetCandidateDto(){

@@ -22,6 +22,13 @@ public class TechnologyTestUtil {
                 .build();
     }
 
+    public static TechnologyDto getTechnologyDtoUpdate(){
+        return TechnologyDto.builder()
+                .name("Python")
+                .version("3")
+                .build();
+    }
+
     public static List<TechnologyDto> getListTechnologyDto() {
         return List.of(getTechnologyDto());
     }

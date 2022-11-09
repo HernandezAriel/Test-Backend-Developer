@@ -40,54 +40,27 @@ public class CandidateByTechnologyServiceImpTest {
     private CandidateByTechnologyRepository candidateByTechnologyRepository;
     private CandidateByTechnologyServiceImp candidateByTechnologyServiceImp;
 
-//    @Before
-//    public void start() {
-//        candidateByTechnologyRepository = mock(CandidateByTechnologyRepository.class);
-//        candidateByTechnologyServiceImp = new CandidateByTechnologyServiceImp(candidateByTechnologyRepository);
-//    }
-
-//    @Test
-//    public void addCandidateByTechnologyAlreadyExistsTest() {
-//        when(candidateByTechnologyRepository.findByCandidateAndTechnology(getCandidate(), getTechnology())).thenReturn(getCandidateByTechnology());
-//        Assert.assertThrows(CandidateByTechnologyAlreadyExistsException.class, () -> candidateByTechnologyServiceImp.addCandidateByTechnology(getCandidate(), getTechnology(), 1L));
-//        verify(candidateByTechnologyRepository, times(1)).findByCandidateAndTechnology(getCandidate(), getTechnology());
-//        verify(candidateByTechnologyRepository, times(0)).save(getCandidateByTechnology());
-//    }
-
-//    @Test
-//    public void getCandidatesByTechnologyByCandidateOkTest() {
-//        when(candidateByTechnologyRepository.findByCandidate(getCandidate())).thenReturn(getListCandidateByTechnology());
-//        List<CandidateByTechnology> cxt = candidateByTechnologyServiceImp.getCandidatesByTechnologyByCandidate(getCandidate());
-//        Assertions.assertEquals(getListCandidateByTechnology().size(), cxt.size());
-//        Assertions.assertEquals(getListCandidateByTechnology().get(0), cxt.get(0));
-//        verify(candidateByTechnologyRepository, times(1)).findByCandidate(getCandidate());
-//    }
-
-//    @Test
-//    public void getExperiencesByCandidateOkTest() {
-//        when(candidateByTechnologyRepository.findByCandidate(getCandidate())).thenReturn(getListCandidateByTechnology());
-//        List<ExperienceDto> experiencesDto = candidateByTechnologyServiceImp.getExperiencesByCandidate(getCandidate());
-//        Assertions.assertEquals(getListExperienceDto().size(), experiencesDto.size());
-//        Assertions.assertEquals(getListExperienceDto().get(0), experiencesDto.get(0));
-//        verify(candidateByTechnologyRepository, times(1)).findByCandidate(getCandidate());
-//    }
-
-//    @Test
-//    public void getCandidatesByTechnologyByTechnologyOkTest() {
-//        when(candidateByTechnologyRepository.findByTechnology(getTechnology())).thenReturn(getListCandidateByTechnology());
-//        List<CandidateByTechnology> cbt = candidateByTechnologyServiceImp.getCandidatesByTechnologyByTechnology(getTechnology());
-//        Assertions.assertEquals(getListCandidateByTechnology().size(), cbt.size());
-//        Assertions.assertEquals(getListCandidateByTechnology().get(0), cbt.get(0));
-//        verify(candidateByTechnologyRepository, times(1)).findByTechnology(getTechnology());
-//    }
-
-    @Test
-    public void getCandidatesByTechnologyByNameTechnologyOkTest() {
-        when(candidateByTechnologyRepository.findByNameTechnology("Java")).thenReturn(getListCandidateByTechnology());
-        List<CandidateByTechnology> cbt = candidateByTechnologyServiceImp.getCandidatesByTechnologyByNameTechnology("Java");
-        Assertions.assertEquals(getListCandidateByTechnology().size(), cbt.size());
-        Assertions.assertEquals(getListCandidateByTechnology().get(0), cbt.get(0));
-        verify(candidateByTechnologyRepository, times(1)).findByNameTechnology("Java");
+    @Before
+    public void start() {
+        candidateByTechnologyRepository = mock(CandidateByTechnologyRepository.class);
+        candidateByTechnologyServiceImp = new CandidateByTechnologyServiceImp(candidateByTechnologyRepository);
     }
 
+    @Test
+    public void addCandidateByTechnologyAlreadyExistsTest() {
+        when(candidateByTechnologyRepository.findByCandidateAndTechnology(getCandidate(), getTechnology())).thenReturn(getCandidateByTechnology());
+        Assert.assertThrows(CandidateByTechnologyAlreadyExistsException.class, () -> candidateByTechnologyServiceImp.addCandidateByTechnology(getCandidate(), getTechnology(), 1L));
+        verify(candidateByTechnologyRepository, times(1)).findByCandidateAndTechnology(getCandidate(), getTechnology());
+        verify(candidateByTechnologyRepository, times(0)).save(getCandidateByTechnology());
+    }
+
+
+    @Test
+    public void getCandidatesByTechnologyByTechnologyOkTest() {
+        when(candidateByTechnologyRepository.findByTechnology(getTechnologyDto())).thenReturn(getListCandidateByTechnology());
+        List<CandidateByTechnology> cbt = candidateByTechnologyServiceImp.getCandidatesByTechnologyByTechnology(getTechnologyDto());
+        Assertions.assertEquals(getListCandidateByTechnology().size(), cbt.size());
+        Assertions.assertEquals(getListCandidateByTechnology().get(0), cbt.get(0));
+        verify(candidateByTechnologyRepository, times(1)).findByTechnology(getTechnologyDto());
+    }
 }

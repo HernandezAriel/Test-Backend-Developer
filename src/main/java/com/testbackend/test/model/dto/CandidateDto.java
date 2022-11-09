@@ -23,4 +23,5 @@ public class CandidateDto {
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date birthDate;
+
 }

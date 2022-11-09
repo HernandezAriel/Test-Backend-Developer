@@ -1,7 +1,5 @@
 package com.testbackend.test.service;
 
-import com.testbackend.test.exception.TechnologyAlreadyExistsException;
-import com.testbackend.test.exception.TechnologyNotExistsException;
 import com.testbackend.test.model.dto.TechnologyDto;
 import com.testbackend.test.model.entity.Technology;
 

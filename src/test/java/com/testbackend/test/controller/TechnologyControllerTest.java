@@ -1,5 +1,6 @@
 package com.testbackend.test.controller;
 
+import com.testbackend.test.exception.CandidateNotExistsException;
 import com.testbackend.test.exception.TechnologyAlreadyExistsException;
 import com.testbackend.test.exception.TechnologyNotExistsException;
 import com.testbackend.test.model.dto.TechnologyDto;
@@ -15,8 +16,10 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.util.List;
 import java.util.Objects;
 
+import static com.testbackend.test.testUtil.TechnologyTestUtil.getListTechnologyDto;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -37,25 +40,41 @@ public class TechnologyControllerTest {
     private TechnologyController technologyController;
 
     @Before
-    public void start() {
+    public void setUp() {
         technologyServiceImp = mock(TechnologyServiceImp.class);
         technologyController = new TechnologyController(technologyServiceImp);
     }
 
     @Test
-    public void addTechnologyOkTest() throws TechnologyAlreadyExistsException {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-        when(technologyServiceImp.addTechnology(getTechnologyDto())).thenReturn(getTechnologyDto());
-        ResponseEntity<String> response = technologyController.addTechnology(getTechnologyDto());
+    public void addTechnologyTest() throws Exception {
+        TechnologyDto technologyDto = getTechnologyDto();
+        TechnologyDto technologyCreateUpdate = getTechnologyDto();
+        when(technologyServiceImp.addTechnology(technologyCreateUpdate)).thenReturn(technologyDto);
+        ResponseEntity<String> response = technologyController.addTechnology(technologyDto);
         Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        Assertions.assertEquals(UrlBuilder.buildURL("technologies", getTechnologyDto().getId()).toString()
-                , Objects.requireNonNull((response).getHeaders().get("Location")).get(0));
-        verify(technologyServiceImp, times(1)).addTechnology(getTechnologyDto());
+        verify(technologyServiceImp, times(1)).addTechnology(technologyDto);
     }
 
     @Test
-    public void deleteTechnologyOkTest() throws TechnologyNotExistsException{
+    public void getAllTechnologiesTest() {
+        List<TechnologyDto> technologies = getListTechnologyDto();
+        when(technologyServiceImp.getAllTechnologies()).thenReturn(technologies);
+        ResponseEntity<List<TechnologyDto>> response = technologyController.getAllTechnologies();
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        verify(technologyServiceImp, times(1)).getAllTechnologies();
+    }
+
+    @Test
+    public void getTechnologyByIdOkTest() throws CandidateNotExistsException {
+        when(technologyServiceImp.getTechnologyDtoById(1L)).thenReturn(getTechnologyDto());
+        ResponseEntity<TechnologyDto> response = technologyController.getTechnologyById(1L);
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertEquals(getTechnologyDto(), response.getBody());
+        verify(technologyServiceImp, times(1)).getTechnologyDtoById(1L);
+    }
+
+    @Test
+    public void deleteTechnologyOkTest() throws TechnologyNotExistsException {
         doNothing().when(technologyServiceImp).deleteTechnology(1L);
         ResponseEntity<String> response = technologyController.deleteTechnology(1L);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
