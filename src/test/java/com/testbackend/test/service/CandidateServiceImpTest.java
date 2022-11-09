@@ -9,7 +9,6 @@ import com.testbackend.test.service.imp.CandidateServiceImp;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.modelmapper.ModelMapper;
 
 import java.util.List;
 import java.util.Optional;

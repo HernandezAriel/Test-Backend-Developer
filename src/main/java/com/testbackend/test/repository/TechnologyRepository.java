@@ -10,5 +10,4 @@ import java.util.Optional;
 public interface TechnologyRepository extends JpaRepository<Technology, Long> {
     Optional<Technology> findByNameAndVersion(String name, String version);
 
-    Technology findByName(String name);
 }
