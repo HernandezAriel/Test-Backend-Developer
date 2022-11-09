@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/candidates")
 public class CandidateController {
@@ -62,15 +61,6 @@ public class CandidateController {
     public ResponseEntity<String> updateCandidate(@Valid @RequestBody CandidateDto candidateDto, @PathVariable Long idCandidate) {
         candidateService.updateCandidate(candidateDto, idCandidate);
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @Operation(
-            summary = "Add Technology To Candidate",
-            description = "Add a Technology to candidate")
-    @PutMapping("/{idCandidate}/technologies/{idTechnology}/{experience}")
-    public ResponseEntity<String> addCandidateByTechnology(@Valid @PathVariable Long idCandidate, @PathVariable Long idTechnology, @PathVariable Long experience) {
-        candidateService.addCandidateByTechnology(idCandidate, idTechnology, experience);
-        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @Operation(
